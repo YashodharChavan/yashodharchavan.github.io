@@ -15,6 +15,11 @@ const App = () => {
   }
     , []);
 
+  window.addEventListener("resize", () => {
+    setHeight(window.innerHeight);
+  }
+  );
+
   return (
     <>
       <div className="w-[1024px] max-w-full aspect-[4/3]" style={{margin: "0 auto", height: `${height-24}px`}}>
