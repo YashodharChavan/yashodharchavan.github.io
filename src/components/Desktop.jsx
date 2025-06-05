@@ -6,6 +6,8 @@ import TopBar from './TopBar';
 import Taskbar from './Taskbar';
 import hardDrive from '../assets/icons/folders/Hard Drive.ico';
 import genericFolder from '../assets/icons/folders/GenericFolderIcon.ico';
+import Terminal from "./Terminal"; 
+
 
 const Desktop = () => {
   // Initial icons with IDs and labels
@@ -82,6 +84,7 @@ const Desktop = () => {
             );
           })}
         </div>
+        <Terminal />
       </div>
       <Taskbar />
     </>
