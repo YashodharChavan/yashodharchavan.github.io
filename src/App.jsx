@@ -22,7 +22,7 @@ const App = () => {
 
   return (
     <>
-      <div className="w-[1024px] max-w-full aspect-[4/3]" style={{margin: "0 auto", height: `${height-24}px`}}>
+      <div className="w-[1024px] max-w-full overflow-hidden aspect-[4/3]" style={{margin: "0 auto", height: `${height}px`}}>
 
         {showBootScreen && <BootScreen />}
 

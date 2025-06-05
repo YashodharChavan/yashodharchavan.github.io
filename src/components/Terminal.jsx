@@ -20,20 +20,22 @@ const Terminal = () => {
       content: `${getPromptPath()}$ ${command}`
     });
 
-    const output = runCommand(input);
+    const output = runCommand(command);
     if (output) {
       newHistory.push({ type: 'output', content: output });
     }
     if (output === '__CLEAR__') {
-      setHistory([]); // Clear the screen
+      setHistory([]);
     }
+    else {
       setHistory(newHistory);
+    }
     setInput('');
   };
 
   const handleKeyDown = (e) => {
   if (e.key === 'Enter') {
-    handleCommand();
+    handleCommand(input);
   } else if (e.key === 'Tab') {
     e.preventDefault(); // prevent focus shift
     const [cmd, ...args] = input.trim().split(/\s+/);
