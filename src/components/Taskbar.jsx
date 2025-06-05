@@ -1,34 +1,82 @@
-import React from 'react'
-import '../index.css'
-import finder from "../assets/icons/applications/Finder.ico"
-import dashboard from "../assets/icons/applications/Dashboard.ico"
-import mail from "../assets/icons/applications/Mail.ico"
-import safari from "../assets/icons/applications/Safari.ico"
-import messages from "../assets/icons/applications/Messages.ico"
-import contacts from "../assets/icons/applications/Contacts.ico"
-import iTunes from '../assets/icons/applications/iTunes.ico'
-import iPhotos from '../assets/icons/applications/iPhoto.ico'
-import calendar from '../assets/icons/applications/Calendar.ico'
-import terminal from '../assets/icons/applications/Terminal.ico'
-import grapher from '../assets/icons/applications/Grapher.ico'
-import trashBin from '../assets/icons/applications/TrashIcon.ico'
-const Taskbar = () => {
-  return (
-    <div className='absolute bottom-0 left-1/2 -translate-x-1/2 m-auto w-4xl h-20 justify-around   flex items-center select-none shadow-md bg-[#7688B3] gap-x-2'>
-      <img className='h-4/5' src={finder} alt="Finder Icon" />
-      <img className='h-4/5' src={dashboard} alt="Dashboard Icon" />
-      <img className='h-4/5' src={mail} alt="Mail Icon" />
-      <img className='h-4/5' src={safari} alt="Mail Icon" />
-      <img className='h-4/5' src={messages} alt="Messages Icon" />
-      <img className='h-4/5' src={contacts} alt="Contacts Icon" />
-      <img className='h-4/5' src={iTunes} alt="iTunes Icon" />
-      <img className='h-4/5' src={iPhotos} alt="iPhotos Icon" />
-      <img className='h-4/5' src={calendar} alt="Calendar Icon" />
-      <img className='h-4/5' src={terminal} alt="Terminal Icon" />
-      <img className='h-4/5' src={grapher} alt="Grapher Icon" />
-      <img className='h-4/5' src={trashBin} alt="Trash Bin Icon" />
-    </div>
-  )
-}
+import React from 'react';
+import '../index.css';
+import finder from "../assets/icons/applications/Finder.ico";
+import dashboard from "../assets/icons/applications/Dashboard.ico";
+import mail from "../assets/icons/applications/Mail.ico";
+import safari from "../assets/icons/applications/Safari.ico";
+import messages from "../assets/icons/applications/Messages.ico";
+import contacts from "../assets/icons/applications/Contacts.ico";
+import iTunes from '../assets/icons/applications/iTunes.ico';
+import iPhotos from '../assets/icons/applications/iPhoto.ico';
+import calendar from '../assets/icons/applications/Calendar.ico';
+import terminal from '../assets/icons/applications/Terminal.ico';
+import grapher from '../assets/icons/applications/Grapher.ico';
+import trashBin from '../assets/icons/applications/TrashIcon.ico';
+import { useWindowManager } from '../context/WindowManagerContext';
 
-export default Taskbar
+const icons = [
+  { id: "finder", src: finder, name: "Finder" },
+  { id: "dashboard", src: dashboard, name: "Dashboard" },
+  { id: "mail", src: mail, name: "Mail" },
+  { id: "safari", src: safari, name: "Safari" },
+  { id: "messages", src: messages, name: "Messages" },
+  { id: "contacts", src: contacts, name: "Contacts" },
+  { id: "itunes", src: iTunes, name: "iTunes" },
+  { id: "iphotos", src: iPhotos, name: "iPhotos" },
+  { id: "calendar", src: calendar, name: "Calendar" },
+  { id: "terminal", src: terminal, name: "Terminal" },
+  { id: "grapher", src: grapher, name: "Grapher" },
+  { id: "trash", src: trashBin, name: "Trash" },
+];
+
+const Taskbar = () => {
+  const { windows, restoreWindow, openWindow } = useWindowManager();
+
+  return (
+    <div className='absolute bottom-0 left-1/2 -translate-x-1/2 m-auto w-4xl h-20 justify-around flex items-center select-none shadow-md bg-[#7688B3] gap-x-2 px-4'>
+      {icons.map(({ id, src, name }) => {
+        const appWindow = windows.find(w => w.id === id);
+
+        return (
+          <div
+            key={id}
+            className="relative group flex flex-col items-center cursor-pointer"
+            onClick={() => {
+              if (!appWindow) {
+                // Open a new window if not opened yet
+                openWindow(id, name, src);
+              } else if (appWindow.minimized) {
+                // Restore if minimized
+                restoreWindow(appWindow.id);
+              }
+              // If already opened and not minimized, do nothing (or focus logic if you want)
+            }}
+          >
+            <img
+              className="h-4/5 select-none"
+              draggable={false}
+              src={src}
+              alt={`${name} Icon`}
+            />
+            {/* Tooltip */}
+            <span className="absolute bottom-[110%] left-1/2 transform -translate-x-1/2 mb-1 
+              px-2 py-1 text-white font-medium text-xl opacity-0 group-hover:opacity-100 
+              transition-opacity whitespace-nowrap z-20 pointer-events-none text-shadow-[3px_1px_2px_black]">
+              {name}
+            </span>
+            {/* Dot indicator */}
+            {appWindow && (
+              <div
+                className={`w-2 h-2 rounded-full mt-1 ${
+                  appWindow.minimized ? 'bg-white opacity-70' : 'bg-white'
+                }`}
+              />
+            )}
+          </div>
+        );
+      })}
+    </div>
+  );
+};
+
+export default Taskbar;

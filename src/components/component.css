@@ -46,3 +46,44 @@
   background: rgba(255, 255, 255, 0.4);
   filter: blur(0.5px);
 }
+
+.resize-handle {
+  position: absolute;
+  z-index: 20;
+}
+
+.resize-handle.top,
+.resize-handle.bottom {
+  height: 6px;
+  left: 0;
+  right: 0;
+  cursor: ns-resize;
+}
+.resize-handle.top {
+  top: -3px;
+}
+.resize-handle.bottom {
+  bottom: -3px;
+}
+
+.resize-handle.left,
+.resize-handle.right {
+  width: 6px;
+  top: 0;
+  bottom: 0;
+  cursor: ew-resize;
+}
+.resize-handle.left {
+  left: -3px;
+}
+.resize-handle.right {
+  right: -3px;
+}
+
+.resize-handle.bottom-right {
+  width: 16px;
+  height: 16px;
+  right: -3px;
+  bottom: -3px;
+  cursor: nwse-resize;
+}

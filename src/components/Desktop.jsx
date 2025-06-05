@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import '../index.css';
-
+import { useWindowManager } from '../context/WindowManagerContext';
 import background from '../assets/background.png';
 import TopBar from './TopBar';
 import Taskbar from './Taskbar';
@@ -9,7 +9,9 @@ import genericFolder from '../assets/icons/folders/GenericFolderIcon.ico';
 import Terminal from "./Terminal"; 
 
 
+
 const Desktop = () => {
+
   // Initial icons with IDs and labels
   const [icons, setIcons] = useState([
     { id: 1, name: 'Hard Drive', src: hardDrive },
@@ -18,7 +20,7 @@ const Desktop = () => {
 
   // Store the dragged icon index
   const [draggedIndex, setDraggedIndex] = useState(null);
-
+  const { openWindows } = useWindowManager();
   // Handle drag start
   const handleDragStart = (index) => {
     setDraggedIndex(index);
@@ -84,7 +86,7 @@ const Desktop = () => {
             );
           })}
         </div>
-        <Terminal />
+        {openWindows['terminal'] && <Terminal />}
       </div>
       <Taskbar />
     </>

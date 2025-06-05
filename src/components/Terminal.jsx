@@ -66,7 +66,7 @@ const Terminal = () => {
   }, []);
 
   return (
-    <SimpleFrame title="Terminal — Bash — 78x24">
+    <SimpleFrame title="Terminal — Bash — " id="terminal" icon="terminal">
       <div
         ref={terminalRef}
         className="terminal p-2 max-h-[186%] overflow-y-auto text-[13px] font-mono bg-white text-black"
