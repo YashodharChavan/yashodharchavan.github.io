@@ -66,10 +66,10 @@ const Terminal = () => {
   }, []);
 
   return (
-    <SimpleFrame title="Terminal — Bash — " id="terminal" icon="terminal">
+    <SimpleFrame title="Terminal — Bash — " id="terminal" icon="Terminal" minimized={window.minimized} height="300" width="500" minHeight="300" minWidth="400">
       <div
         ref={terminalRef}
-        className="terminal p-2 max-h-[186%] overflow-y-auto text-[13px] font-mono bg-white text-black"
+        className="terminal p-2 max-h-[186%] overflow-y-hidden text-[13px] font-mono bg-white text-black"
         onClick={() => inputRef.current.focus()}
       >
         {history.map((entry, idx) => (

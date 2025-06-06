@@ -4,22 +4,28 @@ import cornerStone from '../assets/cornerStone.svg';
 import { WindowManagerProvider } from '../context/WindowManagerContext';
 import { useWindowManager } from '../context/WindowManagerContext';
 
-const SimpleFrame = ({ title, children, hasDrawer, id, icon }) => {
+const SimpleFrame = ({ title, children, hasDrawer, id, icon, height, width, minWidth, minHeight }) => {
+  
+  const [isAtFront, setIsAtFront] = useState(false);
   const frameRef = useRef(null);
   const containerBounds = useRef(null);
   const [position, setPosition] = useState({ x: 100, y: 60 });
   const [isDragging, setIsDragging] = useState(false);
   const offset = useRef({ x: 0, y: 0 });
-  const [size, setSize] = useState({ width: 500, height: 300 });
-  const [readSize, setReadSize] = useState({ width: 500, height: 300 });
+  const [size, setSize] = useState({ width: Number.parseInt(width) || 500, height: Number.parseInt(height) || 300 });
+  const [readSize, setReadSize] = useState({ width: size.width,  height: size.height });
   const resizeRef = useRef({ type: null, startX: 0, startY: 0, startW: 0, startH: 0, startLeft: 0, startTop: 0 });
   const [isResizing, setIsResizing] = useState(false);
   const [isMaximized, setIsMaximized] = useState(false);
-  const { registerWindow, minimizeWindow, restoreWindow, windows } = useWindowManager();
+  const { registerWindow, minimizeWindow, restoreWindow, windows, closeWindow } = useWindowManager();
+
 
   const isMin = windows.find(w => w.id === id)?.minimized;
   const [isVisible, setIsVisible] = useState(!isMin);
   const [isMinimized, setIsMinimized] = useState(isMin);
+  const { focusedWindowId, setFocusedWindowId } = useWindowManager();
+
+  const isFocused = focusedWindowId === id;
 
   useEffect(() => {
   registerWindow(id, title, icon);
@@ -86,29 +92,29 @@ const SimpleFrame = ({ title, children, hasDrawer, id, icon }) => {
 
       switch (resizeRef.current.type) {
         case 'right':
-          newWidth = Math.max(400, resizeRef.current.startW + dx);
+          newWidth = Math.max(Number.parseInt(minWidth), resizeRef.current.startW + dx);
           break;
         case 'left':
-          newWidth = Math.max(400, resizeRef.current.startW - dx);
+          newWidth = Math.max(Number.parseInt(minWidth), resizeRef.current.startW - dx);
           newLeft = resizeRef.current.startLeft + dx;
           break;
         case 'bottom':
-          newHeight = Math.max(300, resizeRef.current.startH + dy);
+          newHeight = Math.max(Number.parseInt(minHeight), resizeRef.current.startH + dy);
           break;
         case 'top':
-          newHeight = Math.max(300, resizeRef.current.startH - dy);
+          newHeight = Math.max(Number.parseInt(minHeight), resizeRef.current.startH - dy);
           newTop = resizeRef.current.startTop + dy;
           break;
         case 'bottom-right':
-          newWidth = Math.max(400, resizeRef.current.startW + dx);
-          newHeight = Math.max(300, resizeRef.current.startH + dy);
+          newWidth = Math.max(Number.parseInt(minWidth), resizeRef.current.startW + dx);
+          newHeight = Math.max(Number.parseInt(minHeight), resizeRef.current.startH + dy);
           break;
       }
 
 
       // Snap to nearest 10px
-      newWidth = Math.max(400, Math.round(newWidth / 10) * 10);
-      newHeight = Math.max(300, Math.round(newHeight / 10) * 10);
+      newWidth = Math.max(Number.parseInt(minWidth), Math.round(newWidth / 10) * 10);
+      newHeight = Math.max(Number.parseInt(minHeight), Math.round(newHeight / 10) * 10);
       setSize({ width: newWidth, height: newHeight });
       setPosition({ x: newLeft, y: newTop });
     };
@@ -140,7 +146,10 @@ const SimpleFrame = ({ title, children, hasDrawer, id, icon }) => {
     if (frameRef.current) {
       frameRef.current.style.display = 'none';
     }
+
+    closeWindow(id);
   }
+
 
   const handleMinimize = () => {
     minimizeWindow(id);
@@ -180,17 +189,34 @@ useEffect(() => {
   }
 }, [size]);
 
+const handleAtFront = () => {
+  console.log('hello')
+  setIsAtFront(true);
+  if(!frameRef.current) return;
 
+  if(isAtFront) {
+    frameRef.current.style.Zindex = "20"
+  }
+  else {
+    frameRef.current.style.Zindex = "10"
+  }
+
+}
+
+
+const handleFocus = () => {
+  setFocusedWindowId(id);
+};
 
 return (
     
   <div
     ref={frameRef}
-    className="simple-frame absolute z-10 bg-white rounded-md shadow-[0px_0px_20px_black] h-80 w-1/2"
+    className="simple-frame absolute z-10 bg-white rounded-md shadow-[0px_0px_20px_black]"
     style={{
       left: position.x, top: position.y, width: size.width,
-      height: size.height
-    }}
+      height: size.height, display: isMin ? 'none' : 'block', zIndex: isFocused ? 999 : 10 }}
+    onClick={handleFocus} onMouseDown={handleFocus}
   >
     {/* Corner resizer */}
     <div className="resize-handle bottom-right" onMouseDown={(e) => startResizing(e, 'bottom-right')} />

@@ -10,8 +10,9 @@ import iTunes from '../assets/icons/applications/iTunes.ico';
 import iPhotos from '../assets/icons/applications/iPhoto.ico';
 import calendar from '../assets/icons/applications/Calendar.ico';
 import terminal from '../assets/icons/applications/Terminal.ico';
-import grapher from '../assets/icons/applications/Grapher.ico';
 import trashBin from '../assets/icons/applications/TrashIcon.ico';
+import calculator from '../assets/icons/applications/Calculator.ico';
+
 import { useWindowManager } from '../context/WindowManagerContext';
 
 const icons = [
@@ -25,7 +26,7 @@ const icons = [
   { id: "iphotos", src: iPhotos, name: "iPhotos" },
   { id: "calendar", src: calendar, name: "Calendar" },
   { id: "terminal", src: terminal, name: "Terminal" },
-  { id: "grapher", src: grapher, name: "Grapher" },
+  { id: "calculator", src: calculator, name: "Calculator" },
   { id: "trash", src: trashBin, name: "Trash" },
 ];
 

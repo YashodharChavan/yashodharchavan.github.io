@@ -5,7 +5,9 @@ const WindowManagerContext = createContext();
 
 export const WindowManagerProvider = ({ children }) => {
   const [windows, setWindows] = useState([]);  // Registered windows
-  const [openWindows, setOpenWindows] = useState({Terminal: false});  // id -> open status
+  const [openWindows, setOpenWindows] = useState({terminal: false});  // id -> open status
+  const [focusedWindowId, setFocusedWindowId] = useState(null);
+
 
   // Register window only once
   const registerWindow = (id, title, icon) => {
@@ -18,13 +20,17 @@ export const WindowManagerProvider = ({ children }) => {
   // Open window and register if needed
   const openWindow = (id, title, icon) => {
     registerWindow(id, title, icon);
-    setOpenWindows(prev => ({ ...prev, [id]: true }));
+    setOpenWindows(prev => ({ ...prev, [id.toLowerCase()]: true }));
   };
 
+  const toggleWindow = (name) => setOpenWindows(prev => ({ ...prev, [name.toLowerCase()]: !prev[name.toLowerCase()] }));
+
   const minimizeWindow = (id) => {
+    console.log(id)
     setWindows(prev =>
       prev.map(w => (w.id === id ? { ...w, minimized: true } : w))
     );
+    console.log(openWindows)
   };
 
   const restoreWindow = (id) => {
@@ -50,7 +56,9 @@ export const WindowManagerProvider = ({ children }) => {
       minimizeWindow,
       restoreWindow,
       closeWindow,
-      registerWindow
+      registerWindow,
+      focusedWindowId,
+      setFocusedWindowId,
     }}>
       {children}
     </WindowManagerContext.Provider>

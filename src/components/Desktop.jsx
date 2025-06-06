@@ -7,6 +7,7 @@ import Taskbar from './Taskbar';
 import hardDrive from '../assets/icons/folders/Hard Drive.ico';
 import genericFolder from '../assets/icons/folders/GenericFolderIcon.ico';
 import Terminal from "./Terminal"; 
+import Calculator from './Calculator';
 
 
 
@@ -87,6 +88,7 @@ const Desktop = () => {
           })}
         </div>
         {openWindows['terminal'] && <Terminal />}
+        {openWindows['calculator'] && <Calculator />}
       </div>
       <Taskbar />
     </>
