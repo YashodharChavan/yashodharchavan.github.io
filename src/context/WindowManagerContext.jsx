@@ -19,19 +19,15 @@ export const WindowManagerProvider = ({ children }) => {
   // Open window and register if needed
   const openWindow = (id, title, icon) => {
     registerWindow(id, title, icon);
-    console.log("Opening window:", id);
-    console.log(openWindows)
     setOpenWindows(prev => ({ ...prev, [id.toLowerCase()]: true }));
   };
 
   const toggleWindow = (name) => setOpenWindows(prev => ({ ...prev, [name.toLowerCase()]: !prev[name.toLowerCase()] }));
 
   const minimizeWindow = (id) => {
-    console.log(id)
     setWindows(prev =>
       prev.map(w => (w.id === id ? { ...w, minimized: true } : w))
     );
-    console.log(openWindows)
   };
 
   const restoreWindow = (id) => {

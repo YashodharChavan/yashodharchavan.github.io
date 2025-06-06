@@ -9,7 +9,7 @@ import genericFolder from '../assets/icons/folders/GenericFolderIcon.ico';
 import Terminal from "./Terminal"; 
 import Calculator from './Calculator';
 import Contacts from './Contacts'
-
+import TextEdit from './TextEdit'; // Import TextEdit component
 
 const Desktop = () => {
 
@@ -90,6 +90,7 @@ const Desktop = () => {
         {openWindows['terminal'] && <Terminal />}
         {openWindows['calculator'] && <Calculator />}
         {openWindows['contacts'] && <Contacts />}
+        {openWindows['textedit'] && <TextEdit />}
       </div>
       <Taskbar />
     </>

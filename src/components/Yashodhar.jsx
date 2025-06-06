@@ -2,11 +2,11 @@ import React from 'react'
 import userLogo from "../../public/userLogo.svg"
 
 
-const Yashodhar = () => {
+const Yashodhar = ({highlightMatch, searchString}) => {
   return (
     <>
-        <div className="logo-and-name h-14 w-full bg-red-500 flex justify-around items-center">
-            this needs to be done like mobile view I am keeping it pending because I dont have ideas regarding it
+        <div className="logo-and-name h-14 w-full bg-red-500">
+            {highlightMatch("this needs to be done like mobile view I am keeping it pending because I dont have ideas regarding it", searchString)}
             
         </div>  
     

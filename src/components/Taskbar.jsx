@@ -4,27 +4,26 @@ import finder from "../assets/icons/applications/Finder.ico";
 import dashboard from "../assets/icons/applications/Dashboard.ico";
 import mail from "../assets/icons/applications/Mail.ico";
 import safari from "../assets/icons/applications/Safari.ico";
-import messages from "../assets/icons/applications/Messages.ico";
 import contacts from "../assets/icons/applications/Contacts.ico";
 import iTunes from '../assets/icons/applications/iTunes.ico';
 import iPhotos from '../assets/icons/applications/iPhoto.ico';
-import calendar from '../assets/icons/applications/Calendar.ico';
 import terminal from '../assets/icons/applications/Terminal.ico';
 import trashBin from '../assets/icons/applications/TrashIcon.ico';
 import calculator from '../assets/icons/applications/Calculator.ico';
+import dictionary from '../assets/icons/applications/Dictionary.ico';
+import textEdit from '../assets/icons/applications/TextEdit.ico';
 
 import { useWindowManager } from '../context/WindowManagerContext';
-
 const icons = [
   { id: "finder", src: finder, name: "Finder" },
   { id: "dashboard", src: dashboard, name: "Dashboard" },
   { id: "mail", src: mail, name: "Mail" },
   { id: "safari", src: safari, name: "Safari" },
-  { id: "messages", src: messages, name: "Messages" },
+  { id: "dictionary", src: dictionary, name: "Dictionary" },
   { id: "contacts", src: contacts, name: "Contacts" },
   { id: "itunes", src: iTunes, name: "iTunes" },
   { id: "iphotos", src: iPhotos, name: "iPhotos" },
-  { id: "calendar", src: calendar, name: "Calendar" },
+  { id: "textedit", src: textEdit, name: "TextEdit" },
   { id: "terminal", src: terminal, name: "Terminal" },
   { id: "calculator", src: calculator, name: "Calculator" },
   { id: "trash", src: trashBin, name: "Trash" },
@@ -45,6 +44,7 @@ const Taskbar = () => {
             onClick={() => {
               if (!appWindow) {
                 // Open a new window if not opened yet
+                console.log(id, name, src);
                 openWindow(id, name, src);
               } else if (appWindow.minimized) {
                 // Restore if minimized
