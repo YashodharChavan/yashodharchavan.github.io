@@ -8,9 +8,7 @@ import { WindowManagerProvider } from './context/WindowManagerContext';
 
 createRoot(document.getElementById('root')).render(
 
-  <StrictMode>
     <WindowManagerProvider>
       <App />
     </WindowManagerProvider>
-  </StrictMode>,
 )

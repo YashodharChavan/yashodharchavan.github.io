@@ -87,3 +87,24 @@
   bottom: -3px;
   cursor: nwse-resize;
 }
+
+.calc-buttons {
+  font-size: 16px;
+  height: 100%; /* ensures button fills grid row height */
+  padding: 0; /* prevent padding from increasing height */
+  line-height: normal; 
+  background: linear-gradient(to bottom, #FFFFFF 0%, #C8C8C8 20%, #A5A5A5 80%);
+  border: 1px solid #A5A5A5;
+  box-shadow: 0px 0px 0 1px #888888;
+  border-radius: 4px;
+}
+
+.contact-details div {
+  display: flex;
+  column-gap: 12px;
+}
+
+.contact-details div p:nth-of-type(1) {
+  color: gray;
+}
+

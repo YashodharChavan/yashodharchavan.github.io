@@ -8,7 +8,7 @@ import hardDrive from '../assets/icons/folders/Hard Drive.ico';
 import genericFolder from '../assets/icons/folders/GenericFolderIcon.ico';
 import Terminal from "./Terminal"; 
 import Calculator from './Calculator';
-
+import Contacts from './Contacts'
 
 
 const Desktop = () => {
@@ -21,7 +21,7 @@ const Desktop = () => {
 
   // Store the dragged icon index
   const [draggedIndex, setDraggedIndex] = useState(null);
-  const { openWindows } = useWindowManager();
+  const { openWindows, openWindow } = useWindowManager();
   // Handle drag start
   const handleDragStart = (index) => {
     setDraggedIndex(index);
@@ -89,6 +89,7 @@ const Desktop = () => {
         </div>
         {openWindows['terminal'] && <Terminal />}
         {openWindows['calculator'] && <Calculator />}
+        {openWindows['contacts'] && <Contacts />}
       </div>
       <Taskbar />
     </>

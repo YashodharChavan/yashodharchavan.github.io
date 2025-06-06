@@ -4,7 +4,7 @@ import cornerStone from '../assets/cornerStone.svg';
 import { WindowManagerProvider } from '../context/WindowManagerContext';
 import { useWindowManager } from '../context/WindowManagerContext';
 
-const SimpleFrame = ({ title, children, hasDrawer, id, icon, height, width, minWidth, minHeight }) => {
+const SimpleFrame = ({ title, children, hasDrawer, id, icon, height, width, minWidth, minHeight, showDimensions, optionalBackground, isResizable }) => {
   
   const [isAtFront, setIsAtFront] = useState(false);
   const frameRef = useRef(null);
@@ -82,7 +82,7 @@ const SimpleFrame = ({ title, children, hasDrawer, id, icon, height, width, minW
   useEffect(() => {
     const handleResize = (e) => {
       if (!isResizing) return;
-
+      if(!isResizable) return;
       const dx = e.clientX - resizeRef.current.startX;
       const dy = e.clientY - resizeRef.current.startY;
       let newWidth = resizeRef.current.startW;
@@ -156,6 +156,7 @@ const SimpleFrame = ({ title, children, hasDrawer, id, icon, height, width, minW
   };
 
  const handleMaximize = () => {
+  if(! isResizable) return;
   setIsMaximized((prev) => {
     const maximizing = !prev;
 
@@ -237,7 +238,12 @@ return (
         <div className="mac-dot yellow" onClick={handleMinimize}></div>
         <div className="mac-dot green" onClick={handleMaximize}></div>
       </div>
-      <span className="title select-none">{`${title} ${Math.round(readSize.height / 10)} × ${Math.round(readSize.width / 10)}`}</span>
+      {showDimensions? (
+        <span className="title select-none">{`${title} ${Math.round(readSize.height / 10)} × ${Math.round(readSize.width / 10)}`}</span>
+        
+      ): (
+        <span className="title select-none">{title}</span>
+      )}
       {hasDrawer ? (
         <button className="drawer-toggle bg-gray-600 p-1 rounded">≡</button>
       ) : (
@@ -245,7 +251,7 @@ return (
       )}
     </div>
 
-    <div className="content h-[calc(100%-28px)] overflow-y-auto " style={{ padding: "4px" }}>
+    <div className="content h-[calc(100%-24px)] overflow-y-auto " style={{ padding: "4px", background: optionalBackground ? `url(${optionalBackground})` : 'none' }}>
       {children}
     </div>
 

@@ -1,11 +1,10 @@
 import React, { createContext, useContext, useState } from 'react';
-import Terminal from '../components/Terminal';
 
 const WindowManagerContext = createContext();
 
 export const WindowManagerProvider = ({ children }) => {
   const [windows, setWindows] = useState([]);  // Registered windows
-  const [openWindows, setOpenWindows] = useState({terminal: false});  // id -> open status
+  const [openWindows, setOpenWindows] = useState({});  // id -> open status
   const [focusedWindowId, setFocusedWindowId] = useState(null);
 
 
@@ -20,6 +19,8 @@ export const WindowManagerProvider = ({ children }) => {
   // Open window and register if needed
   const openWindow = (id, title, icon) => {
     registerWindow(id, title, icon);
+    console.log("Opening window:", id);
+    console.log(openWindows)
     setOpenWindows(prev => ({ ...prev, [id.toLowerCase()]: true }));
   };
 

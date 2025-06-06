@@ -66,7 +66,7 @@ const Terminal = () => {
   }, []);
 
   return (
-    <SimpleFrame title="Terminal — Bash — " id="terminal" icon="Terminal" minimized={window.minimized} height="300" width="500" minHeight="300" minWidth="400">
+    <SimpleFrame title="Terminal — Bash — " id="terminal" icon="Terminal" minimized={window.minimized} height="300" width="500" minHeight="300" minWidth="400" showDimensions={true} isResizable={true}>
       <div
         ref={terminalRef}
         className="terminal p-2 max-h-[186%] overflow-y-hidden text-[13px] font-mono bg-white text-black"
