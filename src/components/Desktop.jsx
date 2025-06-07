@@ -10,6 +10,7 @@ import Terminal from "./Terminal";
 import Calculator from './Calculator';
 import Contacts from './Contacts'
 import TextEdit from './TextEdit'; // Import TextEdit component
+import Dictionary from './Dictionary';
 
 const Desktop = () => {
 
@@ -91,6 +92,7 @@ const Desktop = () => {
         {openWindows['calculator'] && <Calculator />}
         {openWindows['contacts'] && <Contacts />}
         {openWindows['textedit'] && <TextEdit />}
+        {openWindows['dictionary'] && <Dictionary />}
       </div>
       <Taskbar />
     </>

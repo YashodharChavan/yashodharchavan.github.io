@@ -1,10 +1,9 @@
 import React, { useRef, useState, useEffect } from 'react';
 import './component.css';
 import cornerStone from '../assets/cornerStone.svg';
-import { WindowManagerProvider } from '../context/WindowManagerContext';
 import { useWindowManager } from '../context/WindowManagerContext';
 
-const SimpleFrame = ({ title, children, hasDrawer, id, icon, height, width, minWidth, minHeight, showDimensions, optionalBackground, isResizable }) => {
+const SimpleFrame = ({ title, children, hasDrawer, id, icon, height, width, minWidth, minHeight, showDimensions, optionalBackground, isResizable, hasPadding=true }) => {
   
   const [isAtFront, setIsAtFront] = useState(false);
   const frameRef = useRef(null);
@@ -22,7 +21,6 @@ const SimpleFrame = ({ title, children, hasDrawer, id, icon, height, width, minW
 
   const isMin = windows.find(w => w.id === id)?.minimized;
   const [isVisible, setIsVisible] = useState(!isMin);
-  const [isMinimized, setIsMinimized] = useState(isMin);
   const { focusedWindowId, setFocusedWindowId } = useWindowManager();
 
   const isFocused = focusedWindowId === id;
@@ -251,7 +249,7 @@ return (
       )}
     </div>
 
-    <div className="content h-[calc(100%-24px)] overflow-y-auto " style={{ padding: "4px", background: optionalBackground ? `url(${optionalBackground})` : 'none' }}>
+    <div className="content h-[calc(100%-24px)] overflow-y-auto " style={{ padding: hasPadding? "4px" : "0px", background: optionalBackground ? `url(${optionalBackground})` : 'none' }}>
       {children}
     </div>
 
