@@ -8,6 +8,7 @@ const Dictionary = () => {
     const [suggestions, setSuggestions] = useState([]);
     const [selectedWord, setSelectedWord] = useState(null);
     const [totalEntriesFound, setTotalEntriesFound] = useState(0)
+    const [externalFontSize, setExternalFontSize]   = useState(0)
     // Fetch suggestions when user types
     useEffect(() => {
         if (searchString.trim() === '') {
@@ -34,6 +35,17 @@ const Dictionary = () => {
         setSelectedWord(word);
     };
 
+    const decrementFontSize = () => {
+        if(externalFontSize < -6) return
+        setExternalFontSize(externalFontSize-1)
+    }
+    
+    const incrementFontSize = () => {
+        if(externalFontSize > 6) return
+        setExternalFontSize(externalFontSize+1)
+
+    }
+
     return (
         <SimpleFrame
             id="dictionary"
@@ -55,14 +67,8 @@ const Dictionary = () => {
                 <div className="font-operation flex w-1/2 gap-x-2 h-full">
                     <div className="buttons w-fit h-full outline outline-[#666666] rounded-sm"
                         style={{ background: "linear-gradient(to bottom, #f2f2f2 0%, #d9d9d9 100%)" }}>
-                        <button className='h-full text-sm w-9 bg-transparent'>&lt;</button>
-                        <button className='h-full w-9 bg-transparent border-l border-[#666666]'>&gt;</button>
-                    </div>
-
-                    <div className="buttons w-fit h-full outline outline-[#666666] rounded-sm"
-                        style={{ background: "linear-gradient(to bottom, #f2f2f2 0%, #d9d9d9 100%)" }}>
-                        <button className='h-full text-sm w-9 bg-transparent'>A</button>
-                        <button className='h-full w-9 bg-transparent border-l border-[#666666]'>A</button>
+                        <button className='h-full text-sm w-9 bg-transparent' onClick={decrementFontSize}>A</button>
+                        <button className='h-full w-9 bg-transparent border-l border-[#666666]' onClick={incrementFontSize}>A</button>
                     </div>
                 </div>
                 <div className="search-operation flex justify-end w-1/2 h-full">
@@ -84,7 +90,7 @@ const Dictionary = () => {
                         <p>{totalEntriesFound} entries found for "{searchString}"</p>
                         <ul className="ml-4">
                             {suggestions.map((word, idx) => (
-                                <li key={idx} className="cursor-pointer hover:bg-[#D4D4D4]" style={{ padding: "0px 8px" }} onClick={() => handleSuggestionClick(word)}>
+                                <li key={idx} className="cursor-pointer hover:bg-[#D4D4D4]" style={{ padding: "0px 8px", fontSize: `calc(16px + ${externalFontSize}px)` }} onClick={() => handleSuggestionClick(word)}>
                                     {word}
                                 </li>
                             ))}
@@ -92,7 +98,7 @@ const Dictionary = () => {
                     </>
                 )}
 
-                {selectedWord && <TranslationDefination word={selectedWord} onBack={() => setSelectedWord(null)} />}
+                {selectedWord && <TranslationDefination word={selectedWord} onBack={() => setSelectedWord(null)} fontSize={externalFontSize} />}
             </div>
         </SimpleFrame>
     );

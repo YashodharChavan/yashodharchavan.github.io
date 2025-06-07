@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import CenteredHR from './CenteredHR';
-const TranslationDefination = ({ word }) => {
+const TranslationDefination = ({ word, fontSize }) => {
     const [definition, setDefinition] = useState(null);
     const [error, setError] = useState(null);
 
@@ -32,15 +32,15 @@ const TranslationDefination = ({ word }) => {
                 <>
                     <CenteredHR text="Defination" />
                     {definition.phonetic ? (
-                        <p className="italic text-lg">Phonetic: {definition.phonetic}</p>
+                        <p className="italic" style={{fontSize: `calc(16px + ${fontSize}px)`}}>Phonetic: {definition.phonetic}</p>
                     ): (
                         <span></span>
                     )}
 
                     {definition.meanings.map((meaning, idx) => (
-                        <div key={idx} className="mt-2">
+                        <div key={idx} className="mt-2" style={{fontSize: `calc(14px + ${fontSize}px)`}}>
                             <p className="font-semibold">{meaning.partOfSpeech}</p>
-                            <ul className="list-disc ml-5">
+                            <ul className="list-disc ml-5" style={{paddingLeft: "24px"}}>
                                 {meaning.definitions.map((def, i) => (
                                     <li key={i}>{def.definition}</li>
                                 ))}

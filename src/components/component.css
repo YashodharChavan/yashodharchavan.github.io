@@ -125,52 +125,6 @@
   color: gray;
 }
 
-.font-edit-bar select {
-  appearance: none;
-  /* Remove default arrow */
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  box-shadow: 1px 1px 4px 0px black;
-  height: 24px;
-  border-radius: 8px 0px 0px 8px;
-  padding: 0px 4px;
-}
-
-.font-edit-bar select:focus {
-  outline: none;
-}
-
-.select-arrow {
-  height: 24px;
-  width: 26px;
-  border-radius: 0px 8px 8px 0px;
-  background: linear-gradient(to bottom, #BDD3EF 0%, #6BB0F6 50%, #B1F3FF 100%);
-  border: 1px solid #6c6c6c;
-  box-shadow: 1px 1px 4px 0px black;
-}
-
-.select-alignment-options div {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  
-}
-
-.select-alignment-options  {
-  outline: 1px solid #626262;
-  box-shadow: 1px 1px 4px 0px black;
-}
-
-
-
-.selected-alignment-option {
-  background: linear-gradient(to bottom, #BDD3EF 0%, #6BB0F6 50%, #B1F3FF 100%);
-  border: 1px solid #6c6c6c; 
-}
-
-.right-alignment ,  .center-alignment{
-  outline: 1px solid #626262;
-}
 
 .main-content > p {
   font-family: 'Crimson Text';

@@ -78,7 +78,7 @@ const Terminal = () => {
           </div>
         ))}
         <div className="flex">
-          <span className="mr-1">{`${getPromptPath()}$`}</span>
+          <span className="mr-1"z>{`${getPromptPath()}$`}</span>
           <input
             ref={inputRef}
             type="text"

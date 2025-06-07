@@ -232,7 +232,7 @@ return (
       style={{ background: 'linear-gradient(to bottom, #F9F9F9, #CCCCCC)', padding: '0px 12px' }}
     >
       <div className="closing-buttons flex gap-x-2 items-center py-2">
-        <div className="mac-dot red" onClick={handleTerminalClose}></div>
+        <div className="mac-dot red" onClick={handleTerminalClose}></div> 
         <div className="mac-dot yellow" onClick={handleMinimize}></div>
         <div className="mac-dot green" onClick={handleMaximize}></div>
       </div>
