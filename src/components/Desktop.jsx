@@ -12,6 +12,7 @@ import Contacts from './Contacts'
 import TextEdit from './TextEdit'; // Import TextEdit component
 import Dictionary from './Dictionary';
 import Safari from './Safari';
+import Mail from './Mail';
 
 const Desktop = () => {
 
@@ -95,6 +96,7 @@ const Desktop = () => {
         {openWindows['textedit'] && <TextEdit />}
         {openWindows['dictionary'] && <Dictionary />}
         {openWindows['safari'] && <Safari />}
+        {openWindows['mail'] && <Mail />}
       </div>
       <Taskbar />
     </>

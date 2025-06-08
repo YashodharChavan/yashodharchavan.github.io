@@ -13,6 +13,7 @@
 .padding-top {
   padding: 0px 34px;
 }
+
 .mac-buttons {
   display: flex;
   gap: 8px;
@@ -126,7 +127,7 @@
 }
 
 
-.main-content > p {
+.main-content>p {
   font-family: 'Crimson Text';
   color: #666666;
   padding: 0px 12px;
@@ -137,18 +138,74 @@
   padding: 0px 18px
 }
 
-#urlInput, #searchInput {
+#urlInput,
+#searchInput {
   box-shadow: inset -0.2px 0.4px 3px 0px #505050
 }
 
-#urlInput:focus, #searchInput:focus {
+#urlInput:focus,
+#searchInput:focus,
+.glow-on-focus:focus {
   box-shadow: #8BB2D4 0px 0px 3px 3px;
   outline: none;
 }
 
-.url-bar {
-  overflow: hidden;  /* prevents scrollbars */
-  white-space: nowrap; /* prevents line breaks if content overflows */
-  user-select: none; /* optional: disable selection if you want */
+.mail-input {
+  padding: 0px 4px;
+  box-shadow: inset 0px 0px 2px 0px #505050;
 }
 
+.url-bar {
+  overflow: hidden;
+  /* prevents scrollbars */
+  white-space: nowrap;
+  /* prevents line breaks if content overflows */
+  user-select: none;
+  /* optional: disable selection if you want */
+}
+
+.round-mail-button {
+  padding: 4px 12px;
+  border-radius: 12px;
+  outline: 1px solid rgb(177, 177, 177);
+}
+
+.address-button button img {
+  height: 18px;
+  margin: auto auto;
+}
+
+.address-button button {
+  background: linear-gradient(to bottom,
+      #C5CDD9 0%,
+      /* Top */
+      #AAB5C7 50%,
+      /* Middle */
+      #BFC7D5 100%
+      /* Bottom */
+    );
+  border: 1px solid #7F8A9A;
+  font-size: 18px;
+  width: 52px;
+  height: 28px;
+  border-radius: 18px;
+  cursor: pointer;
+
+}
+
+
+.address-button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.address-button p {
+  font-size: 14px;
+}
+
+.email-header-fields {
+  border-bottom: 1px solid #8C8C8C;
+  border-top: 1px solid #8C8C8C;
+  
+}
