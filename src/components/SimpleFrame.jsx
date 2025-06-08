@@ -3,8 +3,8 @@ import './component.css';
 import cornerStone from '../assets/cornerStone.svg';
 import { useWindowManager } from '../context/WindowManagerContext';
 
-const SimpleFrame = ({ title, children, hasDrawer, id, icon, height, width, minWidth, minHeight, showDimensions, optionalBackground, isResizable, hasPadding=true }) => {
-  
+const SimpleFrame = ({ title, children, hasDrawer, id, icon, height, width, minWidth, minHeight, showDimensions, optionalBackground, isResizable, hasPadding = true, setOverflowY = true, onResizing = () => {}}) => {
+
   const [isAtFront, setIsAtFront] = useState(false);
   const frameRef = useRef(null);
   const containerBounds = useRef(null);
@@ -12,7 +12,7 @@ const SimpleFrame = ({ title, children, hasDrawer, id, icon, height, width, minW
   const [isDragging, setIsDragging] = useState(false);
   const offset = useRef({ x: 0, y: 0 });
   const [size, setSize] = useState({ width: Number.parseInt(width) || 500, height: Number.parseInt(height) || 300 });
-  const [readSize, setReadSize] = useState({ width: size.width,  height: size.height });
+  const [readSize, setReadSize] = useState({ width: size.width, height: size.height });
   const resizeRef = useRef({ type: null, startX: 0, startY: 0, startW: 0, startH: 0, startLeft: 0, startTop: 0 });
   const [isResizing, setIsResizing] = useState(false);
   const [isMaximized, setIsMaximized] = useState(false);
@@ -26,8 +26,8 @@ const SimpleFrame = ({ title, children, hasDrawer, id, icon, height, width, minW
   const isFocused = focusedWindowId === id;
 
   useEffect(() => {
-  registerWindow(id, title, icon);
-}, [id, title, icon, registerWindow]);
+    registerWindow(id, title, icon);
+  }, [id, title, icon, registerWindow]);
   const startResizing = (e, type) => {
     e.stopPropagation();
     e.preventDefault();
@@ -42,6 +42,8 @@ const SimpleFrame = ({ title, children, hasDrawer, id, icon, height, width, minW
     };
     setReadSize({ width: size.width, height: size.height });
     setIsResizing(true);
+    onResizing(true);
+
   };
 
 
@@ -80,7 +82,9 @@ const SimpleFrame = ({ title, children, hasDrawer, id, icon, height, width, minW
   useEffect(() => {
     const handleResize = (e) => {
       if (!isResizing) return;
-      if(!isResizable) return;
+      if (!isResizable) return;
+
+      
       const dx = e.clientX - resizeRef.current.startX;
       const dy = e.clientY - resizeRef.current.startY;
       let newWidth = resizeRef.current.startW;
@@ -117,8 +121,11 @@ const SimpleFrame = ({ title, children, hasDrawer, id, icon, height, width, minW
       setPosition({ x: newLeft, y: newTop });
     };
 
-    const stopResize = () => setIsResizing(false);
+    const stopResize = () => {
+      setIsResizing(false);
+      onResizing(false);
 
+    }
     document.addEventListener('mousemove', handleResize);
     document.addEventListener('mouseup', stopResize);
     return () => {
@@ -153,111 +160,117 @@ const SimpleFrame = ({ title, children, hasDrawer, id, icon, height, width, minW
     minimizeWindow(id);
   };
 
- const handleMaximize = () => {
-  if(! isResizable) return;
-  setIsMaximized((prev) => {
-    const maximizing = !prev;
+  const handleMaximize = () => {
+    if (!isResizable) return;
+    setIsMaximized((prev) => {
+      const maximizing = !prev;
 
-    // Apply styles immediately
-    if (maximizing) {
-      frameRef.current.style.top = '0';
-      frameRef.current.style.left = '0';
-      frameRef.current.style.width = '100%';
-      frameRef.current.style.height = '88%';
-    } else {
-      frameRef.current.style.top = `${position.y}px`;
-      frameRef.current.style.left = `${position.x}px`;
-      frameRef.current.style.width = `${size.width}px`;
-      frameRef.current.style.height = `${size.height}px`;
+      // Apply styles immediately
+      if (maximizing) {
+        frameRef.current.style.top = '0';
+        frameRef.current.style.left = '0';
+        frameRef.current.style.width = '100%';
+        frameRef.current.style.height = '88%';
+      } else {
+        frameRef.current.style.top = `${position.y}px`;
+        frameRef.current.style.left = `${position.x}px`;
+        frameRef.current.style.width = `${size.width}px`;
+        frameRef.current.style.height = `${size.height}px`;
+      }
+
+      // Wait for DOM to apply styles, then update readSize
+      requestAnimationFrame(() => {
+        const rect = frameRef.current.getBoundingClientRect();
+        setReadSize({ width: rect.width, height: rect.height });
+      });
+
+      return maximizing;
+    });
+  };
+
+  useEffect(() => {
+    const rect = frameRef.current?.getBoundingClientRect();
+    if (rect) {
+      setReadSize({ width: rect.width, height: rect.height });
+    }
+  }, [size]);
+
+  const handleAtFront = () => {
+    console.log('hello')
+    setIsAtFront(true);
+    if (!frameRef.current) return;
+
+    if (isAtFront) {
+      frameRef.current.style.Zindex = "20"
+    }
+    else {
+      frameRef.current.style.Zindex = "10"
     }
 
-    // Wait for DOM to apply styles, then update readSize
-    requestAnimationFrame(() => {
-      const rect = frameRef.current.getBoundingClientRect();
-      setReadSize({ width: rect.width, height: rect.height });
-    });
-
-    return maximizing;
-  });
-};
-
-useEffect(() => {
-  const rect = frameRef.current?.getBoundingClientRect();
-  if (rect) {
-    setReadSize({ width: rect.width, height: rect.height });
-  }
-}, [size]);
-
-const handleAtFront = () => {
-  console.log('hello')
-  setIsAtFront(true);
-  if(!frameRef.current) return;
-
-  if(isAtFront) {
-    frameRef.current.style.Zindex = "20"
-  }
-  else {
-    frameRef.current.style.Zindex = "10"
   }
 
-}
 
+  const handleFocus = () => {
+    setFocusedWindowId(id);
+  };
 
-const handleFocus = () => {
-  setFocusedWindowId(id);
-};
-
-return (
-    
-  <div
-    ref={frameRef}
-    className="simple-frame absolute z-10 bg-white rounded-md shadow-[0px_0px_20px_black]"
-    style={{
-      left: position.x, top: position.y, width: size.width,
-      height: size.height, display: isMin ? 'none' : 'block', zIndex: isFocused ? 999 : 10 }}
-    onClick={handleFocus} onMouseDown={handleFocus}
-  >
-    {/* Corner resizer */}
-    <div className="resize-handle bottom-right" onMouseDown={(e) => startResizing(e, 'bottom-right')} />
-
-    {/* Edge resizers */}
-    <div className="resize-handle top" onMouseDown={(e) => startResizing(e, 'top')} />
-    <div className="resize-handle bottom" onMouseDown={(e) => startResizing(e, 'bottom')} />
-    <div className="resize-handle left" onMouseDown={(e) => startResizing(e, 'left')} />
-    <div className="resize-handle right" onMouseDown={(e) => startResizing(e, 'right')} />
+  return (
 
     <div
-      className="top-bar flex items-center justify-between text-[#3A3A3A] rounded-t-md"
-      onMouseDown={handleMouseDown}
-      style={{ background: 'linear-gradient(to bottom, #F9F9F9, #CCCCCC)', padding: '0px 12px' }}
+      ref={frameRef}
+      className="simple-frame absolute z-10 bg-white rounded-md shadow-[0px_0px_20px_black]"
+      style={{
+        left: position.x, top: position.y, width: size.width,
+        height: size.height, display: isMin ? 'none' : 'block', zIndex: isFocused ? 999 : 10
+      }}
+      onClick={handleFocus} onMouseDown={handleFocus}
     >
-      <div className="closing-buttons flex gap-x-2 items-center py-2">
-        <div className="mac-dot red" onClick={handleTerminalClose}></div> 
-        <div className="mac-dot yellow" onClick={handleMinimize}></div>
-        <div className="mac-dot green" onClick={handleMaximize}></div>
+      {/* Corner resizer */}
+      <div className="resize-handle bottom-right" onMouseDown={(e) => startResizing(e, 'bottom-right')} />
+
+      {/* Edge resizers */}
+      <div className="resize-handle top" onMouseDown={(e) => startResizing(e, 'top')} />
+      <div className="resize-handle bottom" onMouseDown={(e) => startResizing(e, 'bottom')} />
+      <div className="resize-handle left" onMouseDown={(e) => startResizing(e, 'left')} />
+      <div className="resize-handle right" onMouseDown={(e) => startResizing(e, 'right')} />
+
+      <div
+        className="top-bar flex items-center justify-between text-[#3A3A3A] rounded-t-md"
+        onMouseDown={handleMouseDown}
+        style={{ background: 'linear-gradient(to bottom, #F9F9F9, #CCCCCC)', padding: '0px 12px' }}
+      >
+        <div className="closing-buttons flex gap-x-2 items-center py-2">
+          <div className="mac-dot red" onClick={handleTerminalClose}></div>
+          <div className="mac-dot yellow" onClick={handleMinimize}></div>
+          <div className="mac-dot green" onClick={handleMaximize}></div>
+        </div>
+        {showDimensions ? (
+          <span className="title select-none">{`${title} ${Math.round(readSize.height / 10)} × ${Math.round(readSize.width / 10)}`}</span>
+
+        ) : (
+          <span className="title select-none">{title}</span>
+        )}
+        {hasDrawer ? (
+          <button className="drawer-toggle bg-gray-600 p-1 rounded">≡</button>
+        ) : (
+          <div className="w-16"></div>
+        )}
       </div>
-      {showDimensions? (
-        <span className="title select-none">{`${title} ${Math.round(readSize.height / 10)} × ${Math.round(readSize.width / 10)}`}</span>
-        
-      ): (
-        <span className="title select-none">{title}</span>
-      )}
-      {hasDrawer ? (
-        <button className="drawer-toggle bg-gray-600 p-1 rounded">≡</button>
-      ) : (
-        <div className="w-16"></div>
-      )}
-    </div>
 
-    <div className="content h-[calc(100%-24px)] overflow-y-auto " style={{ padding: hasPadding? "4px" : "0px", background: optionalBackground ? `url(${optionalBackground})` : 'none' }}>
-      {children}
-    </div>
+      <div className="content overflow " style={{
+        padding: hasPadding ? "4px" : "0px", background: optionalBackground ? `url(${optionalBackground})` : 'none',
+        overflowY: setOverflowY ? `auto` : 'none',
+        height: "calc(100% - 24px)",
+        flexGrow: 1,
+      }}>
+        {children}
+      </div>
 
-    <div className="corner h-4 w-4 bg-gray absolute right-0 bottom-0">
-      <img src={cornerStone} className="h-full" />
+      <div className="corner h-4 w-4 bg-gray absolute right-0 bottom-0">
+        <img src={cornerStone} className="h-full" />
+      </div>
     </div>
-  </div>
-);
+  );
 };
 
 export default SimpleFrame;

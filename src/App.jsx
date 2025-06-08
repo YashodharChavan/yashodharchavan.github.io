@@ -31,7 +31,7 @@ const App = () => {
     <>
 
 
-      <div className="w-[1024px] max-w-full overflow-hidden aspect-[4/3]" style={{margin: "0 auto", height: `${height}px`}}>
+      <div className="w-fit min-w-[1024px] max-w-full overflow-hidden aspect-[4/3]" style={{margin: "0 auto", height: `${height}px`}}>
 
         {showBootScreen && <BootScreen />}
 

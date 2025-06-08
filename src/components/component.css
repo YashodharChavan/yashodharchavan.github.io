@@ -136,3 +136,19 @@
 .main-content {
   padding: 0px 18px
 }
+
+#urlInput, #searchInput {
+  box-shadow: inset -0.2px 0.4px 3px 0px #505050
+}
+
+#urlInput:focus, #searchInput:focus {
+  box-shadow: #8BB2D4 0px 0px 3px 3px;
+  outline: none;
+}
+
+.url-bar {
+  overflow: hidden;  /* prevents scrollbars */
+  white-space: nowrap; /* prevents line breaks if content overflows */
+  user-select: none; /* optional: disable selection if you want */
+}
+

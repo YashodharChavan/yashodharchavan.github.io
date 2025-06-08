@@ -86,6 +86,7 @@ const Terminal = () => {
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={handleKeyDown}
             className="flex-grow outline-none bg-transparent "
+            style={{padding: "0px 8px"}}
           />
         </div>
       </div>
