@@ -86,11 +86,11 @@ const Contacts = () => {
                 <div className="bg-transparent h-full w-[1%] flex text-white justify-center items-center font-bold">
                     .
                 </div>
-                <div className="address-value w-[69%] h-full bg-white" style={{ padding: "8px 12px" }}>
+                <div className="address-value w-[69%] h-full bg-white">
                     {isFirstChatSelected ? (
-                        < Yashodhar highlightMatch={highlightMatch} searchString={searchString} />
+                        < Yashodhar highlightMatch={highlightMatch} searchString={searchString} showPadding={false} />
                     ) : (
-                        <Apple highlightMatch={highlightMatch} searchString={searchString} />
+                        <Apple highlightMatch={highlightMatch} searchString={searchString} showPadding={true}/>
                     )}
                 </div>
             </div>

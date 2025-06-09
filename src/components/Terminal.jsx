@@ -10,6 +10,7 @@ const Terminal = () => {
   const [input, setInput] = useState('');
   const terminalRef = useRef(null);
   const inputRef = useRef(null);
+  const [exitFlag, setExitFlag] = useState(false)
 
   
 
@@ -26,6 +27,9 @@ const Terminal = () => {
     }
     if (output === '__CLEAR__') {
       setHistory([]);
+    }
+    else if(output === "__EXIT__") {
+      setExitFlag(true)
     }
     else {
       setHistory(newHistory);
@@ -66,7 +70,7 @@ const Terminal = () => {
   }, []);
 
   return (
-    <SimpleFrame title="Terminal — Bash — " id="terminal" icon="Terminal" minimized={window.minimized} height="300" width="500" minHeight="300" minWidth="400" showDimensions={true} isResizable={true}>
+    <SimpleFrame title="Terminal — Bash — " id="terminal" icon="Terminal" minimized={window.minimized} height="300" width="500" minHeight="300" minWidth="400" showDimensions={true} isResizable={true} exitFlag={exitFlag}>
       <div
         ref={terminalRef}
         className="terminal p-2 max-h-[186%] overflow-y-hidden text-[13px] font-mono bg-white text-black"

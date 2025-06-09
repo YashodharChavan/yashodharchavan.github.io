@@ -3,7 +3,7 @@ import './component.css';
 import cornerStone from '../assets/cornerStone.svg';
 import { useWindowManager } from '../context/WindowManagerContext';
 
-const SimpleFrame = ({ title, children, hasDrawer, id, icon, height, width, minWidth, minHeight, showDimensions, optionalBackground, isResizable=true, hasPadding = true, setOverflowY = true, onResizing = () => {}}) => {
+const SimpleFrame = ({ title, children, hasDrawer, id, icon, height, width, minWidth, minHeight, showDimensions, optionalBackground, isResizable=true, hasPadding = true, setOverflowY = true, onResizing = () => {}, exitFlag=false}) => {
 
   const [isAtFront, setIsAtFront] = useState(false);
   const frameRef = useRef(null);
@@ -45,6 +45,13 @@ const SimpleFrame = ({ title, children, hasDrawer, id, icon, height, width, minW
     onResizing(true);
 
   };
+
+
+  useEffect(()=> {
+    if(exitFlag) {
+      closeWindow(id)
+    }
+  }, [exitFlag])
 
 
   useEffect(() => {

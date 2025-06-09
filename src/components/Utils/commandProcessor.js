@@ -64,13 +64,17 @@ function runCommand(cmdLine) {
         console.error('Invalid command:', cmdLine);
         return;  // or handle error gracefully
     }
-    
+
     console.log(typeof cmdLine)
     const [command, ...args] = cmdLine.split(/\s+/);
 
     switch (command) {
         case 'pwd':
             return currentPath.join('/');
+
+        case 'exit':
+            return '__EXIT__'; // Special signal indicating the terminal should close
+            
 
         case 'ls': {
             const dir = getCurrentDir();
