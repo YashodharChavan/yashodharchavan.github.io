@@ -66,7 +66,7 @@ const Contacts = () => {
         >
 
             <div className="search-title relative h-8 w-full flex items-center justify-end" style={{ padding: "0px 12px" }} >
-                <input type="text" ref={inputRef} placeholder='search' focused className='bg-white rounded-xl focus:outline-none' style={{ padding: "0px 8px", boxShadow: "0px 0px 4px 4px #87AED0" }} onChange={(e) => setSearchString(e.target.value)} />
+                <input type="text" ref={inputRef} placeholder='search' focused="true" className='bg-white rounded-xl focus:outline-none' style={{ padding: "0px 8px", boxShadow: "0px 0px 4px 4px #87AED0" }} onChange={(e) => setSearchString(e.target.value)} />
             </div>
 
             <div className="address-section flex h-[90%] w-full justify-between items-center" style={{ padding: "0px 12px", marginTop: "4px" }}>

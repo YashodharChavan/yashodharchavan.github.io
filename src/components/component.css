@@ -266,3 +266,68 @@
   height: 4px !important;
   border-radius: 4px;
 }
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); opacity: 0.3; }
+  50% { transform: scale(1.2); opacity: 0.5; }
+}
+
+.typed-cursor {
+  display: inline-block;
+  width: 8px;
+  height: 1.1em;
+  background-color: #374151;
+  animation: blink 1s step-end infinite;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+.animate-pulse {
+  animation: pulse 3s ease-in-out infinite;
+}
+
+.animate-pulse.delay-150 {
+  animation-delay: 0.15s;
+}
+
+.animate-pulse.delay-300 {
+  animation-delay: 0.3s;
+}
+
+.split-background {
+  background: linear-gradient(to bottom, #454545 50%, #050505 50%);
+}
+
+.inner-outline {
+  box-shadow: inset 0 0 0 1px #ffffff;
+}
+
+.clock {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Override react-clock inline styles */
+.react-clock time {
+  height: 100% !important;
+  width: 100% !important;
+}
+
+/* Target the hour numbers in react-clock */
+.react-clock__face > text {
+  font-size: 14px !important;
+  fill: #333 !important;
+  font-weight: bold !important;
+  font-family: Arial, sans-serif !important;
+}
+
+/* For more specific targeting */
+.react-clock__mark__number {
+  font-size: 12px !important;
+  fill: #333 !important;
+  font-family: sans-serif;
+}

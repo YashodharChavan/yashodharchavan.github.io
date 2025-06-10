@@ -13,6 +13,7 @@ import TextEdit from './TextEdit'; // Import TextEdit component
 import Dictionary from './Dictionary';
 import Safari from './Safari';
 import Mail from './Mail';
+import Dashboard from './Dashboard';
 
 const Desktop = () => {
 
@@ -97,6 +98,7 @@ const Desktop = () => {
         {openWindows['dictionary'] && <Dictionary />}
         {openWindows['safari'] && <Safari />}
         {openWindows['mail'] && <Mail />}
+        {openWindows['dashboard'] && <Dashboard />}
       </div>
       <Taskbar />
     </>

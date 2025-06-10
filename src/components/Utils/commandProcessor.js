@@ -74,7 +74,7 @@ function runCommand(cmdLine) {
 
         case 'exit':
             return '__EXIT__'; // Special signal indicating the terminal should close
-            
+
 
         case 'ls': {
             const dir = getCurrentDir();
