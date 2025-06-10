@@ -75,6 +75,8 @@ const Terminal = () => {
         ref={terminalRef}
         className="terminal p-2 max-h-[186%] overflow-y-hidden text-[13px] font-mono bg-white text-black"
         onClick={() => inputRef.current.focus()}
+        style={{fontFamily: 'Monaco'}}
+        
       >
         {history.map((entry, idx) => (
           <div key={idx} className="mb-[2px] whitespace-pre-wrap">
@@ -82,7 +84,7 @@ const Terminal = () => {
           </div>
         ))}
         <div className="flex">
-          <span className="mr-1"z>{`${getPromptPath()}$`}</span>
+          <span className="mr-1">{`${getPromptPath()}$`}</span>
           <input
             ref={inputRef}
             type="text"

@@ -10,6 +10,14 @@
   font-style: normal;
 }
 
+@font-face {
+  font-family: 'Digital-7';
+  src: url('../../fonts/digital-7 (italic).ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+
 .padding-top {
   padding: 0px 34px;
 }
@@ -207,14 +215,17 @@
 .email-header-fields {
   border-bottom: 1px solid #8C8C8C;
   border-top: 1px solid #8C8C8C;
-  
+
 }
 
 .disabled {
   filter: grayscale(100%) brightness(80%);
-  pointer-events: none; /* Prevent interaction */
-  user-select: none;    /* Prevent text selection */
-  opacity: 0.6;         /* Optional: slightly faded look */
+  pointer-events: none;
+  /* Prevent interaction */
+  user-select: none;
+  /* Prevent text selection */
+  opacity: 0.6;
+  /* Optional: slightly faded look */
 }
 
 
@@ -262,14 +273,24 @@
 
 /* Progress bar color */
 .Toastify__progress-bar {
-  background: #007aff; /* macOS blue */
+  background: #007aff;
+  /* macOS blue */
   height: 4px !important;
   border-radius: 4px;
 }
 
 @keyframes pulse {
-  0%, 100% { transform: scale(1); opacity: 0.3; }
-  50% { transform: scale(1.2); opacity: 0.5; }
+
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.3;
+  }
+
+  50% {
+    transform: scale(1.2);
+    opacity: 0.5;
+  }
 }
 
 .typed-cursor {
@@ -281,8 +302,15 @@
 }
 
 @keyframes blink {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0; }
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0;
+  }
 }
 
 .animate-pulse {
@@ -318,7 +346,7 @@
 }
 
 /* Target the hour numbers in react-clock */
-.react-clock__face > text {
+.react-clock__face>text {
   font-size: 14px !important;
   fill: #333 !important;
   font-weight: bold !important;
@@ -330,4 +358,21 @@
   font-size: 12px !important;
   fill: #333 !important;
   font-family: sans-serif;
+}
+
+.gradient-box {
+  background:
+    linear-gradient(90deg,
+      #FB580B 0%,
+      #FB580B 15%,
+      #FC952D 30%,
+      #C95D00 70%,
+      #FB580B 85%,
+      #FB580B 100%);
+}
+
+
+
+.dashboard-calculator-buttons {
+  box-shadow: 0px 0px 3px 0px #626262, inset 0px -1px 3px 0px #747474;
 }

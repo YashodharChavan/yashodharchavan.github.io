@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { useWindowManager } from '../context/WindowManagerContext';
 import DashboardClock from './DashboardClock';
-
+import DashboardCalculator from './DashboardCalculator';
 
 const Dashboard = () => {
     const { registerWindow, minimizeWindow, restoreWindow, windows, closeWindow } = useWindowManager();
@@ -23,6 +23,7 @@ const Dashboard = () => {
 
         <div ref={dashboardRef} className='absolute top-[-24px] z-10 left-0 h-screen w-auto aspect-[4/3] min-w-full bg-[#00000057]' onClick={(e)=> handleDashboardClose(e)}>
             <DashboardClock />
+            <DashboardCalculator />
         </div>
     )
 }

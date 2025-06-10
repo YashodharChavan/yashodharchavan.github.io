@@ -6,7 +6,6 @@ import './component.css';
 const Calculator = () => {
   const [expression, setExpression] = useState('');
   const [operand, setOperand] = useState('')
-  const [result, setResult] = useState('');
   const [operator, setOperator] = useState('')
 
 
@@ -15,8 +14,31 @@ const Calculator = () => {
       setExpression('');
       setOperand('');
       setOperator('');
-      setResult('');
-    } else if (value === '-' || value === '+' || value === 'x' || value === '÷') {
+    }
+
+    else if (value === '±') {
+
+      if (operand === '' || operand === '0') return;
+
+      // Toggle the sign and update both operand and expression
+      const newOperand = (parseFloat(operand) * -1);
+      setOperand(String(newOperand));
+
+      // Update the expression by replacing the last number with its negated version
+      setExpression(prev => {
+        // Handle cases where the number is already in the expression
+        const parts = prev.split(/([-+x÷])/);
+        const lastPart = parts[parts.length - 1];
+
+        if (!isNaN(lastPart)) {
+          parts[parts.length - 1] = String(parseFloat(lastPart) * -1);
+          return parts.join('');
+        }
+        return prev + String(newOperand);
+      });
+    }
+
+    else if (value === '-' || value === '+' || value === 'x' || value === '÷') {
       setExpression(prev => prev + value);
       setOperator(value)
       setOperand('')
@@ -24,9 +46,12 @@ const Calculator = () => {
 
       try {
         const evalResult = eval(expression.replace(/÷/g, '/').replace(/x/g, '*'));
-        setResult(evalResult);
+        if (evalResult < 0) {
+          setOperand(evalResult * -1)
+        }
+        setOperand(evalResult)
       } catch (e) {
-        setResult('Error');
+        setOperand('Error');
       }
     } else {
       setExpression(prev => prev + value);
@@ -62,8 +87,8 @@ const Calculator = () => {
           className="col-span-4 flex flex-col justify-around text-right text-black bg-[#F1FACA] rounded"
           style={{ padding: "0px 8px" }}
         >
-          <p>{result || operand ||'0'}</p>
-          <p style={{ padding: "0px 64px"}}>{operator || ''} &nbsp;</p>
+          <p className='text-lg'>{operand || '0'}</p>
+          <p style={{ padding: "0px 64px" }}>{operator || ''} &nbsp;</p>
         </div>
         {buttons.map((btn, i) => {
           if (btn === '0' && i === buttons.lastIndexOf('0')) {
@@ -78,13 +103,13 @@ const Calculator = () => {
               </button>
             );
           }
-          if(btn === '=' && i === buttons.lastIndexOf('=')) {
+          if (btn === '=' && i === buttons.lastIndexOf('=')) {
             return (
-              <button key={i} className="calc-buttons rounded border row-span-2 font-bold" onClick={() => handleButtonClick(btn) }>{btn}</button>
+              <button key={i} className="calc-buttons rounded border row-span-2 font-bold" onClick={() => handleButtonClick(btn)}>{btn}</button>
             )
           }
 
-          if(btn === '.' && i === buttons.lastIndexOf('.')) {
+          if (btn === '.' && i === buttons.lastIndexOf('.')) {
             return (
               <button key={i} className="calc-buttons rounded border font-bold" onClick={() => handleButtonClick(btn)}>{btn}</button>
             )

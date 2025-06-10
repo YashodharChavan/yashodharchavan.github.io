@@ -56,7 +56,7 @@ const DashboardClock = () => {
     return (
         <div
             ref={clockRef}
-            className="bg-gradient-to-b split-background flex flex-col justify-center items-center h-36 w-36  rounded-lg shadow-md select-none "
+            className="bg-gradient-to-b split-background flex flex-col justify-center items-center h-36 w-36  rounded-lg select-none shadow-[0px_0px_20px_black]"
             style={{
                 position: 'absolute',
                 left: "42%",
