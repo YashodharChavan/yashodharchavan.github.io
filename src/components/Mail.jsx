@@ -142,7 +142,7 @@ const Mail = () => {
             id="mail"
             width="700"
             height="500"
-            minWidth="300"
+            minWidth="550"
             minHeight="300"
             hasPadding={false}
             showDimensions={false}
