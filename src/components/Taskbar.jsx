@@ -12,8 +12,7 @@ import trashBin from '../assets/icons/applications/TrashIcon.ico';
 import calculator from '../assets/icons/applications/Calculator.ico';
 import dictionary from '../assets/icons/applications/Dictionary.ico';
 import textEdit from '../assets/icons/applications/TextEdit.ico';
-import visualStudioCode from '../assets/visual-studio-code.svg'
-
+import xCode from '../assets/icons/applications/XCode.ico';
 
 import { useWindowManager } from '../context/WindowManagerContext';
 const icons = [
@@ -24,7 +23,7 @@ const icons = [
   { id: "dictionary", src: dictionary, name: "Dictionary" },
   { id: "contacts", src: contacts, name: "Contacts" },
   { id: "itunes", src: iTunes, name: "iTunes" },
-  { id: "vscode", src: visualStudioCode, name: "VS Code" },
+  { id: "xcode", src: xCode, name: "XCode" },
   { id: "textedit", src: textEdit, name: "TextEdit" },
   { id: "terminal", src: terminal, name: "Terminal" },
   { id: "calculator", src: calculator, name: "Calculator" },
