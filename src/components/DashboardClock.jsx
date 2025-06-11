@@ -58,12 +58,13 @@ const DashboardClock = () => {
             ref={clockRef}
             className="bg-gradient-to-b split-background flex flex-col justify-center items-center h-36 w-36  rounded-lg select-none shadow-[0px_0px_20px_black]"
             style={{
+                zIndex: isDragging? 100 : 1,
                 position: 'absolute',
                 left: "42%",
                 top: "40%",
                 transform: `translate(${position.x}px, ${position.y}px)`,
                 fontFamily: 'Monaco, "Courier New", monospace',
-                boxShadow: 'inset 0px 0px 0px 2px #050505'
+                // boxShadow: 'inset 0px 0px 0px 2px #050505'
             }}
             onMouseDown={handleMouseDown}
             onClick={(e) => e.stopPropagation()}

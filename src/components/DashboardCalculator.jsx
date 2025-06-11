@@ -89,6 +89,7 @@ const DashboardCalculator = () => {
             ref={clockRef}
             className="flex flex-col gap-y-1.5 items-center h-64 w-44 bg-[#FC952D] gradient-box rounded-lg select-none shadow-[0px_0px_20px_black]"
             style={{
+                zIndex: isDragging? 100: 1,
                 position: 'absolute',
                 left: "20%",
                 top: "33%",
@@ -100,7 +101,7 @@ const DashboardCalculator = () => {
             onClick={(e) => e.stopPropagation()}>
 
             <div className="screen w-full h-11 bg-[#89949B] rounded-lg text-end text-2xl"
-                style={{ boxShadow: 'inset 0px 0px 3px 0px #141414', fontFamily: "Digital-7", padding: "4px 12px" }}>{ operand || 0}</div>
+                style={{ boxShadow: 'inset 0px 0px 3px 0px #141414', fontFamily: "Digital-7", padding: "4px 12px" }}>{ operand.toString().slice(0, 12) || 0}</div>
 
             <div className="buttons w-full flex h-4/5 rounded-lg bg-[#BEBEBE]" style={{ padding: "2px" }}>
 

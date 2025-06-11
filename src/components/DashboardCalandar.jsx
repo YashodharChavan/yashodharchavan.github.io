@@ -36,15 +36,20 @@ const RemainingDashboardCalender = () => {
 
     return (
 
-        <div className="remaining-dashboard-calender grid grid-cols-7 grid-rows-6 bg-[#B80A0A] shadow-[0px_0px_20px_black] h-36 w-48 rounded-br-lg rounded-bl-lg"
-            style={{ padding: "4px 12px" }}
+        <div className="remaining-dashboard-calender grid grid-cols-7 grid-rows-6 bg-[#B80A0A] h-36 w-48 rounded-br-lg rounded-bl-lg"
+            style={{
+                padding: "4px 12px",
+                boxShadow: '0px 12px 20px black'
+             }}
             onClick={(e) => { e.stopPropagation() }}
         >
 
             {dayNames.map((day, index) => {
                 return (
                     <>
-                        <div key={index} className="day flex items-center justify-end font-semibold text-[#EE9556]">{day}</div>
+                        <div key={index} className="day flex items-center justify-end font-semibold text-[#EE9556]" style={{
+                                textShadow: '1px -2px 0px #5e5151'
+                        }}>{day}</div>
                         {/* <hr /> */}
                     </>
                 )
@@ -52,7 +57,9 @@ const RemainingDashboardCalender = () => {
 
             {calenderDays.map((day, index) => (
                 <>
-                    <div key={index} className="day flex items-center justify-end font-semibold text-white">{day}</div>
+                    <div key={index} className="day flex items-center justify-end font-semibold text-white" style={{
+                            textShadow: '1px -2px 0px #5e5151'
+                    }}>{day}</div>
                     {/* <hr /> */}
                 </>
             ))}
@@ -69,35 +76,32 @@ const DashboardCalendar = () => {
     const [dateNumber, setDateNumber] = useState();
     const [day, setDay] = useState();
     const [month, setMonth] = useState();
-    const [toDisplayFullCalender, setToDisplayFullCalender] = useState(false);
-    const [hasDragged, setHasDragged] = useState(false); // Track if dragging occurred
-    const dragStartPosRef = useRef({ x: 0, y: 0 }); // Track starting position for drag detection
+    const [toDisplayFullCalender, setToDisplayFullCalender] = useState(true);
     const calenderRef = useRef(null)
     const areaRef = useRef(null)
+    const wasDragged = useRef(false);
 
 
-    const handleCalenderClick = (e) => {
-        if (hasDragged) {
-            // If a drag occurred, prevent the click from toggling the calendar
-            setHasDragged(false); // Reset drag state
-            return;
-        }
-        setToDisplayFullCalender((prev) => !prev);
+
+   const handleCalenderClick = (e) => {
+    if (wasDragged.current) {
+        return; // Don't toggle calendar if it was a drag
+    }
+
+    setToDisplayFullCalender(prev => {
+        const newState = !prev;
 
         setTimeout(() => {
             if (calenderRef.current) {
-                if (!toDisplayFullCalender) {
-                    // When showing the full calendar, set bottom and top radii to 0
-                    calenderRef.current.style.borderBottomLeftRadius = '0px';
-                    calenderRef.current.style.borderBottomRightRadius = '0px';
-                } else {
-                    // When hiding, reset all radii to match rounded-lg (8px in Tailwind)
-                    calenderRef.current.style.borderBottomLeftRadius = '8px';
-                    calenderRef.current.style.borderBottomRightRadius = '8px';
-                }
+                calenderRef.current.style.borderBottomLeftRadius = newState ? '0px' : '8px';
+                calenderRef.current.style.borderBottomRightRadius = newState ? '0px' : '8px';
             }
         }, 0);
-    };
+
+        return newState;
+    });
+};
+
 
 
     useEffect(() => {
@@ -117,6 +121,7 @@ const DashboardCalendar = () => {
     const handleMouseDown = (e) => {
         e.preventDefault();
         setIsDragging(true);
+        wasDragged.current = false;
         dragStartRef.current = {
             x: e.clientX - position.x,
             y: e.clientY - position.y,
@@ -124,16 +129,22 @@ const DashboardCalendar = () => {
     };
 
     const handleMouseMove = (e) => {
+        const newX = e.clientX - dragStartRef.current.x;
+        const newY = e.clientY - dragStartRef.current.y;
+        const distance = Math.sqrt((newX - position.x) ** 2 + (newY - position.y) ** 2);
+
+        if (distance > 3) {
+            wasDragged.current = true;
+        }
+
         if (isDragging) {
-            const newX = e.clientX - dragStartRef.current.x;
-            const newY = e.clientY - dragStartRef.current.y;
             setPosition({ x: newX, y: newY });
         }
     };
 
+
     const handleMouseUp = () => {
         setIsDragging(false);
-        setHasDragged(true);
     };
 
     useEffect(() => {
@@ -151,6 +162,7 @@ const DashboardCalendar = () => {
         <div
             className="flex flex-col gap-y-1.5 items-center h-24 w-48 bg-[#B80A0A] rounded-lg select-none shadow-[0px_0px_20px_black]"
             style={{
+                zIndex: isDragging? 100: 1,
                 position: 'absolute',
                 left: "61%",
                 top: "33%",

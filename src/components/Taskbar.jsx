@@ -6,12 +6,14 @@ import mail from "../assets/icons/applications/Mail.ico";
 import safari from "../assets/icons/applications/Safari.ico";
 import contacts from "../assets/icons/applications/Contacts.ico";
 import iTunes from '../assets/icons/applications/iTunes.ico';
-import iPhotos from '../assets/icons/applications/iPhoto.ico';
+// import iPhotos from '../assets/icons/applications/iPhoto.ico';
 import terminal from '../assets/icons/applications/Terminal.ico';
 import trashBin from '../assets/icons/applications/TrashIcon.ico';
 import calculator from '../assets/icons/applications/Calculator.ico';
 import dictionary from '../assets/icons/applications/Dictionary.ico';
 import textEdit from '../assets/icons/applications/TextEdit.ico';
+import visualStudioCode from '../assets/visual-studio-code.svg'
+
 
 import { useWindowManager } from '../context/WindowManagerContext';
 const icons = [
@@ -22,7 +24,7 @@ const icons = [
   { id: "dictionary", src: dictionary, name: "Dictionary" },
   { id: "contacts", src: contacts, name: "Contacts" },
   { id: "itunes", src: iTunes, name: "iTunes" },
-  { id: "iphotos", src: iPhotos, name: "iPhotos" },
+  { id: "vscode", src: visualStudioCode, name: "VS Code" },
   { id: "textedit", src: textEdit, name: "TextEdit" },
   { id: "terminal", src: terminal, name: "Terminal" },
   { id: "calculator", src: calculator, name: "Calculator" },

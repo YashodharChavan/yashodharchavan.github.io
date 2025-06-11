@@ -14,7 +14,7 @@ import Dictionary from './Dictionary';
 import Safari from './Safari';
 import Mail from './Mail';
 import Dashboard from './Dashboard';
-
+import VSCode from './VSCode';
 const Desktop = () => {
 
   // Initial icons with IDs and labels
@@ -99,6 +99,7 @@ const Desktop = () => {
         {openWindows['safari'] && <Safari />}
         {openWindows['mail'] && <Mail />}
         {openWindows['dashboard'] && <Dashboard />}
+        {openWindows['vscode'] && <VSCode />}
       </div>
       <Taskbar />
     </>
