@@ -387,20 +387,34 @@
 
 
 
-/* Hide scrollbar for all browsers */
 .scrollbar-hide {
-  scrollbar-width: none; /* Firefox */
-  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none; 
+  -ms-overflow-style: none;
 }
 
 .scrollbar-hide::-webkit-scrollbar {
-  display: none;  /* Chrome, Safari and Opera */
+  display: none;  
 }
 
 code {
   padding: 0px!important;
+  font-family: 'Monaco', monospace !important;
+  cursor: text !important;
 }
 
 pre {
   margin: 0px !important;
+}
+
+.folder-toggle {
+  background: #3875D7;
+  color: white;
+
+}
+
+.svg-container svg {
+  max-height: 80%;
+  height: 80%;
+  width: 80%;
+  margin: 0px auto;
 }

@@ -16,8 +16,10 @@ function CodeViewer({ content, language }) {
       customStyle={{
         background: 'white',
         fontSize: '14px',
-        height: "95%", 
-        width: "100%"
+        height: "96%",
+        width: "100%",
+        whiteSpace: 'pre-wrap',
+        fontFamily: 'Monaco'    // Forces wrapping
       }}
     >
       {content}
@@ -35,7 +37,9 @@ const Xcode = () => {
   const COLLAPSE_THRESHOLD = 100;
   const [fileContent, setFileContent] = useState('');
   const [currentFileURL, setCurrentFileURL] = useState('')
-  const [currentFileName, setCurrentFileName] = useState('index.html')
+  const [currentFileName, setCurrentFileName] = useState()
+  const [imageURL, setImageURL] = useState()
+  const [isSVG, setIsSVG] = useState(false)
 
   const startResizing = (e) => {
     isResizing.current = true;
@@ -46,10 +50,40 @@ const Xcode = () => {
 
 
   useEffect(() => {
-    fetch(currentFileURL).then(res => res.text()).then(setFileContent)
-    setCurrentFileName(currentFileURL.split('/').pop())
-    
-  }, [currentFileURL])
+    if (!currentFileURL) return;
+
+    const fileExt = currentFileURL.split('.').pop().toLowerCase();
+
+    if (['png', 'jpg', 'jpeg', 'gif', 'ico', 'bmp', 'webp'].includes(fileExt)) {
+      // Binary image file
+      setIsSVG(false)
+      fetch(currentFileURL)
+        .then(res => res.blob())
+        .then(blob => {
+          const imageUrl = URL.createObjectURL(blob);
+          setFileContent(`<img src="${imageUrl}" alt="Image file" />`);
+          setCurrentFileName(currentFileURL.split('/').pop());
+          setImageURL(imageUrl);
+        });
+    } else if (['svg'].includes(fileExt)) {
+      fetch(currentFileURL)
+        .then(res => res.text())
+        .then(text => {
+          setFileContent(text);
+          setCurrentFileName(currentFileURL.split('/').pop());
+          setIsSVG(true)
+        });
+    } else {
+      setImageURL('')
+      setIsSVG(false)
+      fetch(currentFileURL)
+        .then(res => res.text())
+        .then(text => {
+          setFileContent(text);
+          setCurrentFileName(currentFileURL.split('/').pop());
+        });
+    }
+  }, [currentFileURL]);
 
 
 
@@ -91,8 +125,8 @@ const Xcode = () => {
       icon="xcode"
       height="450"
       width="700"
-      minWidth="400"
-      minHeight="300"
+      minWidth="600"
+      minHeight="400"
       isResizable={true}
       hasPadding={false}
       hasDrawer={false}
@@ -101,29 +135,30 @@ const Xcode = () => {
       <div ref={containerRef} className="xcode flex w-full h-full">
 
 
-        <div className="sidebar h-full overflow-hidden whitespace-nowrap text-ellipsis bg-red-400 flex flex-col overflow-y-scroll scrollbar-hide" style={{ width: sidebarWidth }}>
-
-          {/* <div className="folder flex gap-x-1 items-center px-2 py-1 hover:bg-red-300 cursor-default">
-            <img src={genericFolder} alt="" className="h-5 w-5 flex-shrink-0" />
-            <p
-              className="overflow-hidden whitespace-nowrap text-ellipsis text-sm"
-              style={{ maxWidth: '100%' }}
-              title="mac-os-10.4-X-Tiger"
-            >
-            </p>
-
-          </div> */}
+        <div className="sidebar h-full overflow-hidden whitespace-nowrap text-ellipsis flex flex-col overflow-y-scroll scrollbar-hide" style={{ width: sidebarWidth }}>
 
           <Folder currentFileURL={currentFileURL} setCurrentFileURL={setCurrentFileURL} />
 
 
         </div>
-        <div className="w-1.5 h-full bg-white cursor-col-resize flex justify-center items-center"
+        <div className="w-1.5 h-full bg-[#D8D8D8] cursor-col-resize flex justify-center items-center"
           onMouseDown={startResizing}
-        >.</div>
-        <div className="code-section w-full h-full overflow-y-hidden bg-blue-400">
-          <div className="bg-white w-fit-h-fit border rounded-md" style={{padding: "2px 4px"}}>{currentFileName}</div>
-          <CodeViewer content={fileContent} />
+        ></div>
+        <div className="code-section w-full h-full overflow-y-hidden">
+
+          {currentFileName && <div className="bg-white w-fit h-fit border rounded-md select-none" style={{ padding: "4px 8px", margin: "0px 28px" }}>{currentFileName}</div>
+          }
+
+
+          {(imageURL && !isSVG) && <img draggable={false} src={imageURL} alt="Image file" style={{ maxWidth: "100%", maxHeight: "100%", margin: 'auto auto' }} />}
+          {isSVG && (
+            <div
+              className="svg-container"
+              dangerouslySetInnerHTML={{ __html: fileContent }}
+              style={{ width: "100%", height: '100%', overflow: 'auto', padding: '12px' }}
+            />
+          )}
+          {(!imageURL && !isSVG) && <CodeViewer content={fileContent} />}
         </div>
 
       </div>
