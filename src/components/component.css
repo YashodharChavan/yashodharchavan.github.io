@@ -384,3 +384,23 @@
 .dashboard-calculator-buttons {
   box-shadow: 0px 0px 3px 0px #626262, inset 0px -1px 3px 0px #747474;
 }
+
+
+
+/* Hide scrollbar for all browsers */
+.scrollbar-hide {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none;  /* IE and Edge */
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;  /* Chrome, Safari and Opera */
+}
+
+code {
+  padding: 0px!important;
+}
+
+pre {
+  margin: 0px !important;
+}
