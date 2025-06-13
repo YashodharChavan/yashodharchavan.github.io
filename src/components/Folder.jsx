@@ -12,7 +12,7 @@ const TreeNode = ({ node, currentFileURL, setCurrentFileURL }) => {
 
     const handleFileClick = (node) => {
     if (node.download_url) {
-        setCurrentFileURL(node.download_url); // No headers needed
+        setCurrentFileURL(node.download_url); 
     }
 };
 

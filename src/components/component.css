@@ -418,3 +418,13 @@ pre {
   width: 80%;
   margin: 0px auto;
 }
+
+.tab {
+  padding: 4px 12px;
+
+}
+
+.tab:hover {
+  background: #505050;
+  
+}

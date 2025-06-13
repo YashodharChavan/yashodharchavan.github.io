@@ -15,6 +15,8 @@ import Safari from './Safari';
 import Mail from './Mail';
 import Dashboard from './Dashboard';
 import Xcode from './Xcode';
+import AboutMe from './AboutMe';
+
 const Desktop = () => {
 
   // Initial icons with IDs and labels
@@ -100,6 +102,7 @@ const Desktop = () => {
         {openWindows['mail'] && <Mail />}
         {openWindows['dashboard'] && <Dashboard />}
         {openWindows['xcode'] && <Xcode />}
+        {openWindows['aboutme'] && <AboutMe />}
       </div>
       <Taskbar />
     </>

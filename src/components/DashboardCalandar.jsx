@@ -38,7 +38,7 @@ const RemainingDashboardCalender = () => {
 
         <div className="remaining-dashboard-calender grid grid-cols-7 grid-rows-6 bg-[#B80A0A] h-36 w-48 rounded-br-lg rounded-bl-lg"
             style={{
-                padding: "4px 12px",
+                padding: '4px 12px 4px 6px',
                 boxShadow: '0px 12px 20px black'
              }}
             onClick={(e) => { e.stopPropagation() }}

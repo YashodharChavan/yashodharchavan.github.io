@@ -146,7 +146,7 @@ const Xcode = () => {
         ></div>
         <div className="code-section w-full h-full overflow-y-hidden">
 
-          {currentFileName && <div className="bg-white w-fit h-fit border rounded-md select-none" style={{ padding: "4px 8px", margin: "0px 28px" }}>{currentFileName}</div>
+          {currentFileName && <div className="bg-white w-fit h-fit border text-sm border-gray-400 rounded-md select-none" style={{ padding: "4px 8px", margin: "0px 28px", fontFamily: "Monaco" }}>{currentFileName}</div>
           }
 
 
