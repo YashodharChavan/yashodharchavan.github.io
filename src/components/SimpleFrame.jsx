@@ -3,7 +3,7 @@ import './component.css';
 import cornerStone from '../assets/cornerStone.svg';
 import { useWindowManager } from '../context/WindowManagerContext';
 
-const SimpleFrame = ({ title, children, hasDrawer, id, icon, height, width, minWidth, minHeight, showDimensions, optionalBackground, isResizable=true, hasPadding = true, setOverflowY = true, onResizing = () => {}, exitFlag=false}) => {
+const SimpleFrame = ({ title, children, hasDrawer, id, icon, height, width, minWidth, minHeight, showDimensions, optionalBackground, isResizable=true, hasPadding = true, setOverflowY = true, onResizing = () => {}, exitFlag=false, setIsSidebarOpen=null, isSidebarOpen=null}) => {
 
   const [isAtFront, setIsAtFront] = useState(false);
   const frameRef = useRef(null);
@@ -28,8 +28,10 @@ const SimpleFrame = ({ title, children, hasDrawer, id, icon, height, width, minW
   useEffect(() => {
     registerWindow(id, title, icon);
   }, [id, title, icon, registerWindow]);
+
   const startResizing = (e, type) => {
     e.stopPropagation();
+    console.log("hello world I am invoked per click")
     e.preventDefault();
     resizeRef.current = {
       type,
@@ -258,7 +260,13 @@ const SimpleFrame = ({ title, children, hasDrawer, id, icon, height, width, minW
           <span className="title select-none">{title}</span>
         )}
         {hasDrawer ? (
-          <button className="drawer-toggle bg-gray-600 p-1 rounded">≡</button>
+          <button className="drawer-toggle rounded-lg w-7 h-3 outline outline-gray-400"
+            style={{background: "linear-gradient(to bottom, #b2b2b2, #e1e1e1)", boxShadow: "inset 0px -1px 3px 0px #e1e1e1"}}
+            onClick={(e)=> {
+              setIsSidebarOpen(!isSidebarOpen)
+            }}
+
+          ></button>
         ) : (
           <div className="w-16"></div>
         )}

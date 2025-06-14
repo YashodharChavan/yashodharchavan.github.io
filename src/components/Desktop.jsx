@@ -16,6 +16,7 @@ import Mail from './Mail';
 import Dashboard from './Dashboard';
 import Xcode from './Xcode';
 import AboutMe from './AboutMe';
+import Finder from './Finder';
 
 const Desktop = () => {
 
@@ -103,6 +104,7 @@ const Desktop = () => {
         {openWindows['dashboard'] && <Dashboard />}
         {openWindows['xcode'] && <Xcode />}
         {openWindows['aboutme'] && <AboutMe />}
+        {openWindows['finder'] && <Finder />}
       </div>
       <Taskbar />
     </>

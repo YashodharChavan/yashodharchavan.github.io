@@ -18,7 +18,7 @@ const Terminal = () => {
     const newHistory = [...history];
     newHistory.push({
       type: 'command',
-      content: `${getPromptPath()}$ ${command}`
+      content: `${getPromptPath()}# ${command}`
     });
 
     const output = runCommand(command);
@@ -84,7 +84,7 @@ const Terminal = () => {
           </div>
         ))}
         <div className="flex">
-          <span className="mr-1">{`${getPromptPath()}$`}</span>
+          <span className="mr-1">{`${getPromptPath()}#`}</span>
           <input
             ref={inputRef}
             type="text"

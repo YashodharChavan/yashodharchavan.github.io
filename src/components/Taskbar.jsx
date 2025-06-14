@@ -22,7 +22,7 @@ const icons = [
   { id: "safari", src: safari, name: "Safari" },
   { id: "dictionary", src: dictionary, name: "Dictionary" },
   { id: "contacts", src: contacts, name: "Contacts" },
-  { id: "aboutme", src: aboutme, name: "AboutMe" },
+  { id: "aboutme", src: aboutme, name: "About Me" },
   { id: "xcode", src: xCode, name: "XCode" },
   { id: "textedit", src: textEdit, name: "TextEdit" },
   { id: "terminal", src: terminal, name: "Terminal" },

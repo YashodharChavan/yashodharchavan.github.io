@@ -1,23 +1,9 @@
 // utils/commandProcessor.js
 
 // Simulated File System
-const fileSystem = {
-    '/': {
-        type: 'dir',
-        children: {
-            home: {
-                type: 'dir',
-                children: {
-                    yashodhar: { type: 'dir', children: {} }
-                }
-            },
-            etc: { type: 'dir', children: {} },
-            'file.txt': { type: 'file', content: 'Hello World' }
-        }
-    }
-};
+import { fileSystem } from "./fileSystem.js";
 
-let currentPath = ['/'];
+let currentPath = ['/', 'Users', 'yashodhar'];
 
 function getCurrentDir() {
     let dir = fileSystem['/'];
@@ -28,7 +14,8 @@ function getCurrentDir() {
 }
 
 function getPromptPath() {
-    return currentPath.length === 1 ? '~' : currentPath.slice(1).join('/');
+    if (currentPath.join('/') === '/Users/yashodhar') return '~';
+    return currentPath.slice(1).join('/');
 }
 
 function printTree(node, prefix = '') {

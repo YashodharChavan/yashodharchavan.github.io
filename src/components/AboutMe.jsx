@@ -5,12 +5,12 @@ import './component.css'
 
 
 const AboutMe = () => {
-    const [sidebarWidth, setSidebarWidth] = useState(250);
+    const [sidebarWidth, setSidebarWidth] = useState(150);
     const isResizing = useRef(false);
     const startX = useRef(0);
     const startWidth = useRef(0);
     const COLLAPSE_THRESHOLD = 100;
-
+    const [currentPage, setCurrentPage] = useState("about me");
 
     const startResizing = (e) => {
         isResizing.current = true;
@@ -65,25 +65,35 @@ const AboutMe = () => {
             <div className="xcode flex w-full h-full">
 
 
-                <div className="sidebar h-full overflow-hidden whitespace-nowrap text-ellipsis gap-y-1 flex flex-col overflow-y-scroll scrollbar-hide" style={{ width: sidebarWidth }}>
+                <div className="sidebar h-full overflow-hidden whitespace-nowrap select-none text-ellipsis gap-y-1 flex flex-col overflow-y-scroll scrollbar-hide" style={{ width: sidebarWidth }}>
 
-                    <div className="mail-option h-11 flex items-center gap-x-2 hover:bg-[#A2B2CA]" style={{ padding: "4px" }}>
+                    <div className="mail-option h-11 flex items-center gap-x-2 hover:bg-[#A2B2CA]" style={{ padding: "4px" }}
+                        onClick={()=> setCurrentPage("about me")}
+                    >
                         <p>About Me</p>
                     </div>
 
-                    <div className="mail-option h-11 flex items-center gap-x-2 hover:bg-[#A2B2CA]" style={{ padding: "4px" }}>
+                    <div className="mail-option h-11 flex items-center gap-x-2 hover:bg-[#A2B2CA]" style={{ padding: "4px" }}
+                        onClick={()=> setCurrentPage("education")}
+                    >
                         <p>Education</p>
                     </div>
 
-                    <div className="mail-option h-11 flex items-center gap-x-2 hover:bg-[#A2B2CA]" style={{ padding: "4px" }}>
+                    <div className="mail-option h-11 flex items-center gap-x-2 hover:bg-[#A2B2CA]" style={{ padding: "4px" }}
+                        onClick={()=> setCurrentPage("skills")}
+                    >
                         <p>Skills</p>
                     </div>
 
-                    <div className="mail-option h-11 flex items-center gap-x-2 hover:bg-[#A2B2CA]" style={{ padding: "4px" }}>
+                    <div className="mail-option h-11 flex items-center gap-x-2 hover:bg-[#A2B2CA]" style={{ padding: "4px" }}
+                        onClick={()=> setCurrentPage("projects")}
+                    >
                         <p>Projects</p>
                     </div>
 
-                    <div className="mail-option h-11 flex items-center gap-x-2 hover:bg-[#A2B2CA]" style={{ padding: "4px" }}>
+                    <div className="mail-option h-11 flex items-center gap-x-2 hover:bg-[#A2B2CA]" style={{ padding: "4px" }}
+                        onClick={()=> setCurrentPage("resume")}
+                    >
                         <p>Resume</p>
                     </div>
 
@@ -92,7 +102,8 @@ const AboutMe = () => {
                     onMouseDown={startResizing}
                 ></div>
                 <div className="code-section bg-blue-400 w-full h-full overflow-y-hidden">
-
+                    I need to do plans with design of this website. For now I will look at finder
+                    {currentPage}
                 </div>
 
             </div>
