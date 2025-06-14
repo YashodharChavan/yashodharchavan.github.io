@@ -4,8 +4,8 @@ import { useWindowManager } from '../context/WindowManagerContext';
 import background from '../assets/background.png';
 import TopBar from './TopBar';
 import Taskbar from './Taskbar';
-import hardDrive from '../assets/icons/folders/Hard Drive.ico';
-import genericFolder from '../assets/icons/folders/GenericFolderIcon.ico';
+import hardDrive from '../assets/folders/Hard Drive.ico';
+import genericFolder from '../assets/folders/GenericFolderIcon.ico';
 import Terminal from "./Terminal"; 
 import Calculator from './Calculator';
 import Contacts from './Contacts'

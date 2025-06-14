@@ -10,14 +10,15 @@ import sitesFolder from '../../assets/folders/SitesFolderIcon.ico'
 import readOnlyFolder from '../../assets/folders/ReadOnlyFolderIcon.ico'
 import userFolder from '../../assets/folders/UsersFolderIcon.ico'
 import applicationFolder from '../../assets/folders/ApplicationsFolderIcon.ico'
-
+import txt from '../../assets/folders/TXT.ico'
+import clippingText from '../../assets/folders/ClippingText.ico'
 
 
 const fileSystem = {
   '/': {
     type: 'dir',
     children: {
-      Applications: { type: 'dir', children: {} },
+      Applications: { type: 'dir', children: {}, },
       System: {
         type: 'dir',
         children: {
@@ -54,6 +55,10 @@ const fileSystem = {
   }
 };
 
+for(let i=0; i<fileSystem.length; i++) {
+  console.log(i)
+}
+
 
 const rootFileOptions = [
     { label: "Movies", icon: movieFolder },
@@ -69,7 +74,10 @@ const rootFileOptions = [
     { label: "Users", icon: userFolder },
     { label: "Applications", icon: applicationFolder },
     { label: "Desktop", icon: applicationFolder },
+    { label: ".txt", icon: txt },
+    { label: ".md", icon: clippingText },
 ]
+
 
 
 export { fileSystem, rootFileOptions }
