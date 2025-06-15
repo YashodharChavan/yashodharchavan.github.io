@@ -1,7 +1,4 @@
-import { fileSystem } from './fileSystem';
-
-// Utility to get the node at a given path
-const getNodeAtPath = (path) => {
+const getNodeAtPath = (path, fileSystem) => {
   if (path === '/') return fileSystem['/'];
 
   const parts = path.split('/').filter((part) => part !== '');
@@ -9,7 +6,7 @@ const getNodeAtPath = (path) => {
 
   for (const part of parts) {
     if (!currentNode || currentNode.type !== 'dir' || !currentNode.children[part]) {
-      return null; // Path not found
+      return null;
     }
     currentNode = currentNode.children[part];
   }

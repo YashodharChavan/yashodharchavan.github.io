@@ -2,8 +2,6 @@ import { useEffect, useState } from "react";
 import BootScreen from "./components/BootScreen";
 import React from "react";
 import Desktop from "./components/Desktop";
-import { WindowManagerProvider } from './context/WindowManagerContext';
-
 // In App.jsx or Desktop.jsx
 
 

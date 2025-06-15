@@ -4,11 +4,14 @@ import './index.css'
 import App from './App.jsx'
 import React from 'react'
 import { WindowManagerProvider } from './context/WindowManagerContext';
-
+import { FileSystemProvider } from './context/FileSystemContext';
 
 createRoot(document.getElementById('root')).render(
 
     <WindowManagerProvider>
-      <App />
+      <FileSystemProvider>
+
+        <App />
+      </FileSystemProvider>
     </WindowManagerProvider>
 )

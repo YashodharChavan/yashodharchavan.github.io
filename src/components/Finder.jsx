@@ -14,9 +14,11 @@ import Movie from '../assets/folders/ToolbarMovieFolderIcon.ico';
 import Music from '../assets/folders/ToolBarMusicFolderIcon.ico';
 import Pictures from '../assets/folders/ToolbarPicturesFolderIcon.ico';
 import FileSystemFolder from './FileSystemFolder.jsx';
+import { useFileSystem } from '../context/FileSystemContext.jsx';
 import { getNodeAtPath } from './Utils/fileSystemUtils';
 
 const Finder = () => {
+  const { fileSystem } = useFileSystem();
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [sidebarWidth, setSidebarWidth] = useState(150);
   const isResizing = useRef(false);
@@ -27,6 +29,7 @@ const Finder = () => {
   const [fileSystemPath, setFileSystemPath] = useState('/');
 
   const options = [
+    { label: 'Macintosh HD', icon: hardDrive, path: '/' },
     { label: 'Network', icon: genericNetwork },
     { label: 'Mac OS X Tiger', icon: hardDrive },
     { label: 'Mac OS X Tiger', icon: Dvd },
@@ -73,10 +76,8 @@ const Finder = () => {
     };
   }, []);
 
-  // Get the current node based on the fileSystemPath
-  const currentNode = getNodeAtPath(fileSystemPath);
+  const currentNode = getNodeAtPath(fileSystemPath, fileSystem);
 
-  // Generate breadcrumbs for navigation
   const pathParts = fileSystemPath === '/' ? ['/'] : fileSystemPath.split('/').filter(part => part !== '');
   const breadcrumbs = pathParts.map((part, index) => {
     const pathUpToIndex = index === 0 && part === '/' ? '/' : `/${pathParts.slice(0, index + 1).join('/')}`;
@@ -156,8 +157,8 @@ const Finder = () => {
                   }}
                   onClick={() => {
                     setIconIndex(index);
-                    // Navigate to the corresponding path if it exists
                     const labelToPathMap = {
+                      'Macintosh HD': '/',
                       'Yashodhar': '/Users/yashodhar',
                       'Desktop': '/Users/yashodhar/Desktop',
                       'Applications': '/Applications',
@@ -166,7 +167,7 @@ const Finder = () => {
                       'Music': '/Users/yashodhar/Music',
                       'Pictures': '/Users/yashodhar/Pictures',
                     };
-                    const newPath = labelToPathMap[element.label] || '/';
+                    const newPath = labelToPathMap[element.label] || element.path || '/';
                     setFileSystemPath(newPath);
                   }}
                 >
@@ -184,8 +185,7 @@ const Finder = () => {
         )}
 
         <div className="code-section bg-white w-full h-full overflow-y-auto outline-gray-500 outline">
-          {/* Breadcrumb Navigation */}
-          <div className="breadcrumb flex items-center p-2 select-none border-b border-gray-300">
+          <div className="breadcrumb flex items-center p-2 border-b border-gray-300">
             {breadcrumbs.map((crumb, index) => (
               <div key={index} className="flex items-center">
                 <span
@@ -199,7 +199,6 @@ const Finder = () => {
             ))}
           </div>
 
-          {/* Render the current directory's contents */}
           {currentNode ? (
             <FileSystemFolder
               node={currentNode}
