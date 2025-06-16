@@ -19,6 +19,8 @@ import AboutMe from './AboutMe';
 import Finder from './Finder';
 import { rootFileOptions } from './Utils/fileSystem.js';
 import { useFileSystem } from '../context/FileSystemContext.jsx';
+import txt from '../assets/folders/TXT.ico';
+import { fileSystem } from './Utils/fileSystem.js';
 
 const Desktop = () => {
   const { fileSystem } = useFileSystem();
@@ -30,25 +32,29 @@ const Desktop = () => {
   const [dropTargetId, setDropTargetId] = useState(null);
 
   const getIconForNode = (name, type) => {
+
     if (type === 'dir') {
       const match = rootFileOptions.find(opt => opt.label.toLowerCase() === name.toLowerCase());
       return match ? match.icon : genericFolder;
     } else if (type === 'file') {
       const extension = '.' + name.split('.').pop().toLowerCase();
-      const match = rootFileOptions.find(opt => opt.label === extension);
-      return match ? match.icon : genericFolder;
+      if (extension === '.md') {
+        const mdMatch = rootFileOptions.find(opt => opt.label === '.md');
+        return mdMatch.icon; // Returns clippingText for .md files
+      }
+      return txt; // Default to txt icon for all other files
     }
-    return genericFolder;
+    return txt; // Fallback for unexpected types
   };
 
+
   useEffect(() => {
-    console.log('Desktop File Tree:', desktopFileTree);
 
     let initialIcons = [];
     if (Object.keys(desktopFileTree).length === 0) {
       initialIcons = [
-        { id: '0', name: 'Hard Drive', type: 'dir', src: hardDrive },
-        { id: '1', name: 'Generic Folder', type: 'dir', src: genericFolder },
+        // { id: '0', name: 'Hard Drive', type: 'dir', src: hardDrive },
+        // { id: '1', name: 'Generic Folder', type: 'dir', src: genericFolder },
       ];
     } else {
       initialIcons = Object.keys(desktopFileTree).map((key, index) => {
@@ -67,50 +73,42 @@ const Desktop = () => {
       initialPositions[icon.id] = index;
     });
 
-    console.log('Setting Icons:', initialIcons);
-    console.log('Setting Positions:', initialPositions);
     setIcons(initialIcons);
     setPositions(initialPositions);
-  }, [JSON.stringify(desktopFileTree)]); // Use stringified version to detect deep changes
+  }, [JSON.stringify(desktopFileTree)]);
 
-  const { openWindows, openWindow } = useWindowManager();
+  const { openWindows, openWindow, optionalText, optionalTitle } = useWindowManager();
 
   const handleDragStart = (id, e) => {
     e.dataTransfer.setData('text/plain', id);
     e.dataTransfer.effectAllowed = 'move';
     setDraggedId(id);
-    console.log('Drag started:', id);
   };
 
   const handleDragEnd = () => {
     setDraggedId(null);
     setDropTargetId(null);
-    console.log('Drag ended');
   };
 
   const handleDragOver = (index, e) => {
     e.preventDefault();
     e.dataTransfer.dropEffect = 'move';
     setDropTargetId(index);
-    console.log('Dragging over index:', index);
   };
 
   const handleDragEnter = (index, e) => {
     e.preventDefault();
     setDropTargetId(index);
-    console.log('Drag entered index:', index);
   };
 
   const handleDragLeave = (index, e) => {
     e.preventDefault();
     setDropTargetId(null);
-    console.log('Drag left index:', index);
   };
 
   const handleDrop = (targetIndex, e) => {
     e.preventDefault();
     const draggedId = e.dataTransfer.getData('text/plain');
-    console.log(`Dropped ${draggedId} onto index ${targetIndex}`);
 
     if (draggedId === null) {
       setDraggedId(null);
@@ -138,7 +136,6 @@ const Desktop = () => {
       updatedPositions[draggedId] = targetIndex;
     }
 
-    console.log('Updated Positions after drop:', updatedPositions);
     setPositions(updatedPositions);
     setDraggedId(null);
     setDropTargetId(null);
@@ -148,7 +145,7 @@ const Desktop = () => {
     if (icon.type === 'dir') {
       openWindow('finder');
     } else if (icon.type === 'file') {
-      openWindow('textedit');
+      openWindow('textedit', "", "", desktopFileTree[icon.name].content, icon.name);
     }
   };
 
@@ -177,9 +174,8 @@ const Desktop = () => {
             return (
               <div
                 key={index}
-                className={`icon-container flex flex-col items-center justify-center p-1 w-full h-full ${
-                  dropTargetId === index ? 'bg-gray-200 rounded' : ''
-                }`}
+                className={`icon-container flex flex-col items-center justify-center p-1 w-full h-full ${dropTargetId === index ? 'bg-gray-200 rounded' : ''
+                  }`}
                 onDragOver={(e) => handleDragOver(index, e)}
                 onDragEnter={(e) => handleDragEnter(index, e)}
                 onDragLeave={(e) => handleDragLeave(index, e)}
@@ -219,7 +215,7 @@ const Desktop = () => {
         {openWindows['terminal'] && <Terminal />}
         {openWindows['calculator'] && <Calculator />}
         {openWindows['contacts'] && <Contacts />}
-        {openWindows['textedit'] && <TextEdit />}
+        {openWindows['textedit'] && <TextEdit title={optionalTitle} optionalText={optionalText} />}
         {openWindows['dictionary'] && <Dictionary />}
         {openWindows['safari'] && <Safari />}
         {openWindows['mail'] && <Mail />}

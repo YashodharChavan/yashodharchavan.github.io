@@ -128,8 +128,9 @@ function createCommandProcessor(fileSystemRef, updateFileSystem, currentPath, up
                 const content = args.slice(1).join(' ');
                 if (!content) return 'write: missing content to write';
                 const dir = getCurrentDir();
-                dir.children[fileName] = { type: 'file', content };
+                dir.children[fileName] = { type: 'file', content:content };
                 updateFileSystem({ ...fileSystemRef });
+                console.log(dir.children[fileName])
                 return '';
             }
 

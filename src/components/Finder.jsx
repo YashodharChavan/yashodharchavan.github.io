@@ -29,8 +29,7 @@ const Finder = () => {
   const [fileSystemPath, setFileSystemPath] = useState('/');
 
   const options = [
-    { label: 'Macintosh HD', icon: hardDrive, path: '/' },
-    { label: 'Network', icon: genericNetwork },
+    { label: 'Network', icon: genericNetwork, path:"/" },
     { label: 'Mac OS X Tiger', icon: hardDrive },
     { label: 'Mac OS X Tiger', icon: Dvd },
     { label: 'Desktop', icon: Desktop },
@@ -185,7 +184,7 @@ const Finder = () => {
         )}
 
         <div className="code-section bg-white w-full h-full overflow-y-auto outline-gray-500 outline">
-          <div className="breadcrumb flex items-center p-2 border-b border-gray-300">
+          <div className="breadcrumb flex items-center p-2 border-b select-none border-gray-300">
             {breadcrumbs.map((crumb, index) => (
               <div key={index} className="flex items-center">
                 <span

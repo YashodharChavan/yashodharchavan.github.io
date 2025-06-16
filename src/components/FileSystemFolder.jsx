@@ -1,9 +1,12 @@
 import React from 'react';
 import { rootFileOptions } from './Utils/fileSystem';
+import { useWindowManager } from '../context/WindowManagerContext';
 
 const FileSystemFolder = ({ node, path, setFileSystemPath }) => {
   if (!node || node.type !== 'dir') return null;
-
+  
+  
+    const { openWindows, openWindow } = useWindowManager();
   const children = Object.entries(node.children);
 
   // Find the appropriate icon for a file or folder
@@ -41,7 +44,7 @@ const FileSystemFolder = ({ node, path, setFileSystemPath }) => {
                 setFileSystemPath(newPath);
               }
               else if(child.type==='file') {
-
+                openWindow('textedit', "", "", child.content, name);
               }
             }}
           >

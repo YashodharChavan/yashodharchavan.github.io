@@ -74,8 +74,8 @@ const rootFileOptions = [
     { label: "Users", icon: userFolder },
     { label: "Applications", icon: applicationFolder },
     { label: "Desktop", icon: applicationFolder },
-    { label: ".txt", icon: txt },
     { label: ".md", icon: clippingText },
+    { label: ".txt", icon: txt },
 ]
 
 

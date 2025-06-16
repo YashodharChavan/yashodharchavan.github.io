@@ -6,6 +6,8 @@ export const WindowManagerProvider = ({ children }) => {
   const [windows, setWindows] = useState([]);  // Registered windows
   const [openWindows, setOpenWindows] = useState({});  // id -> open status
   const [focusedWindowId, setFocusedWindowId] = useState(null);
+  const [optionalText, setOptionalText] = useState('');
+  const [optionalTitle, setOptionalTitle] = useState('');
 
 
   // Register window only once
@@ -17,8 +19,13 @@ export const WindowManagerProvider = ({ children }) => {
   };
 
   // Open window and register if needed
-  const openWindow = (id, title, icon) => {
+  const openWindow = (id, title, icon, parameterText, parameterTitle) => {
     registerWindow(id, title, icon);
+    if(id==='textedit') {
+      setOptionalText(parameterText);
+      setOptionalTitle(parameterTitle);
+      
+    }
     setOpenWindows(prev => ({ ...prev, [id.toLowerCase()]: true }));
   };
 
@@ -56,6 +63,8 @@ export const WindowManagerProvider = ({ children }) => {
       registerWindow,
       focusedWindowId,
       setFocusedWindowId,
+      optionalText, 
+      optionalTitle
     }}>
       {children}
     </WindowManagerContext.Provider>
