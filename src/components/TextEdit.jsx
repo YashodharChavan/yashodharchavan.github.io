@@ -2,37 +2,62 @@ import React, { useEffect, useState, useRef } from 'react';
 import SimpleFrame from './SimpleFrame';
 import './component.css';
 import { fileSystem } from './Utils/fileSystem';
-const TextEdit = ({ title="Untitled", optionalText=""}) => {
-    const [text, setText] = useState(optionalText)
+const TextEdit = ({ title = "Untitled.txt", optionalText = "" }) => {
+
+    const [fileNode, setFileNode] = useState(findFileNode(fileSystem, title));
+
+    const [text, setText] = useState(fileNode?.content || optionalText);
+
+    const createFileInDesktop = () => {
+        const desktop =
+            fileSystem['/'].children.Users.children.yashodhar.children.Desktop.children;
+        if (!desktop[title]) {
+            desktop[title] = {
+                type: 'file',
+                content: optionalText,
+            };
+            console.log(`Created new file '${title}' in Desktop`);
+        }
+        return desktop[title];
+    };
 
     const textareaRef = useRef(null);
 
 
-    const handleTextChange = (e) => {
-        setText(e)
+    function findFileNode(fileSystem, filename) {
 
+        function searchDir(dir) {
+            for (const [key, value] of Object.entries(dir)) {
+                if (value.type === 'file' && key === filename) {
+                    return value;
+                } else if (value.type === 'dir') {
+                    const found = searchDir(value.children);
+                    if (found) return found;
+                }
+            }
+            return null;
+        }
+        return searchDir(fileSystem['/'].children);
     }
 
-    useEffect(() => {
-        const handleSaveShortcut = (e) => {
-            const isCtrlOrCmd = e.ctrlKey || e.metaKey;
-            if (isCtrlOrCmd && e.key === 's') {
-                e.preventDefault();
+    const handleTextChange = (value) => {
+        setText(value);
 
-                // ✅ Your save logic here
-                console.log('Ctrl + S pressed. Saving...');
-                setText(textareaRef.current.textContent)
-            }
-        };
+        // Create the file if it doesn't exist yet
+        let node = fileNode;
+        if (!node) {
+            node = createFileInDesktop();
+            setFileNode(node); // Save reference for later
+        }
 
-        window.addEventListener('keydown', handleSaveShortcut);
-        return () => window.removeEventListener('keydown', handleSaveShortcut);
-    }, []);
-
+        if (node && node.type === 'file') {
+            node.content = value;
+        }
+    };
 
     return (
         <SimpleFrame
-            title={title} 
+            title={title}
             id="textedit"
             icon="textEdit"
             isResizable={true}

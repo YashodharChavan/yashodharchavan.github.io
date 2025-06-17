@@ -31,8 +31,10 @@ const Desktop = () => {
   const [draggedId, setDraggedId] = useState(null);
   const [dropTargetId, setDropTargetId] = useState(null);
 
-  const getIconForNode = (name, type) => {
+  const [currentTopComponent, setCurrentTopComponent] = useState(null);
 
+  
+  const getIconForNode = (name, type) => {
     if (type === 'dir') {
       const match = rootFileOptions.find(opt => opt.label.toLowerCase() === name.toLowerCase());
       return match ? match.icon : genericFolder;
@@ -158,7 +160,7 @@ const Desktop = () => {
 
   return (
     <>
-      <TopBar />
+      <TopBar currentTopComponent={currentTopComponent}/>
       <div
         className='desktop h-full relative'
         style={{
@@ -186,7 +188,7 @@ const Desktop = () => {
                     <img
                       src={icon.src}
                       alt={`${icon.name} Icon`}
-                      className={`h-16 w-16 cursor-move ${draggedId === icon.id ? 'opacity-50' : 'opacity-100'}`}
+                      className={`h-16 w-16 ${draggedId === icon.id ? 'opacity-50' : 'opacity-100'}`}
                       draggable
                       onDragStart={(e) => {
                         e.stopPropagation();
@@ -199,7 +201,7 @@ const Desktop = () => {
                       }}
                     />
                     <span
-                      className='text-xs mt-1 text-white text-shadow-2xs'
+                      className='text-xs mt-1 text-white select-none text-shadow-2xs'
                       style={{
                         textShadow: '0 0 2px black, 0 0 4px black',
                       }}
@@ -224,7 +226,7 @@ const Desktop = () => {
         {openWindows['aboutme'] && <AboutMe />}
         {openWindows['finder'] && <Finder />}
       </div>
-      <Taskbar />
+      <Taskbar setCurrentTopComponent={setCurrentTopComponent}/>
     </>
   );
 };

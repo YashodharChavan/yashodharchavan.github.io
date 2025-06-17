@@ -8,7 +8,7 @@ export const WindowManagerProvider = ({ children }) => {
   const [focusedWindowId, setFocusedWindowId] = useState(null);
   const [optionalText, setOptionalText] = useState('');
   const [optionalTitle, setOptionalTitle] = useState('');
-
+  const [currentTopComponent, setCurrentTopComponent] = useState();
 
   // Register window only once
   const registerWindow = (id, title, icon) => {
@@ -21,6 +21,7 @@ export const WindowManagerProvider = ({ children }) => {
   // Open window and register if needed
   const openWindow = (id, title, icon, parameterText, parameterTitle) => {
     registerWindow(id, title, icon);
+    console.log(focusedWindowId)
     if(id==='textedit') {
       setOptionalText(parameterText);
       setOptionalTitle(parameterTitle);

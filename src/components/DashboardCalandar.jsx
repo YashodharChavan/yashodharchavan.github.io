@@ -50,14 +50,13 @@ const RemainingDashboardCalender = () => {
                         <div key={index} className="day flex items-center justify-end font-semibold text-[#EE9556]" style={{
                                 textShadow: '1px -2px 0px #5e5151'
                         }}>{day}</div>
-                        {/* <hr /> */}
                     </>
                 )
             })}
 
             {calenderDays.map((day, index) => (
                 <>
-                    <div key={index} className="day flex items-center justify-end font-semibold text-white" style={{
+                    <div key={index + dayNames.length} className="day flex items-center justify-end font-semibold text-white" style={{
                             textShadow: '1px -2px 0px #5e5151'
                     }}>{day}</div>
                     {/* <hr /> */}

@@ -30,7 +30,7 @@ const icons = [
   { id: "trash", src: trashBin, name: "Trash" },
 ];
 
-const Taskbar = () => {
+const Taskbar = ({ setCurrentTopComponent}) => {
   const { windows, restoreWindow, openWindow } = useWindowManager();
 
   return (
@@ -45,6 +45,7 @@ const Taskbar = () => {
             onClick={() => {
               if (!appWindow) {
                 // Open a new window if not opened yet
+                setCurrentTopComponent(name)
                 console.log(id, name, src);
                 openWindow(id, name, src);
               } else if (appWindow.minimized) {
