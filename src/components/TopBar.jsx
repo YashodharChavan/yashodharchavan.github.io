@@ -6,17 +6,72 @@ import topIcon from '../assets/topIcon.svg' // Uncomment if you want to use the 
 import spotlight from '../assets/spotlight.svg' // Uncomment if you want to use the spotlight icon as a local image
 import battery from '../assets/battery.png' // Uncomment if you want to use the battery icon as a local image
 import { useWindowManager } from '../context/WindowManagerContext'
-const TopBar = ({ currentTopComponent }) => {
 
+import finder from "../assets/icons/applications/Finder.ico";
+import dashboard from "../assets/icons/applications/Dashboard.ico";
+import mail from "../assets/icons/applications/Mail.ico";
+import safari from "../assets/icons/applications/Safari.ico";
+import contacts from "../assets/icons/applications/Contacts.ico";
+import terminal from '../assets/icons/applications/Terminal.ico';
+import calculator from '../assets/icons/applications/Calculator.ico';
+import dictionary from '../assets/icons/applications/Dictionary.ico';
+import textEdit from '../assets/icons/applications/TextEdit.ico';
+import xCode from '../assets/icons/applications/XCode.ico';
+import aboutme from '../assets/icons/applications/AboutMe.ico';
+
+import genericFolderIcon from '../assets/folders/genericFolderIcon.ico'
+import txt from '../assets/folders/TXT.ico'
+import { fileSystem } from './Utils/fileSystem'
+
+
+
+const TopBar = ({ currentTopComponent }) => {
   const [date, setDate] = React.useState("");
   const [isSpotlightActive, setIsSpotlightActive] = React.useState(false);
   const [searchString, setSearchString] = React.useState("")
   const [results, setResults] = React.useState([])
   const [selectedIndex, setSelectedIndex] = React.useState(-1);
 
-  const {openWindow} = useWindowManager()
+  const { openWindow } = useWindowManager()
+  const allFilesAndFolders = collectFilesAndFolders();
 
-  const appList = ['Terminal', 'TextEdit', 'Contacts', 'Dictionary', 'Calculator', 'XCode', 'Safari', 'Mail', 'Dashboard', 'Finder', 'About Me']
+
+
+  const appList = [
+    { name: "Terminal", icon: terminal },
+    { name: "Finder", icon: finder },
+    { name: "Calculator", icon: calculator },
+    { name: "Dictionary", icon: dictionary },
+    { name: "Xcode", icon: xCode },
+    { name: "TextEdit", icon: textEdit },
+    { name: "Safari", icon: safari },
+    { name: "About Me", icon: aboutme },
+    { name: "Mail", icon: mail },
+    { name: "Contacts", icon: contacts },
+    { name: "Dashboard", icon: dashboard },
+  ]
+
+  function collectFilesAndFolders(node = fileSystem['/'], path = '/') {
+    const items = [];
+
+    for (const [name, child] of Object.entries(node.children || {})) {
+      const fullPath = path === '/' ? `/${name}` : `${path}/${name}`;
+      const icon = child.type === 'dir' ? genericFolderIcon : txt; // customize per extension
+      items.push({
+        name,
+        fullPath,
+        icon,
+        type: child.type
+      });
+
+      if (child.type === 'dir') {
+        items.push(...collectFilesAndFolders(child, fullPath));
+      }
+    }
+
+    return items;
+  }
+
 
 
 
@@ -24,14 +79,25 @@ const TopBar = ({ currentTopComponent }) => {
     setIsSpotlightActive(!isSpotlightActive)
   }
 
+
   const handleChange = (value) => {
     setSearchString(value);
-    const filtered = appList.filter(item =>
-      item.toLowerCase().includes(value.toLowerCase())
+
+    const filteredApps = appList.filter(app =>
+      app.name.toLowerCase().includes(value.toLowerCase())
     );
-    setResults(filtered);
-    setSelectedIndex(0); // Reset selection
+
+    const filteredFsItems = allFilesAndFolders.filter(item =>
+      item.name.toLowerCase().includes(value.toLowerCase())
+    );
+
+    const combinedResults = [...filteredApps, ...filteredFsItems];
+    setResults(combinedResults);
+    setSelectedIndex(combinedResults.length > 0 ? 0 : -1);
   };
+
+
+
 
 
   useEffect(() => {
@@ -50,10 +116,19 @@ const TopBar = ({ currentTopComponent }) => {
 
       if (e.key === 'Enter' && selectedIndex >= 0) {
         e.preventDefault();
-        const selectedApp = results[selectedIndex];
-        console.log('Launching:', selectedApp);
-        openWindow(selectedApp.replaceAll(' ', '').toLowerCase())
-        // TODO: launch the app component (use context/props/callback)
+        const selectedItem = results[selectedIndex];
+
+        if (selectedItem.type === 'file' || selectedItem.type === 'dir') {
+          // Open with Finder or TextEdit depending on type
+          if (selectedItem.type === 'dir') {
+            openWindow('finder', "", "", "", "",  selectedItem.fullPath );
+          } else {
+            openWindow('textedit', "", "", "", selectedItem.name );
+          }
+        } else {
+          openWindow(selectedItem.name.replaceAll(' ', '').toLowerCase());
+        }
+
         setIsSpotlightActive(false);
         setSearchString('');
       }
@@ -124,10 +199,11 @@ const TopBar = ({ currentTopComponent }) => {
           {results.map((item, index) => (
             <li
               key={index}
-              className={`px-2 py-1 cursor-pointer ${index === selectedIndex ? 'bg-[#2A68C8] text-white' : ''
+              className={`px-2 py-1 cursor-pointer flex items-center gap-x-0.5 ${index === selectedIndex ? 'bg-[#2A68C8] text-white' : ''
                 }`}
             >
-              {item}
+              <img src={item.icon} alt="" className="h-8" />
+              {item.name}
             </li>
           ))}
         </ul>

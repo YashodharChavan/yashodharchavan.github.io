@@ -17,7 +17,7 @@ import FileSystemFolder from './FileSystemFolder.jsx';
 import { useFileSystem } from '../context/FileSystemContext.jsx';
 import { getNodeAtPath } from './Utils/fileSystemUtils';
 
-const Finder = () => {
+const Finder = ({optionalPath=null}) => {
   const { fileSystem } = useFileSystem();
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [sidebarWidth, setSidebarWidth] = useState(150);
@@ -73,7 +73,14 @@ const Finder = () => {
       window.removeEventListener('mousemove', handleMouseMove);
       window.removeEventListener('mouseup', stopResizing);
     };
+
   }, []);
+
+  useEffect(() => {
+  if (optionalPath) {
+    setFileSystemPath(optionalPath);
+  }
+}, [optionalPath]);
 
   const currentNode = getNodeAtPath(fileSystemPath, fileSystem);
 
@@ -107,7 +114,7 @@ const Finder = () => {
               className="buttons w-fit h-fit outline outline-[#666666] rounded-sm"
               style={{ background: 'linear-gradient(to bottom, #f2f2f2 0%, #d9d9d9 100%)' }}
             >
-              <button className="h-full text-sm w-9 bg-transparent text-inherit">&lt;</button>
+              <button className="h-full text-sm w-9 bg-transparent text-inherit" onClick={(e) => setFileSystemPath(fileSystemPath.substring(0, fileSystemPath.lastIndexOf('/')))}>&lt;</button>
               <button className="h-full w-9 bg-transparent border-l border-[#666666] text-inherit">&gt;</button>
             </div>
 

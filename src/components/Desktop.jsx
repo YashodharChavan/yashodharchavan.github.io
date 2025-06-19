@@ -6,7 +6,7 @@ import TopBar from './TopBar';
 import Taskbar from './Taskbar';
 import hardDrive from '../assets/folders/Hard Drive.ico';
 import genericFolder from '../assets/folders/GenericFolderIcon.ico';
-import Terminal from "./Terminal";
+import Terminal from './Terminal';
 import Calculator from './Calculator';
 import Contacts from './Contacts';
 import TextEdit from './TextEdit';
@@ -20,20 +20,17 @@ import Finder from './Finder';
 import { rootFileOptions } from './Utils/fileSystem.js';
 import { useFileSystem } from '../context/FileSystemContext.jsx';
 import txt from '../assets/folders/TXT.ico';
-import { fileSystem } from './Utils/fileSystem.js';
 
 const Desktop = () => {
-  const { fileSystem } = useFileSystem();
+  const { fileSystem, deleteNodeAtPath } = useFileSystem();
   const desktopFileTree = fileSystem?.['/']?.['children']?.['Users']?.['children']?.['yashodhar']?.['children']?.['Desktop']?.['children'] || {};
 
   const [icons, setIcons] = useState([]);
   const [positions, setPositions] = useState({});
   const [draggedId, setDraggedId] = useState(null);
   const [dropTargetId, setDropTargetId] = useState(null);
-
   const [currentTopComponent, setCurrentTopComponent] = useState(null);
 
-  
   const getIconForNode = (name, type) => {
     if (type === 'dir') {
       const match = rootFileOptions.find(opt => opt.label.toLowerCase() === name.toLowerCase());
@@ -42,22 +39,17 @@ const Desktop = () => {
       const extension = '.' + name.split('.').pop().toLowerCase();
       if (extension === '.md') {
         const mdMatch = rootFileOptions.find(opt => opt.label === '.md');
-        return mdMatch.icon; // Returns clippingText for .md files
+        return mdMatch.icon;
       }
-      return txt; // Default to txt icon for all other files
+      return txt;
     }
-    return txt; // Fallback for unexpected types
+    return txt;
   };
 
-
   useEffect(() => {
-
     let initialIcons = [];
     if (Object.keys(desktopFileTree).length === 0) {
-      initialIcons = [
-        // { id: '0', name: 'Hard Drive', type: 'dir', src: hardDrive },
-        // { id: '1', name: 'Generic Folder', type: 'dir', src: genericFolder },
-      ];
+      initialIcons = [];
     } else {
       initialIcons = Object.keys(desktopFileTree).map((key, index) => {
         const node = desktopFileTree[key];
@@ -79,7 +71,7 @@ const Desktop = () => {
     setPositions(initialPositions);
   }, [JSON.stringify(desktopFileTree)]);
 
-  const { openWindows, openWindow, optionalText, optionalTitle } = useWindowManager();
+  const { openWindows, openWindow, optionalText, optionalTitle, optionalPath } = useWindowManager();
 
   const handleDragStart = (id, e) => {
     e.dataTransfer.setData('text/plain', id);
@@ -147,7 +139,7 @@ const Desktop = () => {
     if (icon.type === 'dir') {
       openWindow('finder');
     } else if (icon.type === 'file') {
-      openWindow('textedit', "", "", desktopFileTree[icon.name].content, icon.name);
+      openWindow('textedit', '', '', desktopFileTree[icon.name].content, icon.name);
     }
   };
 
@@ -158,9 +150,19 @@ const Desktop = () => {
     return iconId !== undefined ? icons.find((icon) => icon.id === iconId) : null;
   };
 
+  const handleTrashDrop = (iconId) => {
+    const icon = icons.find((i) => i.id === iconId);
+    if (!icon) {
+      console.warn(`Icon with ID ${iconId} not found`);
+      return;
+    }
+
+    const fullPath = `/Users/yashodhar/Desktop/${icon.name}`;
+    deleteNodeAtPath(fullPath);
+  };
   return (
     <>
-      <TopBar currentTopComponent={currentTopComponent}/>
+      <TopBar currentTopComponent={currentTopComponent} />
       <div
         className='desktop h-full relative'
         style={{
@@ -176,8 +178,9 @@ const Desktop = () => {
             return (
               <div
                 key={index}
-                className={`icon-container flex flex-col items-center justify-center p-1 w-full h-full ${dropTargetId === index ? 'bg-gray-200 rounded' : ''
-                  }`}
+                className={`icon-container flex flex-col items-center justify-center p-1 w-full h-full ${
+                  dropTargetId === index ? 'bg-gray-200 rounded' : ''
+                }`}
                 onDragOver={(e) => handleDragOver(index, e)}
                 onDragEnter={(e) => handleDragEnter(index, e)}
                 onDragLeave={(e) => handleDragLeave(index, e)}
@@ -224,9 +227,12 @@ const Desktop = () => {
         {openWindows['dashboard'] && <Dashboard />}
         {openWindows['xcode'] && <Xcode />}
         {openWindows['aboutme'] && <AboutMe />}
-        {openWindows['finder'] && <Finder />}
+        {openWindows['finder'] && <Finder optionalPath={optionalPath} />}
       </div>
-      <Taskbar setCurrentTopComponent={setCurrentTopComponent}/>
+      <Taskbar
+        setCurrentTopComponent={setCurrentTopComponent}
+        onTrashDrop={handleTrashDrop}
+      />
     </>
   );
 };
