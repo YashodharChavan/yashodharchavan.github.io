@@ -4,9 +4,9 @@ import { useWindowManager } from '../context/WindowManagerContext';
 
 const FileSystemFolder = ({ node, path, setFileSystemPath }) => {
   if (!node || node.type !== 'dir') return null;
-  
-  
-    const { openWindows, openWindow } = useWindowManager();
+
+
+  const { openWindows, openWindow } = useWindowManager();
   const children = Object.entries(node.children);
 
   // Find the appropriate icon for a file or folder
@@ -43,12 +43,22 @@ const FileSystemFolder = ({ node, path, setFileSystemPath }) => {
                 const newPath = path === '/' ? `/${name}` : `${path}/${name}`;
                 setFileSystemPath(newPath);
               }
-              else if(child.type==='file') {
+              else if (child.type === 'file') {
                 openWindow('textedit', "", "", child.content, name);
               }
             }}
           >
-            <img src={icon} alt={name} className="w-12 h-12" />
+            <img
+              src={icon}
+              draggable
+              alt={name}
+              className="w-12 h-12"
+              onDragStart={(e) => {
+                const fullPath = path === '/' ? `/${name}` : `${path}/${name}`;
+                e.dataTransfer.setData('fullPath', fullPath);
+              }}
+            />
+
             <span className="text-sm text-center mt-1">{name}</span>
           </div>
         );

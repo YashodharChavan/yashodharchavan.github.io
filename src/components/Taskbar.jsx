@@ -16,9 +16,12 @@ import aboutme from '../assets/icons/applications/AboutMe.ico';
 import fullTrashBin from '../assets/folders/FullTrashIcon.ico'
 
 import { useWindowManager } from '../context/WindowManagerContext';
+import { useFileSystem } from '../context/FileSystemContext';
+
 const Taskbar = ({ setCurrentTopComponent, onTrashDrop }) => {
   const { windows, restoreWindow, openWindow } = useWindowManager();
   const [isTrashFull, setIsTrashFull] = React.useState(false);
+  const {deleteNodeAtPath} = useFileSystem();
 
 
   const icons = [
@@ -64,20 +67,29 @@ const Taskbar = ({ setCurrentTopComponent, onTrashDrop }) => {
             onDrop={(e) => {
               if (id === 'trash') {
                 e.preventDefault();
+
+                const fullPath = e.dataTransfer.getData('fullPath');
                 const iconId = e.dataTransfer.getData('text/plain');
-                if (iconId && onTrashDrop) {
-                  onTrashDrop(iconId); // Call onTrashDrop with the iconId
-                  setIsTrashFull(true); // Update trash icon
+
+                if (fullPath) {
+                  // File/folder dropped from Finder
+                  deleteNodeAtPath(fullPath);
+                  setIsTrashFull(true);
+                } else if (iconId && onTrashDrop) {
+                  // File/folder dropped from Desktop
+                  onTrashDrop(iconId);
+                  setIsTrashFull(true);
                 }
               }
             }}
+
           >
             <img
               className="h-4/5 select-none"
               draggable={false}
               src={src}
               alt={`${name} Icon`}
-              style={{width: (isTrashFull && name==='Trash') && "256px"}}
+              style={{ width: (isTrashFull && name === 'Trash') && "256px" }}
             />
             {/* Tooltip */}
             <span className="absolute bottom-[110%] left-1/2 transform -translate-x-1/2 mb-1 

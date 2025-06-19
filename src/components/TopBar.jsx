@@ -22,7 +22,7 @@ import aboutme from '../assets/icons/applications/AboutMe.ico';
 import genericFolderIcon from '../assets/folders/genericFolderIcon.ico'
 import txt from '../assets/folders/TXT.ico'
 import { fileSystem } from './Utils/fileSystem'
-
+import { topMenuData } from './Utils/menuConfig'
 
 
 const TopBar = ({ currentTopComponent }) => {
@@ -31,6 +31,7 @@ const TopBar = ({ currentTopComponent }) => {
   const [searchString, setSearchString] = React.useState("")
   const [results, setResults] = React.useState([])
   const [selectedIndex, setSelectedIndex] = React.useState(-1);
+  const [currentMenuOpen, setCurrentMenuOpen] = React.useState('')
 
   const { openWindow } = useWindowManager()
   const allFilesAndFolders = collectFilesAndFolders();
@@ -50,6 +51,30 @@ const TopBar = ({ currentTopComponent }) => {
     { name: "Contacts", icon: contacts },
     { name: "Dashboard", icon: dashboard },
   ]
+
+  const menuRefs = {
+    file: React.useRef(null),
+    edit: React.useRef(null),
+    view: React.useRef(null),
+    go: React.useRef(null),
+    window: React.useRef(null),
+    help: React.useRef(null),
+  };
+
+  const menuPosition = {
+    file: { x: 315, y: 24 },
+    edit: { x: 357, y: 24 },
+    view: { x: 401, y: 24 },
+    go: { x: 451, y: 24 },
+    window: { x: 488, y: 24 },
+    help: { x: 561, y: 24 },
+  }
+
+  const handleMenuClick = (menuName) => {
+    const rect = menuRefs[menuName]?.current?.getBoundingClientRect();
+    setCurrentMenuOpen(menuName);
+  };
+
 
   function collectFilesAndFolders(node = fileSystem['/'], path = '/') {
     const items = [];
@@ -71,6 +96,7 @@ const TopBar = ({ currentTopComponent }) => {
 
     return items;
   }
+
 
 
 
@@ -121,9 +147,9 @@ const TopBar = ({ currentTopComponent }) => {
         if (selectedItem.type === 'file' || selectedItem.type === 'dir') {
           // Open with Finder or TextEdit depending on type
           if (selectedItem.type === 'dir') {
-            openWindow('finder', "", "", "", "",  selectedItem.fullPath );
+            openWindow('finder', "", "", "", "", selectedItem.fullPath);
           } else {
-            openWindow('textedit', "", "", "", selectedItem.name );
+            openWindow('textedit', "", "", "", selectedItem.name);
           }
         } else {
           openWindow(selectedItem.name.replaceAll(' ', '').toLowerCase());
@@ -159,13 +185,44 @@ const TopBar = ({ currentTopComponent }) => {
 
       <div className="left-content flex items-center gap-x-5">
         <img src={topIcon} alt="" className='h-5' />
-        <p className='font-semibold'>{currentTopComponent || "Name"} </p>
-        <p className='font-medium'>File</p>
-        <p className='font-medium'>Edit</p>
-        <p className='font-medium'>View</p>
-        <p className='font-medium'>Go</p>
-        <p className='font-medium'>Window</p>
-        <p className='font-medium'>Help</p>
+        <p className='font-semibold'>{currentTopComponent || "X Tiger"} </p>
+        <div className="flex items-center gap-x-2">
+          <p className={`${currentMenuOpen === 'file' ? 'text-white' : ''} font-medium`}
+            style={{ background: currentMenuOpen === 'file' ? 'linear-gradient(rgb(38, 129, 234) 30%, rgb(2, 84, 205) 70%)' : '', padding: '0px 4px' }}
+            onMouseEnter={(e) => setCurrentMenuOpen('file')}
+            onMouseLeave={(e) => setCurrentMenuOpen(null)}
+          >File</p>
+
+          <p className={`${currentMenuOpen === 'edit' ? 'text-white' : ''}`}
+            style={{ background: currentMenuOpen === 'edit' ? 'linear-gradient(rgb(38, 129, 234) 30%, rgb(2, 84, 205) 70%)' : '', padding: '0px 4px' }}
+            onMouseEnter={(e) => setCurrentMenuOpen('edit')}
+            onMouseLeave={(e) => setCurrentMenuOpen(null)}
+          >Edit</p>
+
+          <p className={`${currentMenuOpen === 'view' ? 'text-white' : ''}`}
+            style={{ background: currentMenuOpen === 'view' ? 'linear-gradient(rgb(38, 129, 234) 30%, rgb(2, 84, 205) 70%)' : '', padding: '0px 4px' }}
+            onMouseEnter={(e) => setCurrentMenuOpen('view')}
+            onMouseLeave={(e) => setCurrentMenuOpen(null)}
+          >View</p>
+
+          <p className={`${currentMenuOpen === 'go' ? 'text-white' : ''}`}
+            style={{ background: currentMenuOpen === 'go' ? 'linear-gradient(rgb(38, 129, 234) 30%, rgb(2, 84, 205) 70%)' : '', padding: '0px 4px' }}
+            onMouseEnter={(e) => setCurrentMenuOpen('go')}
+            onMouseLeave={(e) => setCurrentMenuOpen(null)}
+          >Go</p>
+
+          <p className={`${currentMenuOpen === 'window' ? 'text-white' : ''}`}
+            style={{ background: currentMenuOpen === 'window' ? 'linear-gradient(rgb(38, 129, 234) 30%, rgb(2, 84, 205) 70%)' : '', padding: '0px 4px' }}
+            onMouseEnter={(e) => setCurrentMenuOpen('window')}
+            onMouseLeave={(e) => setCurrentMenuOpen(null)}
+          >Window</p>
+
+          <p className={`${currentMenuOpen === 'help' ? 'text-white' : ''}`}
+            style={{ background: currentMenuOpen === 'help' ? 'linear-gradient(rgb(38, 129, 234) 30%, rgb(2, 84, 205) 70%)' : '', padding: '0px 4px' }}
+            onMouseEnter={(e) => setCurrentMenuOpen('help')}
+            onMouseLeave={(e) => setCurrentMenuOpen(null)}
+          >Help</p>
+        </div>
       </div>
       <div className="right-content flex items-center gap-x-5">
         <div className="flex items-center gap-x-5">
@@ -178,6 +235,32 @@ const TopBar = ({ currentTopComponent }) => {
           </div>
         </div>
       </div>
+
+
+      {currentMenuOpen && topMenuData[currentMenuOpen] && (
+        <div
+          className="absolute bg-white shadow-md p-2 z-50"
+          style={{
+            top: `${menuPosition[currentMenuOpen].y}px`,
+            left: `${menuPosition[currentMenuOpen].x}px`,
+          }}
+          onMouseEnter={(e) => setCurrentMenuOpen(currentMenuOpen)}
+          onMouseLeave={(e) => setCurrentMenuOpen(null)}
+        >
+          {topMenuData[currentMenuOpen].map((menuItem, index) => (
+            <div key={index} className="flex items-center gap-x-2 hover:bg-[#2A68C8] hover:text-white cursor-pointer"
+              style={{padding: '0px 16px'}}  
+            >
+              {menuItem.icon && <img src={menuItem.icon} alt="" className="h-4" />}
+              <p>{menuItem.label}</p>
+            </div>
+          ))}
+        </div>
+      )}
+
+
+
+
 
       {isSpotlightActive && <div className="bg-red-400 h-8 w-96 z-10 right-44 top-6 absolute flex items-center justify-end gap-x-3"
         style={{

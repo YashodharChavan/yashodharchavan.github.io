@@ -23,8 +23,8 @@ import txt from '../assets/folders/TXT.ico';
 
 const Desktop = () => {
   const { fileSystem, deleteNodeAtPath } = useFileSystem();
-  const desktopFileTree = fileSystem?.['/']?.['children']?.['Users']?.['children']?.['yashodhar']?.['children']?.['Desktop']?.['children'] || {};
 
+  const [desktopFileTree, setDesktopFileTree] = useState(fileSystem?.['/']?.['children']?.['Users']?.['children']?.['yashodhar']?.['children']?.['Desktop']?.['children'] || {})
   const [icons, setIcons] = useState([]);
   const [positions, setPositions] = useState({});
   const [draggedId, setDraggedId] = useState(null);
@@ -152,10 +152,8 @@ const Desktop = () => {
 
   const handleTrashDrop = (iconId) => {
     const icon = icons.find((i) => i.id === iconId);
-    if (!icon) {
-      console.warn(`Icon with ID ${iconId} not found`);
-      return;
-    }
+    console.log(iconId, icon)
+    if (!icon) return
 
     const fullPath = `/Users/yashodhar/Desktop/${icon.name}`;
     deleteNodeAtPath(fullPath);
@@ -179,7 +177,7 @@ const Desktop = () => {
               <div
                 key={index}
                 className={`icon-container flex flex-col items-center justify-center p-1 w-full h-full ${
-                  dropTargetId === index ? 'bg-gray-200 rounded' : ''
+                  dropTargetId === index ? 'bg-[#7c7c7c8c] rounded' : ''
                 }`}
                 onDragOver={(e) => handleDragOver(index, e)}
                 onDragEnter={(e) => handleDragEnter(index, e)}

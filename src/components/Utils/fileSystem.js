@@ -55,10 +55,6 @@ const fileSystem = {
   }
 };
 
-for(let i=0; i<fileSystem.length; i++) {
-  console.log(i)
-}
-
 
 const rootFileOptions = [
     { label: "Movies", icon: movieFolder },

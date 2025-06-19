@@ -68,31 +68,31 @@ const AboutMe = () => {
                 <div className="sidebar h-full overflow-hidden whitespace-nowrap select-none text-ellipsis gap-y-1 flex flex-col overflow-y-scroll scrollbar-hide" style={{ width: sidebarWidth }}>
 
                     <div className="mail-option h-11 flex items-center gap-x-2 hover:bg-[#A2B2CA]" style={{ padding: "4px" }}
-                        onClick={()=> setCurrentPage("about me")}
+                        onClick={() => setCurrentPage("about me")}
                     >
                         <p>About Me</p>
                     </div>
 
                     <div className="mail-option h-11 flex items-center gap-x-2 hover:bg-[#A2B2CA]" style={{ padding: "4px" }}
-                        onClick={()=> setCurrentPage("education")}
+                        onClick={() => setCurrentPage("education")}
                     >
                         <p>Education</p>
                     </div>
 
                     <div className="mail-option h-11 flex items-center gap-x-2 hover:bg-[#A2B2CA]" style={{ padding: "4px" }}
-                        onClick={()=> setCurrentPage("skills")}
+                        onClick={() => setCurrentPage("skills")}
                     >
                         <p>Skills</p>
                     </div>
 
                     <div className="mail-option h-11 flex items-center gap-x-2 hover:bg-[#A2B2CA]" style={{ padding: "4px" }}
-                        onClick={()=> setCurrentPage("projects")}
+                        onClick={() => setCurrentPage("projects")}
                     >
                         <p>Projects</p>
                     </div>
 
                     <div className="mail-option h-11 flex items-center gap-x-2 hover:bg-[#A2B2CA]" style={{ padding: "4px" }}
-                        onClick={()=> setCurrentPage("resume")}
+                        onClick={() => setCurrentPage("resume")}
                     >
                         <p>Resume</p>
                     </div>
@@ -101,9 +101,12 @@ const AboutMe = () => {
                 <div className="w-1.5 h-full bg-[#D8D8D8] cursor-col-resize flex justify-center items-center"
                     onMouseDown={startResizing}
                 ></div>
-                <div className="code-section bg-blue-400 w-full h-full overflow-y-hidden">
-                    I need to do plans with design of this website. For now I will look at finder
-                    {currentPage}
+                <div className="bg-[#ECF2F9] w-full h-full overflow-y-hidden">
+                    {currentPage === 'about me' &&
+                        <div className='w-full h-full'>
+                            <div className="topbar w-full h-12 bg-red-400">Yashodhar</div>
+
+                        </div>}
                 </div>
 
             </div>

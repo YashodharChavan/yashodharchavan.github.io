@@ -210,6 +210,7 @@ const Finder = ({optionalPath=null}) => {
               node={currentNode}
               path={fileSystemPath}
               setFileSystemPath={setFileSystemPath}
+              
             />
           ) : (
             <div className="p-4 text-gray-500">Directory not found</div>

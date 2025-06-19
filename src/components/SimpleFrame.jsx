@@ -31,7 +31,6 @@ const SimpleFrame = ({ title, children, hasDrawer, id, icon, height, width, minW
 
   const startResizing = (e, type) => {
     e.stopPropagation();
-    console.log("hello world I am invoked per click")
     e.preventDefault();
     resizeRef.current = {
       type,
@@ -254,7 +253,7 @@ const SimpleFrame = ({ title, children, hasDrawer, id, icon, height, width, minW
           <div className="mac-dot green" onClick={handleMaximize}></div>
         </div>
         {showDimensions ? (
-          <span className="title select-none">{`${title} ${Math.round(readSize.height / 10)} × ${Math.round(readSize.width / 10)}`}</span>
+          <span className="title select-none" draggable={false}>{`${title} ${Math.round(readSize.height / 10)} × ${Math.round(readSize.width / 10)}`}</span>
 
         ) : (
           <span className="title select-none">{title}</span>
