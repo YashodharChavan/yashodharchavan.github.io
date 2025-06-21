@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react'
 import SimpleFrame from './SimpleFrame'
 import './component.css'
-
+import About from './About'
 
 
 const AboutMe = () => {
@@ -101,12 +101,8 @@ const AboutMe = () => {
                 <div className="w-1.5 h-full bg-[#D8D8D8] cursor-col-resize flex justify-center items-center"
                     onMouseDown={startResizing}
                 ></div>
-                <div className="bg-[#ECF2F9] w-full h-full overflow-y-hidden">
-                    {currentPage === 'about me' &&
-                        <div className='w-full h-full'>
-                            <div className="topbar w-full h-12 bg-red-400">Yashodhar</div>
-
-                        </div>}
+                <div className="bg-[#ECF2F9] w-full h-full overflow-y-scroll">
+                    {currentPage === 'about me' && <About />}
                 </div>
 
             </div>
