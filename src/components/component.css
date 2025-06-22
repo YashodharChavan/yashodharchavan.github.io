@@ -431,7 +431,8 @@ pre {
 
 @keyframes float {
 
-  0%, 100% {
+  0%,
+  100% {
     transform: translateY(0px);
   }
 
@@ -475,10 +476,21 @@ pre {
   background-image: url('../assets/icons/background.svg');
   background-position: center center;
   background-size: contain;
-  box-shadow: inset 0px 0px 229px 185px #ECF2F9;
+  box-shadow: inset 0px 0px 159px 95px #ECF2F9;
 }
+
 
 .contact-background-inset {
   background-image: url('../assets/icons/background.svg');
-  box-shadow: inset 0px 0px 222px 179px #ECF2F9;
+  box-shadow: inset 0px 0px 122px 79px #ECF2F9;
+}
+
+
+.outer-container::after {
+  content: '';
+  position: absolute;
+  width: 4px;
+  top: 12%;
+  height: 85%;
+  background: black;
 }
