@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react'
 import SimpleFrame from './SimpleFrame'
 import './component.css'
 import About from './About'
-
+import Education from './Education'
 
 const AboutMe = () => {
     const [sidebarWidth, setSidebarWidth] = useState(150);
@@ -103,6 +103,7 @@ const AboutMe = () => {
                 ></div>
                 <div className="bg-[#ECF2F9] w-full h-full overflow-y-scroll">
                     {currentPage === 'about me' && <About />}
+                    {currentPage === 'education' && <Education />}
                 </div>
 
             </div>

@@ -468,9 +468,15 @@ pre {
   box-shadow: 0px 0px 172px 42px red;
 }
 
+.glow-one {
+  box-shadow: 0px 0px 172px 42px #8493FF;
+}
+
 .purple-glow {
   box-shadow: 0px 0px 142px 42px #9244AB;
 }
+
+
 
 .background-inset {
   background-image: url('../assets/icons/background.svg');

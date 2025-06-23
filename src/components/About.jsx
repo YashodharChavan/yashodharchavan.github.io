@@ -42,7 +42,7 @@ const About = () => {
                         <p className="text-sm sm:text-base" style={{ padding: "4px 12px" }}>Explore</p>
                     </div>
                 </div>
-                <div className="absolute bg-red-500 h-4 w-4 right-[20%] top-[20%] blur-lg red-glow"></div>
+                <div className="absolute bg-[#8493FF] h-4 w-4 right-[20%] top-[20%] blur-lg glow-one"></div>
                 <img
                     src={art2}
                     alt=""
