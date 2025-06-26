@@ -3,6 +3,7 @@ import SimpleFrame from './SimpleFrame'
 import './component.css'
 import About from './About'
 import Education from './Education'
+import Skills from './Skills'
 
 const AboutMe = () => {
     const [sidebarWidth, setSidebarWidth] = useState(150);
@@ -104,6 +105,7 @@ const AboutMe = () => {
                 <div className="bg-[#ECF2F9] w-full h-full overflow-y-scroll">
                     {currentPage === 'about me' && <About />}
                     {currentPage === 'education' && <Education />}
+                    {currentPage === 'skills' && <Skills />}
                 </div>
 
             </div>
