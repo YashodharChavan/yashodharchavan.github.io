@@ -38,9 +38,7 @@ const CompletionBar = ({ percentage }) => {
 
 const Education = () => {
     return (
-        <div className="h-full w-full bg-[#ECF2F9]">
-            <div className="topbar font-bold text-lg sm:text-xl" style={{ padding: "12px 24px" }}>Yashodhar</div>
-            <hr className="gradient-hr" />
+        <div className="min-h-screen w-full bg-[#ECF2F9]">
 
             <div className="landing-container w-full relative bg-[#ECF2F9] background-inset" style={{ padding: "64px 24px" }}>
                 <div className="introduction m-auto w-full h-full py-8 sm:py-16 flex flex-col items-center justify-center gap-4 sm:gap-6">
@@ -198,9 +196,7 @@ const Education = () => {
             </table>
 
 
-            <div className="bg-[#1d1d1d] h-12 w-full flex items-center">
-                <p className="text-center text-white" style={{ margin: "auto" }}>Made with ❤️ from Yashodhar</p>
-            </div>
+            
         </div>
 
     )

@@ -4,6 +4,7 @@ import './component.css'
 import About from './About'
 import Education from './Education'
 import Skills from './Skills'
+import Projects from './Projects'
 
 const AboutMe = () => {
     const [sidebarWidth, setSidebarWidth] = useState(150);
@@ -103,9 +104,18 @@ const AboutMe = () => {
                     onMouseDown={startResizing}
                 ></div>
                 <div className="bg-[#ECF2F9] w-full h-full overflow-y-scroll">
+                    <div className="topbar font-bold text-lg sm:text-xl" style={{ padding: "12px 24px" }}>Yashodhar</div>
+                    <hr className="gradient-hr" />
                     {currentPage === 'about me' && <About />}
                     {currentPage === 'education' && <Education />}
                     {currentPage === 'skills' && <Skills />}
+                    {currentPage === 'projects' && <Projects />}
+                    {currentPage === 'resume' && <Resume />}
+
+                    {currentPage !== 'resume' && 
+                    <div className="bg-[#1d1d1d] h-12 w-full flex items-center">
+                        <p className="text-center text-white" style={{ margin: "auto" }}>Made with ❤️ from Yashodhar</p>
+                    </div>}
                 </div>
 
             </div>
