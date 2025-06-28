@@ -11,7 +11,7 @@ import art3 from '../assets/icons/art3.png'
 const About = () => {
 
     return (
-        <div className="min-h-screen w-full bg-[#ECF2F9]">
+        <>
 
             <div className="landing-container w-full relative bg-[#ECF2F9] background-inset" style={{ padding: "64px 24px" }}>
                 <div className="introduction m-auto w-full h-full py-8 sm:py-16 flex flex-col items-center justify-center gap-4 sm:gap-6">
@@ -196,7 +196,7 @@ const About = () => {
                     className="h-14 w-fit absolute top-[10%] left-[15%] float-animation"
                 />
             </div>
-        </div>
+        </>
     );
 };
 

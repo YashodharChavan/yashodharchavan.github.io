@@ -28,15 +28,88 @@ const Projects = () => {
                         src={art10}
                         alt=""
                         draggable="false"
-                        className="h-24 select-none w-fit absolute top-[10%] left-[5%] float-animation-slow"
+                        className="h-24 select-none w-fit absolute top-[10%] left-[5%] float-animation"
                     />
                 </div>
             </div>
 
-            <hr className="gradient-hr"/>
-            <table>
-                
-            </table>
+            <hr className="gradient-hr" />
+            <h1 className="text-3xl font-bold mb-6 sm:mb-8 text-center underline decoration-wavy decoration-rose-500" style={{ padding: "24px 0px" }}>
+                Technical Skills:
+            </h1>
+
+            {/* 
+                The current flexbox layout causes cards to stick to the edges and not center properly on wrap.
+                To fix this, use a grid layout that auto-fits cards and centers them responsively.
+                The following container uses Tailwind's grid utilities for a responsive, centered card layout.
+            */}
+            <div 
+                className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 px-6 py-8 max-w-7xl mx-auto" 
+            >
+                <div className="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 overflow-hidden">
+                    <div className="w-full h-48 bg-gradient-to-br from-blue-400 to-purple-500"></div>
+                    <div className="p-4">
+                        <h3 className="text-xl font-semibold text-gray-800 mb-2">Project One</h3>
+                        <p className="text-gray-600 text-sm">A brief description of the first project and its key features.</p>
+                    </div>
+                </div>
+
+                <div className="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 overflow-hidden">
+                    <div className="w-full h-48 bg-gradient-to-br from-green-400 to-blue-500"></div>
+                    <div className="p-4">
+                        <h3 className="text-xl font-semibold text-gray-800 mb-2">Project Two</h3>
+                        <p className="text-gray-600 text-sm">A brief description of the second project and its key features.</p>
+                    </div>
+                </div>
+
+                <div className="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 overflow-hidden">
+                    <div className="w-full h-48 bg-gradient-to-br from-orange-400 to-red-500"></div>
+                    <div className="p-4">
+                        <h3 className="text-xl font-semibold text-gray-800 mb-2">Project Three</h3>
+                        <p className="text-gray-600 text-sm">A brief description of the third project and its key features.</p>
+                    </div>
+                </div>
+
+                <div className="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 overflow-hidden">
+                    <div className="w-full h-48 bg-gradient-to-br from-purple-400 to-pink-500"></div>
+                    <div className="p-4">
+                        <h3 className="text-xl font-semibold text-gray-800 mb-2">Project Four</h3>
+                        <p className="text-gray-600 text-sm">A brief description of the fourth project and its key features.</p>
+                    </div>
+                </div>
+
+                <div className="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 overflow-hidden">
+                    <div className="w-full h-48 bg-gradient-to-br from-teal-400 to-cyan-500"></div>
+                    <div className="p-4">
+                        <h3 className="text-xl font-semibold text-gray-800 mb-2">Project Five</h3>
+                        <p className="text-gray-600 text-sm">A brief description of the fifth project and its key features.</p>
+                    </div>
+                </div>
+
+                <div className="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 overflow-hidden">
+                    <div className="w-full h-48 bg-gradient-to-br from-indigo-400 to-purple-500"></div>
+                    <div className="p-4">
+                        <h3 className="text-xl font-semibold text-gray-800 mb-2">Project Six</h3>
+                        <p className="text-gray-600 text-sm">A brief description of the sixth project and its key features.</p>
+                    </div>
+                </div>
+
+                <div className="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 overflow-hidden">
+                    <div className="w-full h-48 bg-gradient-to-br from-yellow-400 to-orange-500"></div>
+                    <div className="p-4">
+                        <h3 className="text-xl font-semibold text-gray-800 mb-2">Project Seven</h3>
+                        <p className="text-gray-600 text-sm">A brief description of the seventh project and its key features.</p>
+                    </div>
+                </div>
+
+                <div className="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 overflow-hidden">
+                    <div className="w-full h-48 bg-gradient-to-br from-pink-400 to-rose-500"></div>
+                    <div className="p-4">
+                        <h3 className="text-xl font-semibold text-gray-800 mb-2">Project Eight</h3>
+                        <p className="text-gray-600 text-sm">A brief description of the eighth project and its key features.</p>
+                    </div>
+                </div>
+            </div>
         </div >
     )
 }

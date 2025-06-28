@@ -11,8 +11,8 @@
 }
 
 @font-face {
-  font-family: 'SF Pro Display';
-  src: url('../../public/fonts/SFPRODISPLAYREGULAR.OTF') format('opentype');
+  font-family: 'Satoshi';
+  src: url('../../public/fonts/Satoshi-Bold.otf') format('opentype');
   font-weight: normal;
   font-style: normal;
 }

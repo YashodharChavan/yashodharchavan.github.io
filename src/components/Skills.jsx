@@ -20,7 +20,7 @@ const Skills = () => {
     return (
         <>
 
-            <div className="landing-container w-full relative bg-[#ECF2F9] background-inset" style={{ padding: "64px 24px" }}>
+            <div className="landing-container w-full relative bg-[#ECF2F9] background-inset" style={{ padding: "64px 24px"}}>
                 <div className="introduction m-auto w-full h-full py-8 sm:py-16 flex flex-col items-center justify-center gap-4 sm:gap-6">
                     <h1 className="text-4xl font-bold text-center">
                         My SkillSet 🚀
