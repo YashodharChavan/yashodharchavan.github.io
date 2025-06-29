@@ -1,8 +1,48 @@
 import React from 'react'
 import art9 from '../assets/icons/art9.png'
 import art10 from '../assets/icons/art10.png'
-
+import macOsXTiger from '../assets/projects/macOSXTiger.png'
+import photoEnhancer from '../assets/projects/photoEnhancer.png'
+import emailLess from '../assets/projects/emailLessCompose.png'
+import folderVisualizer from '../assets/projects/folderVisualizer.png'
+import linkToQrCode from '../assets/projects/linkToQrCode.png'
+import onlineHTMLEditor from '../assets/projects/onlineHTMLEditor.png'
+import oxygenWeather from '../assets/projects/oxygenWeather.png'
+import webDrawer from '../assets/projects/webDrawer.png'
 const Projects = () => {
+
+
+
+    const imageList = [macOsXTiger, oxygenWeather, photoEnhancer, linkToQrCode, folderVisualizer, onlineHTMLEditor, emailLess, webDrawer]
+    const titleList = [
+        'macOS X Tiger Clone (React)',
+        'Oxygen Weather App (React Native)',
+        'Photo Enhancer (Java Swing)',
+        'Link to QR Code Generator',
+        'Folder Visualizer (Java Swing)',
+        'Online HTML Editor (React)',
+        'Email Composer with NodeMailer',
+        'Web Drawing Tool (React)'
+    ];
+    const descriptionTools = [
+        ['React', 'Tailwind CSS', 'JavaScript', 'HTML', 'CSS', 'npm'],
+        ['React Native', 'Tailwind CSS', 'Expo', 'JavaScript', 'Vite', 'npm'],
+        ['Java', 'Java Swing', 'Desktop GUI'],
+        ['React', 'react-qr-code', 'HTML', 'CSS', 'JavaScript', 'npm'],
+        ['Java', 'Java Swing', 'Tree Visualization'],
+        ['React', 'Tailwind CSS', 'ace-builds', 'Syntax Highlighter', 'HTML', 'Vite', 'npm'],
+        ['React', 'Node.js', 'Express', 'NodeMailer', 'npm'],
+        ['React', 'HTML5 Canvas', 'CSS', 'JavaScript']
+    ];
+
+    const generateRandomColor = () => {
+        const r = Math.floor(Math.random() * 256).toString(16).padStart(2, '0')
+        const g = Math.floor(Math.random() * 256).toString(16).padStart(2, '0')
+        const b = Math.floor(Math.random() * 256).toString(16).padStart(2, '0')
+        return `#${r}${g}${b}`
+      }
+
+
     return (
         <div className="min-h-screen w-full bg-[#ECF2F9]">
 
@@ -38,78 +78,29 @@ const Projects = () => {
                 Technical Skills:
             </h1>
 
-            {/* 
-                The current flexbox layout causes cards to stick to the edges and not center properly on wrap.
-                To fix this, use a grid layout that auto-fits cards and centers them responsively.
-                The following container uses Tailwind's grid utilities for a responsive, centered card layout.
-            */}
-            <div 
-                className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 px-6 py-8 max-w-7xl mx-auto" 
+            <div
+                className="grid gap-6"
+                style={{
+                    gridTemplateColumns: "repeat(auto-fit, minmax(256px, 1fr))",
+                    padding: "0px 32px 32px 32px"
+                }}
             >
-                <div className="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 overflow-hidden">
-                    <div className="w-full h-48 bg-gradient-to-br from-blue-400 to-purple-500"></div>
-                    <div className="p-4">
-                        <h3 className="text-xl font-semibold text-gray-800 mb-2">Project One</h3>
-                        <p className="text-gray-600 text-sm">A brief description of the first project and its key features.</p>
-                    </div>
-                </div>
 
-                <div className="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 overflow-hidden">
-                    <div className="w-full h-48 bg-gradient-to-br from-green-400 to-blue-500"></div>
-                    <div className="p-4">
-                        <h3 className="text-xl font-semibold text-gray-800 mb-2">Project Two</h3>
-                        <p className="text-gray-600 text-sm">A brief description of the second project and its key features.</p>
+                {imageList.map((image, index) => {
+                    return <div className="card min-w-64 flex flex-col items-center rounded-md outline outline-gray-300 bg-white shadow-md gap-y-2.5" style={{ padding: "4px" }}>
+                        <img src={image} className='h-fit w-full' />
+                        <h1 className='font-medium text-xl'>{titleList[index]}</h1>
+                        <div className='flex gap-x-1 flex-wrap'>
+                            {descriptionTools[index].map((descriptions, indexJ) => {
+                                let borderColor = generateRandomColor()
+                                return <div className={`rounded-full w-fit`} style={{ padding: "0px 4px", margin: "2px", border: `2px solid ${borderColor}` }}>{descriptions}</div>
+                            })}
+                        </div>
                     </div>
-                </div>
 
-                <div className="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 overflow-hidden">
-                    <div className="w-full h-48 bg-gradient-to-br from-orange-400 to-red-500"></div>
-                    <div className="p-4">
-                        <h3 className="text-xl font-semibold text-gray-800 mb-2">Project Three</h3>
-                        <p className="text-gray-600 text-sm">A brief description of the third project and its key features.</p>
-                    </div>
-                </div>
-
-                <div className="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 overflow-hidden">
-                    <div className="w-full h-48 bg-gradient-to-br from-purple-400 to-pink-500"></div>
-                    <div className="p-4">
-                        <h3 className="text-xl font-semibold text-gray-800 mb-2">Project Four</h3>
-                        <p className="text-gray-600 text-sm">A brief description of the fourth project and its key features.</p>
-                    </div>
-                </div>
-
-                <div className="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 overflow-hidden">
-                    <div className="w-full h-48 bg-gradient-to-br from-teal-400 to-cyan-500"></div>
-                    <div className="p-4">
-                        <h3 className="text-xl font-semibold text-gray-800 mb-2">Project Five</h3>
-                        <p className="text-gray-600 text-sm">A brief description of the fifth project and its key features.</p>
-                    </div>
-                </div>
-
-                <div className="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 overflow-hidden">
-                    <div className="w-full h-48 bg-gradient-to-br from-indigo-400 to-purple-500"></div>
-                    <div className="p-4">
-                        <h3 className="text-xl font-semibold text-gray-800 mb-2">Project Six</h3>
-                        <p className="text-gray-600 text-sm">A brief description of the sixth project and its key features.</p>
-                    </div>
-                </div>
-
-                <div className="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 overflow-hidden">
-                    <div className="w-full h-48 bg-gradient-to-br from-yellow-400 to-orange-500"></div>
-                    <div className="p-4">
-                        <h3 className="text-xl font-semibold text-gray-800 mb-2">Project Seven</h3>
-                        <p className="text-gray-600 text-sm">A brief description of the seventh project and its key features.</p>
-                    </div>
-                </div>
-
-                <div className="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 overflow-hidden">
-                    <div className="w-full h-48 bg-gradient-to-br from-pink-400 to-rose-500"></div>
-                    <div className="p-4">
-                        <h3 className="text-xl font-semibold text-gray-800 mb-2">Project Eight</h3>
-                        <p className="text-gray-600 text-sm">A brief description of the eighth project and its key features.</p>
-                    </div>
-                </div>
+                })}
             </div>
+
         </div >
     )
 }
