@@ -72,31 +72,31 @@ const AboutMe = () => {
                     <div className="mail-option h-11 flex items-center gap-x-2 hover:bg-[#A2B2CA]" style={{ padding: "4px" }}
                         onClick={() => setCurrentPage("about me")}
                     >
-                        <p className="text-lg">About Me</p>
+                        <p className="text-md">About Me</p>
                     </div>
 
                     <div className="mail-option h-11 flex items-center gap-x-2 hover:bg-[#A2B2CA]" style={{ padding: "4px" }}
                         onClick={() => setCurrentPage("education")}
                     >
-                        <p className="text-lg">Education</p>
+                        <p className="text-md">Education</p>
                     </div>
 
                     <div className="mail-option h-11 flex items-center gap-x-2 hover:bg-[#A2B2CA]" style={{ padding: "4px" }}
                         onClick={() => setCurrentPage("skills")}
                     >
-                        <p className="text-lg">Skills</p>
+                        <p className="text-md">Skills</p>
                     </div>
 
                     <div className="mail-option h-11 flex items-center gap-x-2 hover:bg-[#A2B2CA]" style={{ padding: "4px" }}
                         onClick={() => setCurrentPage("projects")}
                     >
-                        <p className="text-lg">Projects</p>
+                        <p className="text-md">Projects</p>
                     </div>
 
                     <div className="mail-option h-11 flex items-center gap-x-2 hover:bg-[#A2B2CA]" style={{ padding: "4px" }}
                         onClick={() => setCurrentPage("resume")}
                     >
-                        <p className="text-lg">Resume</p>
+                        <p className="text-md">Resume</p>
                     </div>
 
                 </div>
@@ -104,8 +104,7 @@ const AboutMe = () => {
                     onMouseDown={startResizing}
                 ></div>
                 <div className="bg-[#ECF2F9] w-full h-full overflow-y-scroll">
-                    <div className="topbar font-bold text-lg sm:text-xl" style={{ padding: "12px 24px" }}>Yashodhar</div>
-                    <hr className="gradient-hr" />
+                    
                     {currentPage === 'about me' && <About />}
                     {currentPage === 'education' && <Education />}
                     {currentPage === 'skills' && <Skills />}
