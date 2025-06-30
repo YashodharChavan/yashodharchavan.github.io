@@ -72,31 +72,31 @@ const AboutMe = () => {
                     <div className="mail-option h-11 flex items-center gap-x-2 hover:bg-[#A2B2CA]" style={{ padding: "4px" }}
                         onClick={() => setCurrentPage("about me")}
                     >
-                        <p>About Me</p>
+                        <p className="text-lg">About Me</p>
                     </div>
 
                     <div className="mail-option h-11 flex items-center gap-x-2 hover:bg-[#A2B2CA]" style={{ padding: "4px" }}
                         onClick={() => setCurrentPage("education")}
                     >
-                        <p>Education</p>
+                        <p className="text-lg">Education</p>
                     </div>
 
                     <div className="mail-option h-11 flex items-center gap-x-2 hover:bg-[#A2B2CA]" style={{ padding: "4px" }}
                         onClick={() => setCurrentPage("skills")}
                     >
-                        <p>Skills</p>
+                        <p className="text-lg">Skills</p>
                     </div>
 
                     <div className="mail-option h-11 flex items-center gap-x-2 hover:bg-[#A2B2CA]" style={{ padding: "4px" }}
                         onClick={() => setCurrentPage("projects")}
                     >
-                        <p>Projects</p>
+                        <p className="text-lg">Projects</p>
                     </div>
 
                     <div className="mail-option h-11 flex items-center gap-x-2 hover:bg-[#A2B2CA]" style={{ padding: "4px" }}
                         onClick={() => setCurrentPage("resume")}
                     >
-                        <p>Resume</p>
+                        <p className="text-lg">Resume</p>
                     </div>
 
                 </div>

@@ -9,14 +9,17 @@ import linkToQrCode from '../assets/projects/linkToQrCode.png'
 import onlineHTMLEditor from '../assets/projects/onlineHTMLEditor.png'
 import oxygenWeather from '../assets/projects/oxygenWeather.png'
 import webDrawer from '../assets/projects/webDrawer.png'
+import bForm from '../assets/projects/BForm.png'
+
 const Projects = () => {
 
 
 
-    const imageList = [macOsXTiger, oxygenWeather, photoEnhancer, linkToQrCode, folderVisualizer, onlineHTMLEditor, emailLess, webDrawer]
+    const imageList = [macOsXTiger, oxygenWeather, bForm, photoEnhancer, linkToQrCode, folderVisualizer, onlineHTMLEditor, emailLess, webDrawer]
     const titleList = [
         'macOS X Tiger Clone (React)',
         'Oxygen Weather App (React Native)',
+        'Indian Railways B-Form Sheet',
         'Photo Enhancer (Java Swing)',
         'Link to QR Code Generator',
         'Folder Visualizer (Java Swing)',
@@ -27,6 +30,7 @@ const Projects = () => {
     const descriptionTools = [
         ['React', 'Tailwind CSS', 'JavaScript', 'HTML', 'CSS', 'npm'],
         ['React Native', 'Tailwind CSS', 'Expo', 'JavaScript', 'Vite', 'npm'],
+        ['App Script', 'Excel', 'Google Sheets'],
         ['Java', 'Java Swing', 'Desktop GUI'],
         ['React', 'react-qr-code', 'HTML', 'CSS', 'JavaScript', 'npm'],
         ['Java', 'Java Swing', 'Tree Visualization'],
@@ -87,17 +91,43 @@ const Projects = () => {
             >
 
                 {imageList.map((image, index) => {
-                    return <div className="card min-w-64 flex flex-col items-center rounded-md outline outline-gray-300 bg-white shadow-md gap-y-2.5" style={{ padding: "4px" }}>
-                        <img src={image} className='h-fit w-full' />
-                        <h1 className='font-medium text-xl'>{titleList[index]}</h1>
-                        <div className='flex gap-x-1 flex-wrap'>
-                            {descriptionTools[index].map((descriptions, indexJ) => {
-                                let borderColor = generateRandomColor()
-                                return <div className={`rounded-full w-fit`} style={{ padding: "0px 4px", margin: "2px", border: `2px solid ${borderColor}` }}>{descriptions}</div>
-                            })}
-                        </div>
-                    </div>
+                    // For hover effect with delay, use React state per card
+                    const [isHovered, setIsHovered] = React.useState(false);
+                    const hoverTimeout = React.useRef(null);
 
+                    const handleMouseEnter = () => {
+                        hoverTimeout.current = setTimeout(() => {
+                            setIsHovered(true);
+                        }, 120); // 120ms delay
+                    };
+
+                    const handleMouseLeave = () => {
+                        clearTimeout(hoverTimeout.current);
+                        setIsHovered(false);
+                    };
+
+                    return (
+                        <div
+                            className="card min-w-64 flex flex-col items-center rounded-md outline outline-gray-300 bg-white shadow-md gap-y-2.5 transition-all duration-300"
+                            style={{
+                                padding: "4px",
+                                transform: isHovered ? "translate(-10px, -10px)" : "none",
+                                boxShadow: isHovered ? "0px 0px 10px 0px #484848" : "0 1px 3px 0 rgba(0,0,0,0.08)",
+                            }}
+                            onMouseEnter={handleMouseEnter}
+                            onMouseLeave={handleMouseLeave}
+                            key={index}
+                        >
+                            <img src={image} className='h-fit w-full' />
+                            <h1 className='font-medium text-xl'>{titleList[index]}</h1>
+                            <div className='flex gap-x-1 flex-wrap'>
+                                {descriptionTools[index].map((descriptions, indexJ) => {
+                                    let borderColor = generateRandomColor()
+                                    return <div className={`rounded-full w-fit`} style={{ padding: "0px 4px", margin: "2px", border: `2px solid ${borderColor}` }} key={indexJ}>{descriptions}</div>
+                                })}
+                            </div>
+                        </div>
+                    );
                 })}
             </div>
 
