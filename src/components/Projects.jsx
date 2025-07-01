@@ -13,7 +13,10 @@ import bForm from '../assets/projects/BForm.png';
 import ReactMarkdown from 'react-markdown';
 import github from '../assets/icons/github.svg'
 import back from '../assets/back.svg'
+import ProjectDetails from './ProjectDetails';
 
+
+import './component.css';
 
 const Projects = () => {
     const [selectedProject, setSelectedProject] = React.useState(null);
@@ -26,14 +29,49 @@ const Projects = () => {
             tools: ['React', 'Tailwind CSS', 'JavaScript'],
             description: 'A realistic simulation of macOS X Tiger with desktop, terminal, file system, and draggable windows.',
             link: "https://github.com/YashodharChavan/mac-os-10.4-X-tiger",
-            details: `### macOS X Tiger Clone
+            overview: "A desktop simulation of macOS X Tiger, built using React and Tailwind CSS. This project replicates key system behaviors from the classic Apple OS, including a functional terminal emulator, file system navigation, and draggable, resizable windows. Designed to closely match the aesthetics of early 2000s Apple UI, the clone serves as both a design experiment and a technical deep dive into managing complex state and interactive components in React.",
+            features: [
+                {
+                    title: "🖥️ Functional Terminal Emulator",
+                    description: "The terminal is fully functional and tightly integrated with the simulated file system. It mimics basic Unix commands and provides realistic feedback."
+                },
+                {
+                    title: "📂 File System Navigation",
+                    description: "The file system is modeled after macOS X Tiger, complete with folders, files, and interactive navigation."
+                },
+                {
+                    title: "🪟 Draggable & Resizable Windows",
+                    description: "Each window on the desktop can be dragged and resized, replicating a native desktop experience."
+                },
+                {
+                    title: "🎨 Polished & Accessible UI",
+                    description: "The interface is designed with a vintage Apple aesthetic and includes accessibility-focused design elements."
+                }
+            ],
+            challenges: [
+                {
+                    title: "🪟 Complex Window Management",
+                    description: "Implementing draggable and resizable windows required precise state management, z-index tracking, and smooth UX across screen sizes."
+                },
+                {
+                    title: "💻 Simulated Terminal Behavior",
+                    description: "Creating a realistic terminal emulator involved parsing user input, mimicking command outputs, and syncing it with a virtual file system."
+                },
+                {
+                    title: "📁 File System Modeling",
+                    description: "Structuring a mock file system in memory and allowing dynamic navigation within it posed data modeling and rendering challenges."
+                },
+                {
+                    title: "🎨 UI Aesthetic Matching",
+                    description: "Replicating the early 2000s Apple UI involved fine-tuned styling, shadow layers, pixel-perfect spacing, and nuanced interaction behaviors."
+                },
+                {
+                    title: "🔁 Component Reusability & State Isolation",
+                    description: "Maintaining separation between multiple interactive components (windows, file manager, terminal) while managing global state was non-trivial and required careful architecture."
+                }
+            ]
+            
 
-A React-based recreation of macOS X Tiger with:
-
-- Draggable windows
-- Terminal emulator
-- File system UI
-- Styled to reflect early 2000s Apple aesthetics`,
         },
         {
             title: 'Oxygen Weather App (React Native)',
@@ -41,13 +79,53 @@ A React-based recreation of macOS X Tiger with:
             tools: ['React Native', 'Tailwind CSS', 'Expo'],
             description: 'A beautiful weather app made with React Native and Expo, using WeatherAPI.',
             link: "https://github.com/YashodharChavan/oxygen-weather-app",
-            details: `### Oxygen Weather App
+            overview: "Oxygen is a sleek, mobile-first weather application built with React Native, Tailwind CSS, and Expo. It fetches real-time weather data from WeatherAPI, providing users with location-based forecasts in a clean, responsive UI. The app focuses on performance and simplicity, offering a smooth user experience on both Android and iOS platforms.",
+            features: [
+                {
+                    title: "📍 Location-Based Forecasts",
+                    description: "The app uses device geolocation to fetch accurate, real-time weather data specific to the user's current location via WeatherAPI."
+                },
+                {
+                    title: "📱 Cross-Platform Compatibility",
+                    description: "Built with React Native and Expo, Oxygen works seamlessly on both Android and iOS devices, ensuring a consistent experience across platforms."
+                },
+                {
+                    title: "⚡ Fast & Lightweight UI",
+                    description: "Designed with Tailwind CSS and optimized for performance, the app loads quickly and responds fluidly to user input."
+                },
+                {
+                    title: "🌦️ Real-Time Weather Display",
+                    description: "Displays current weather conditions, temperature, humidity, and other essential data using a clean and readable layout."
+                },
+                {
+                    title: "🎨 Minimal & Responsive Design",
+                    description: "The app emphasizes simplicity and clarity, with an elegant, mobile-first layout that adapts beautifully to screen sizes."
+                }
+            ],
+            challenges: [
+                {
+                    title: "📡 Geolocation Permissions & Handling",
+                    description: "Implementing accurate location-based weather required handling user permissions across Android and iOS, along with fallback logic for denied access."
+                },
+                {
+                    title: "🌐 API Rate Limiting & Data Handling",
+                    description: "WeatherAPI had usage limits, so managing API calls efficiently without exceeding the quota—especially during live testing—was essential."
+                },
+                {
+                    title: "📱 Cross-Platform Styling Consistency",
+                    description: "Ensuring the UI looked and behaved the same across Android and iOS was tricky due to minor platform-specific quirks in React Native rendering."
+                },
+                {
+                    title: "🌤️ Real-Time Data Updates",
+                    description: "Ensuring the weather data updated consistently with minimal latency involved syncing state properly and dealing with asynchronous fetch behavior."
+                },
+                {
+                    title: "📏 Responsive Layout in React Native",
+                    description: "Designing a responsive interface that looked good on various screen sizes required experimenting with Tailwind-compatible styling and custom breakpoints."
+                }
+            ]
 
-Built with **React Native** and **Expo**:
 
-- Uses WeatherAPI.com
-- Location-based weather
-- Styled with Tailwind for mobile`,
         },
         {
             title: 'Indian Railways B-Form Automation',
@@ -55,14 +133,53 @@ Built with **React Native** and **Expo**:
             tools: ['Google Apps Script', 'Excel', 'Google Sheets'],
             description: 'Automates IC/NON-IC data generation from ICMNTR sheet via Apps Script.',
             link: "https://www.google.com",
-            details: `### Indian Railways B-Form Automation
+            overview: "A data automation tool built using Google Apps Script and Google Sheets to streamline B-Form generation for Indian Railways. It parses the raw ICMNTR sheet, classifies entries into IC and NON-IC, and automatically generates structured sheets and downloadable Excel files. The tool significantly reduces manual effort and minimizes errors in handling operational railway data.",
+            features: [
+                {
+                    title: "📥 ICMNTR Sheet Import",
+                    description: "Automatically imports the raw ICMNTR operational data sheet directly into Google Sheets for processing."
+                },
+                {
+                    title: "🧠 IC & NON-IC Classification",
+                    description: "Parses and filters the entries into IC (Interchange) and NON-IC categories based on predefined logic and keywords."
+                },
+                {
+                    title: "📝 Auto-Generated Master Sheets",
+                    description: "Creates organized Master, IC, and NON-IC sheets dynamically within the same Google Sheets file—no manual sorting required."
+                },
+                {
+                    title: "📤 Excel Export Functionality",
+                    description: "Supports one-click download of generated IC/NON-IC Excel files for official use or reporting."
+                },
+                {
+                    title: "⚙️ Built with Google Apps Script",
+                    description: "Custom backend scripts automate data parsing, formatting, and export—fully serverless and cloud-integrated."
+                }
+            ],
+            challenges: [
+                {
+                    title: "📊 Parsing Raw ICMNTR Data",
+                    description: "The ICMNTR sheet had inconsistent formatting and required custom logic to reliably extract and normalize useful fields before processing."
+                },
+                {
+                    title: "🔍 Accurate IC/NON-IC Classification",
+                    description: "Developing a reliable classification algorithm was difficult due to edge cases, inconsistent labeling, and data ambiguities in the source file."
+                },
+                {
+                    title: "📄 Automating Sheet Generation",
+                    description: "Dynamically creating and updating multiple structured sheets (Master, IC, NON-IC) within Google Sheets required careful handling of sheet naming, duplication, and layout constraints."
+                },
+                {
+                    title: "📤 Excel File Export Limitations",
+                    description: "Exporting filtered data into downloadable Excel format from within Google Sheets involved working around limitations in Google Apps Script's export APIs."
+                },
+                {
+                    title: "🔐 Data Security and Access Control",
+                    description: "Ensuring the tool worked only with authorized personnel and avoided data leaks required proper access settings and script-level permissions."
+                }
+            ]
 
-A Google Sheets tool that:
 
-- Imports and parses ICMNTR sheet from FOIS
-- Separates IC and NON-IC entries
-- Generates Master, IC, NON-IC sheets
-- Supports download of filtered Excel files`,
         },
         {
             title: 'Photo Enhancer (Java Swing)',
@@ -70,13 +187,53 @@ A Google Sheets tool that:
             tools: ['Java', 'Java Swing'],
             description: 'A desktop GUI for basic photo enhancement using Java Swing.',
             link: "https://github.com/YashodharChavan/Photo-Enhancer-Java",
-            details: `### Photo Enhancer
+            overview: "A lightweight desktop application built using Java Swing that enables users to perform basic photo enhancements. It offers features like brightness and contrast adjustment, grayscale and invert filters, all packaged in an intuitive GUI. Designed with simplicity and speed in mind, it provides offline image editing capabilities without the need for heavy software.",
+            features: [
+                {
+                    title: "💡 Brightness & Contrast Adjustment",
+                    description: "Fine-tune image visibility with sliders for adjusting brightness and contrast in real-time."
+                },
+                {
+                    title: "🖤 Grayscale & Invert Filters",
+                    description: "Apply classic image effects like grayscale and invert to enhance or creatively modify your photos."
+                },
+                {
+                    title: "🖼️ Instant Preview",
+                    description: "Preview changes immediately on the canvas without needing to save or reload the image."
+                },
+                {
+                    title: "🧰 Lightweight & Offline-Ready",
+                    description: "Runs as a standalone Java application without the need for installation or internet connectivity."
+                },
+                {
+                    title: "🧑‍💻 Built with Java Swing",
+                    description: "Leverages Java Swing components to deliver a responsive, native-feel desktop interface."
+                }
+            ],
+            challenges: [
+                {
+                    title: "🖼️ Image Processing in Java",
+                    description: "Java Swing doesn't provide built-in support for advanced image manipulation. Had to manually implement brightness, contrast, grayscale, and invert algorithms using `BufferedImage` operations."
+                },
+                {
+                    title: "⚡ Real-Time Preview Performance",
+                    description: "Rendering image changes in real-time without noticeable lag required optimizing pixel-by-pixel operations and ensuring UI thread responsiveness with minimal redraw overhead."
+                },
+                {
+                    title: "🧪 Ensuring Image Quality Retention",
+                    description: "Applying filters without degrading image quality was a challenge. Carefully managed pixel transformations to prevent color banding and loss of detail."
+                },
+                {
+                    title: "🧰 Building a User-Friendly UI in Swing",
+                    description: "Creating an intuitive and clean interface with Java Swing demanded precise use of layout managers and custom component styling."
+                },
+                {
+                    title: "📁 File I/O & Format Support",
+                    description: "Supporting multiple image formats (like PNG, JPG) and handling file saving/loading robustly required integrating `ImageIO` and accounting for format limitations and exceptions."
+                }
+            ]
 
-Built in Java Swing, allows:
 
-- Brightness/contrast adjustments
-- Simple filters (greyscale, invert)
-- Desktop UI using native Java GUI`,
         },
         {
             title: 'Link to QR Code Generator',
@@ -84,13 +241,53 @@ Built in Java Swing, allows:
             tools: ['React', 'react-qr-code'],
             description: 'Generates QR code for links using React and `react-qr-code`.',
             link: "https://github.com/YashodharChavan/Link-to-QR-code",
-            details: `### QR Code Generator
+            overview: "A fast and minimal QR code generator built using React and the react-qr-code library. Users can input any link and instantly receive a scannable QR code, which can also be downloaded as an image. Designed with simplicity and responsiveness in mind, the app is ideal for quick link sharing across devices.",
+            features: [
+                {
+                    title: "🔗 Real-time Link-to-QR Conversion",
+                    description: "Converts any valid URL into a QR code instantly as you type, without needing to press a button."
+                },
+                {
+                    title: "📥 Downloadable QR Codes",
+                    description: "Users can download the generated QR code as a PNG image for offline use or sharing."
+                },
+                {
+                    title: "⚡ Built with React & react-qr-code",
+                    description: "Leverages the lightweight `react-qr-code` package for fast, responsive QR rendering."
+                },
+                {
+                    title: "📱 Mobile-Friendly Design",
+                    description: "Fully responsive layout ensures it works seamlessly on mobile, tablet, and desktop devices."
+                },
+                {
+                    title: "🎯 Minimal UI",
+                    description: "Focused, clutter-free interface built for maximum usability and quick access."
+                }
+            ],
+            challenges: [
+                {
+                    title: "🔍 Input Validation",
+                    description: "Ensuring that users only entered valid URLs was essential to avoid generating broken or unscannable QR codes. Implemented regex-based validation with real-time feedback to guide users."
+                },
+                {
+                    title: "📥 Enabling QR Code Download",
+                    description: "Allowing users to download the generated QR as a PNG required rendering the SVG QR into a canvas and converting it into an image, which introduced cross-browser compatibility considerations."
+                },
+                {
+                    title: "📱 Ensuring Mobile Responsiveness",
+                    description: "Designing a clean and responsive layout that works well across all screen sizes required careful use of media queries and layout utilities in Tailwind CSS."
+                },
+                {
+                    title: "⚙️ Customizing QR Appearance",
+                    description: "The `react-qr-code` package had limited styling options out of the box. Had to explore SVG manipulation and layering techniques to achieve a minimal yet polished look."
+                },
+                {
+                    title: "⏱️ Real-Time Updates without Performance Drop",
+                    description: "Rendering a new QR code on every keystroke needed to be smooth. Optimized input debouncing and component re-renders to maintain snappy performance."
+                }
+            ]
 
-Paste a link and instantly generate its QR code.
 
-- Built with React
-- Uses \`react-qr-code\` package
-- Minimal clean UI`,
         },
         {
             title: 'Folder Visualizer (Java Swing)',
@@ -98,54 +295,55 @@ Paste a link and instantly generate its QR code.
             tools: ['Java', 'Java Swing'],
             description: 'A visual file/folder tree built using Java Swing.',
             link: "https://github.com/YashodharChavan/folder-visualizer",
-            details: `### Folder Visualizer
+            overview: "A desktop-based folder visualization tool developed using Java Swing. It dynamically reads the file system and presents directories in an interactive tree view structure, allowing users to explore folders with expand/collapse functionality. This tool offers an intuitive interface for navigating hierarchical data locally.",
+            features: [
+                {
+                    title: "🌲 Interactive Folder Tree View",
+                    description: "Displays a hierarchical tree structure of directories using Java Swing's `JTree`, making file exploration intuitive."
+                },
+                {
+                    title: "📁 Expand/Collapse Navigation",
+                    description: "Users can interactively expand or collapse folders to view their contents without loading everything at once."
+                },
+                {
+                    title: "💻 Local File System Access",
+                    description: "Reads the actual file system of the user's machine in real-time, reflecting current folder structures."
+                },
+                {
+                    title: "🖥️ Native Java GUI",
+                    description: "Built with Java Swing, providing a lightweight, responsive, and platform-independent desktop interface."
+                },
+                {
+                    title: "🔎 Fast and Lightweight",
+                    description: "Efficiently parses and renders directories without significant performance overhead—even with large folder trees."
+                }
+            ],
+            challenges: [
+                {
+                    title: "📂 Navigating Deeply Nested Structures",
+                    description: "Handling deeply nested directories risked stack overflows or infinite recursion due to symlinks. Implemented lazy loading to only fetch subfolders when needed, improving stability and responsiveness."
+                },
+                {
+                    title: "📁 Performance Bottlenecks with Large Trees",
+                    description: "Rendering large folder trees caused UI lags. Used Java Swing’s DefaultTreeModel with dynamic updates and background thread loading to keep the interface responsive."
+                },
+                {
+                    title: "🧭 Designing a Responsive UI in Swing",
+                    description: "Java Swing doesn’t offer modern UI components out of the box. Carefully used layout managers and split panes to create an intuitive and resizable user interface."
+                },
+                {
+                    title: "🔐 Handling File System Permissions",
+                    description: "Some system directories threw access errors. Handled this by wrapping file access in try-catch blocks and gracefully skipping unreadable folders."
+                },
+                {
+                    title: "🧠 Memory Management",
+                    description: "Keeping all folder nodes in memory increased RAM usage. Limited the depth of preloaded folders and released memory when nodes were collapsed."
+                }
+            ]
 
-Desktop tool to browse directories in a tree layout.
-
-- Uses Java Swing's \`JTree\`
-- Displays folder structure
-- Clickable folders with expand/collapse`,
         },
-        {
-            title: 'Online HTML Editor (React)',
-            image: onlineHTMLEditor,
-            tools: ['React', 'Tailwind CSS', 'ace-builds'],
-            description: 'Live HTML editor with syntax highlighting.',
-            link: "https://github.com/YashodharChavan/online-html-editor",
-            details: `### Online HTML Editor
 
-Live-edit HTML and see the result.
 
-- Uses Ace Editor for syntax
-- Live preview pane
-- Built in React + Tailwind`,
-        },
-        {
-            title: 'Email Composer with NodeMailer',
-            image: emailLess,
-            tools: ['React', 'Node.js', 'NodeMailer'],
-            description: 'A contact form app that sends email using NodeMailer backend.',
-            link: "https://github.com/YashodharChavan/email-less-compose",
-            details: `### Email Composer
-
-Full-stack email tool:
-
-- Frontend in React
-- Backend with Express
-- Sends emails via NodeMailer`,
-        },
-        {
-            title: 'Web Drawing Tool (React)',
-            image: webDrawer,
-            tools: ['React', 'Canvas API'],
-            description: 'Freehand web drawing app using HTML5 Canvas.',
-            link: "https://github.com/YashodharChavan/web-canvas-drawer",
-            details: `### Web Drawing Tool
-
-- Built using HTML5 \`canvas\`
-- Supports color, thickness
-- Responsive for mobile and desktop`,
-        },
     ];
 
     return (
@@ -232,26 +430,30 @@ Full-stack email tool:
 
                     <div className="flex items-center justify-between">
 
-                        <h1 className="text-3xl font-bold mb-4">{selectedProject.title}</h1>
+                        <h1 className="text-3xl font-bold mb-4" style={{ fontFamily: 'outfit' }}>{selectedProject.title}</h1>
                         <a
                             href={selectedProject.link}
                             target="_blank"
-                            className="bg-red-400 rounded-full flex items-center justify-between gap-x-2"
-                            style={{padding: "4px 8px"}}
-                        >   
+                            className="bg-[#e1e1e1] border border-[#565656] rounded-full flex items-center justify-between gap-x-2"
+                            style={{ padding: "4px 8px" }}
+                        >
                             <img src={github} className="h-6 w-fit" />
-                            <span>Visit</span>
+                            <span style={{ fontFamily: 'outfit' }}>Visit</span>
                         </a>
                     </div>
+                    <p className='text-lg'>{selectedProject.description}</p>
                     <img src={selectedProject.image} className="w-full max-w-3xl rounded-lg" />
                     <div className="flex flex-wrap gap-2">
                         {selectedProject.tools.map((tool, i) => (
-                            <div key={i} className="px-3 py-1 border-2 rounded-full text-sm" style={{ padding: "0px 4px", borderColor: "#9999ff" }}>{tool}</div>
+                            <div key={i} className="border-2 rounded-full" style={{ padding: "2px 6px", borderColor: "#9999ff", fontFamily: 'outfit' }}>{tool}</div>
                         ))}
                     </div>
-                    <div className="prose max-w-3xl">
-                        <ReactMarkdown>{selectedProject.details}</ReactMarkdown>
-                    </div>
+                    <ProjectDetails
+                        overview={selectedProject.overview}
+                        features={selectedProject.features}
+                        challenges={selectedProject.challenges}
+                        outcome={selectedProject.outcome}
+                    />
                 </div>
             )}
         </>

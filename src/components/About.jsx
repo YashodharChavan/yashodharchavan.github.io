@@ -102,7 +102,7 @@ const About = () => {
                         </div>
                     </div>
                     <div className="journeybox p-2 relative w-full">
-                        <div className="border border-black gap-y-3 sm:gap-y-4 flex flex-col justify-evenly w-[95%]  relative journey-container rounded bg-white" style={{ margin: "4px 0px", margin: "4px 0px 8px auto", padding: "6px" }}>
+                        <div className="border border-black gap-y-3 sm:gap-y-4 flex flex-col justify-evenly w-[95%]  relative journey-container rounded bg-white" style={{ margin: "4px 0px 8px auto", padding: "6px" }}>
                             <h1
                                 className="text-2xl font-bold bg-clip-text text-transparent"
                                 style={{
