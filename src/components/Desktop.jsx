@@ -71,13 +71,18 @@ const Desktop = () => {
     setPositions(initialPositions);
   }, [JSON.stringify(desktopFileTree)]);
 
-  const { openWindows, openWindow, optionalText, optionalTitle, optionalPath } = useWindowManager();
+  const { openWindows, openWindow, optionalText, optionalTitle, optionalPath, optionalTextEditPath } = useWindowManager();
 
   const handleDragStart = (id, e) => {
     e.dataTransfer.setData('text/plain', id);
     e.dataTransfer.effectAllowed = 'move';
     setDraggedId(id);
   };
+
+
+  useEffect(()=> {
+  }, [optionalPath])
+
 
   const handleDragEnd = () => {
     setDraggedId(null);
@@ -137,8 +142,9 @@ const Desktop = () => {
 
   const handleDoubleClick = (icon) => {
     if (icon.type === 'dir') {
-      openWindow('finder');
+      openWindow('finder', '', '', '',icon.name, '/Users/yashodhar/Desktop/' + icon.name);
     } else if (icon.type === 'file') {
+      console.log(icon)
       openWindow('textedit', '', '', desktopFileTree[icon.name].content, icon.name);
     }
   };
@@ -152,7 +158,6 @@ const Desktop = () => {
 
   const handleTrashDrop = (iconId) => {
     const icon = icons.find((i) => i.id === iconId);
-    console.log(iconId, icon)
     if (!icon) return
 
     const fullPath = `/Users/yashodhar/Desktop/${icon.name}`;
@@ -218,7 +223,7 @@ const Desktop = () => {
         {openWindows['terminal'] && <Terminal />}
         {openWindows['calculator'] && <Calculator />}
         {openWindows['contacts'] && <Contacts />}
-        {openWindows['textedit'] && <TextEdit title={optionalTitle} optionalText={optionalText} />}
+        {openWindows['textedit'] && <TextEdit title={optionalTitle} optionalText={optionalText} optionalPath={optionalTextEditPath} />}
         {openWindows['dictionary'] && <Dictionary />}
         {openWindows['safari'] && <Safari />}
         {openWindows['mail'] && <Mail />}

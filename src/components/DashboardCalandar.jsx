@@ -40,27 +40,22 @@ const RemainingDashboardCalender = () => {
             style={{
                 padding: '4px 12px 4px 6px',
                 boxShadow: '0px 12px 20px black'
-             }}
+            }}
             onClick={(e) => { e.stopPropagation() }}
         >
 
             {dayNames.map((day, index) => {
                 return (
-                    <>
-                        <div key={index} className="day flex items-center justify-end font-semibold text-[#EE9556]" style={{
-                                textShadow: '1px -2px 0px #5e5151'
-                        }}>{day}</div>
-                    </>
+                    <div key={index} className="day flex items-center justify-end font-semibold text-[#EE9556]" style={{
+                        textShadow: '1px -2px 0px #5e5151'
+                    }}>{day}</div>
                 )
             })}
 
             {calenderDays.map((day, index) => (
-                <>
-                    <div key={index + dayNames.length} className="day flex items-center justify-end font-semibold text-white" style={{
-                            textShadow: '1px -2px 0px #5e5151'
-                    }}>{day}</div>
-                    {/* <hr /> */}
-                </>
+                <div key={index + dayNames.length} className="day flex items-center justify-end font-semibold text-white" style={{
+                    textShadow: '1px -2px 0px #5e5151'
+                }}>{day}</div>
             ))}
         </div>
     )
@@ -82,24 +77,24 @@ const DashboardCalendar = () => {
 
 
 
-   const handleCalenderClick = (e) => {
-    if (wasDragged.current) {
-        return; // Don't toggle calendar if it was a drag
-    }
+    const handleCalenderClick = (e) => {
+        if (wasDragged.current) {
+            return; // Don't toggle calendar if it was a drag
+        }
 
-    setToDisplayFullCalender(prev => {
-        const newState = !prev;
+        setToDisplayFullCalender(prev => {
+            const newState = !prev;
 
-        setTimeout(() => {
-            if (calenderRef.current) {
-                calenderRef.current.style.borderBottomLeftRadius = newState ? '0px' : '8px';
-                calenderRef.current.style.borderBottomRightRadius = newState ? '0px' : '8px';
-            }
-        }, 0);
+            setTimeout(() => {
+                if (calenderRef.current) {
+                    calenderRef.current.style.borderBottomLeftRadius = newState ? '0px' : '8px';
+                    calenderRef.current.style.borderBottomRightRadius = newState ? '0px' : '8px';
+                }
+            }, 0);
 
-        return newState;
-    });
-};
+            return newState;
+        });
+    };
 
 
 
@@ -161,7 +156,7 @@ const DashboardCalendar = () => {
         <div
             className="flex flex-col gap-y-1.5 items-center h-24 w-48 bg-[#B80A0A] rounded-lg select-none shadow-[0px_0px_20px_black]"
             style={{
-                zIndex: isDragging? 100: 1,
+                zIndex: isDragging ? 100 : 1,
                 position: 'absolute',
                 left: "61%",
                 top: "33%",

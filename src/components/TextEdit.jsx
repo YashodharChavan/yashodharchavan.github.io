@@ -2,30 +2,42 @@ import React, { useEffect, useState, useRef } from 'react';
 import SimpleFrame from './SimpleFrame';
 import './component.css';
 import { fileSystem } from './Utils/fileSystem';
-const TextEdit = ({ title = "Untitled.txt", optionalText = "" }) => {
-
-    const [fileNode, setFileNode] = useState(findFileNode(fileSystem, title));
-
-    const [text, setText] = useState(fileNode?.content || optionalText);
-
-    const createFileInDesktop = () => {
-        const desktop =
-            fileSystem['/'].children.Users.children.yashodhar.children.Desktop.children;
-        if (!desktop[title]) {
-            desktop[title] = {
-                type: 'file',
-                content: optionalText,
-            };
-            console.log(`Created new file '${title}' in Desktop`);
-        }
-        return desktop[title];
-    };
-
+const TextEdit = ({ title = "Untitled.txt", optionalText = "", optionalPath = null }) => {
+    const [fileNode, setFileNode] = useState(() => findFileNode(fileSystem, title, optionalPath));
+    const [text, setText] = useState(optionalText || fileNode?.content || "");
     const textareaRef = useRef(null);
 
 
-    function findFileNode(fileSystem, filename) {
+    useEffect(() => {
+        console.log(optionalPath)
+    }, [optionalPath])
 
+    
+    function findFileNode(fileSystem, filename, fullPath = null) {
+        const root = fileSystem['/'].children;
+
+        // If a full absolute path is provided (e.g., "/Users/yashodhar/Desktop/notes.txt")
+        if (fullPath && typeof fullPath === 'string') {
+            const segments = fullPath.split('/').filter(Boolean); // removes empty strings
+            let current = root;
+
+            for (let i = 0; i < segments.length - 1; i++) {
+                const dir = segments[i];
+                if (current[dir] && current[dir].type === 'dir') {
+                    current = current[dir].children;
+                } else {
+                    current = null;
+                    break;
+                }
+            }
+
+            const fileNameFromPath = segments[segments.length - 1];
+            if (current && current[fileNameFromPath] && current[fileNameFromPath].type === 'file') {
+                return current[fileNameFromPath];
+            }
+        }
+
+        // Fallback to recursive search if not found via path
         function searchDir(dir) {
             for (const [key, value] of Object.entries(dir)) {
                 if (value.type === 'file' && key === filename) {
@@ -37,17 +49,30 @@ const TextEdit = ({ title = "Untitled.txt", optionalText = "" }) => {
             }
             return null;
         }
-        return searchDir(fileSystem['/'].children);
+
+        return searchDir(root);
     }
+
+
+    const createFileInDesktop = () => {
+        const desktop = fileSystem['/'].children.Users.children.yashodhar.children.Desktop.children;
+        if (!desktop[title]) {
+            desktop[title] = {
+                type: 'file',
+                content: optionalText,
+            };
+            console.log(`Created new file '${title}' in Desktop`);
+        }
+        return desktop[title];
+    };
 
     const handleTextChange = (value) => {
         setText(value);
 
-        // Create the file if it doesn't exist yet
         let node = fileNode;
         if (!node) {
             node = createFileInDesktop();
-            setFileNode(node); // Save reference for later
+            setFileNode(node);
         }
 
         if (node && node.type === 'file') {
@@ -79,5 +104,6 @@ const TextEdit = ({ title = "Untitled.txt", optionalText = "" }) => {
         </SimpleFrame>
     );
 };
+
 
 export default TextEdit;

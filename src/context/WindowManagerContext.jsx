@@ -10,6 +10,7 @@ export const WindowManagerProvider = ({ children }) => {
   const [optionalTitle, setOptionalTitle] = useState('');
   const [optionalPath, setOptionalPath] = useState('');
   const [currentTopComponent, setCurrentTopComponent] = useState();
+  const [optionalTextEditPath, setOptionalTextEditPath] = useState();
   
 
 
@@ -27,6 +28,7 @@ export const WindowManagerProvider = ({ children }) => {
     if(id==='textedit') {
       setOptionalText(parameterText);
       setOptionalTitle(parameterTitle);
+      setOptionalTextEditPath(parameterPath);
     }
 
     if(id==='finder') {
@@ -72,7 +74,8 @@ export const WindowManagerProvider = ({ children }) => {
       setFocusedWindowId,
       optionalText, 
       optionalTitle,
-      optionalPath
+      optionalPath, 
+      optionalTextEditPath
     }}>
       {children}
     </WindowManagerContext.Provider>

@@ -17,7 +17,7 @@ import FileSystemFolder from './FileSystemFolder.jsx';
 import { useFileSystem } from '../context/FileSystemContext.jsx';
 import { getNodeAtPath } from './Utils/fileSystemUtils';
 
-const Finder = ({optionalPath=null}) => {
+const Finder = ({ optionalPath = null }) => {
   const { fileSystem } = useFileSystem();
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [sidebarWidth, setSidebarWidth] = useState(150);
@@ -29,7 +29,7 @@ const Finder = ({optionalPath=null}) => {
   const [fileSystemPath, setFileSystemPath] = useState('/');
 
   const options = [
-    { label: 'Network', icon: genericNetwork, path:"/" },
+    { label: 'Network', icon: genericNetwork, path: "/" },
     { label: 'Mac OS X Tiger', icon: hardDrive },
     { label: 'Mac OS X Tiger', icon: Dvd },
     { label: 'Desktop', icon: Desktop },
@@ -77,10 +77,10 @@ const Finder = ({optionalPath=null}) => {
   }, []);
 
   useEffect(() => {
-  if (optionalPath) {
-    setFileSystemPath(optionalPath);
-  }
-}, [optionalPath]);
+    if (optionalPath) {
+      setFileSystemPath(optionalPath);
+    }
+  }, [optionalPath]);
 
   const currentNode = getNodeAtPath(fileSystemPath, fileSystem);
 
@@ -101,14 +101,14 @@ const Finder = ({optionalPath=null}) => {
       minWidth="450"
       isResizable={true}
       showDimensions={false}
-      hasPadding={true}
+      hasPadding={false}
       optionalBackground={texture}
       hasDrawer={true}
       setIsSidebarOpen={setIsSidebarOpen}
       isSidebarOpen={isSidebarOpen}
     >
       {isSidebarOpen && (
-        <div className="top-finder-bar w-full flex justify-between items-center">
+        <div className="top-finder-bar w-full flex justify-between items-center" style={{ paddingBottom: isSidebarOpen ? '12px' : '0px', padding: "4px", background: 'linear-gradient(rgb(204, 204, 204), rgb(213, 213, 213))' }}>
           <div className="left-finder-side flex select-none gap-x-2 items-center">
             <div
               className="buttons w-fit h-fit outline outline-[#666666] rounded-sm"
@@ -144,7 +144,7 @@ const Finder = ({optionalPath=null}) => {
 
       <div
         className="finder flex w-full"
-        style={{ marginTop: isSidebarOpen ? '12px' : '0px', height: isSidebarOpen ? 'calc(100% - 38px)' : '100%' }}
+        style={{ height: isSidebarOpen ? 'calc(100% - 38px)' : '100%', padding: "4px" }}
       >
         {isSidebarOpen && (
           <>
@@ -210,7 +210,7 @@ const Finder = ({optionalPath=null}) => {
               node={currentNode}
               path={fileSystemPath}
               setFileSystemPath={setFileSystemPath}
-              
+
             />
           ) : (
             <div className="p-4 text-gray-500">Directory not found</div>

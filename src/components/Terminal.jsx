@@ -97,6 +97,7 @@ const Terminal = () => {
             ref={inputRef}
             type="text"
             value={input}
+            spellCheck={false}
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={handleKeyDown}
             className="flex-grow outline-none bg-transparent"

@@ -149,7 +149,8 @@ const TopBar = ({ currentTopComponent }) => {
           if (selectedItem.type === 'dir') {
             openWindow('finder', "", "", "", "", selectedItem.fullPath);
           } else {
-            openWindow('textedit', "", "", "", selectedItem.name);
+            console.log(selectedItem.fullPath)
+            openWindow('textedit', "", "", "", selectedItem.name, selectedItem.fullPath);
           }
         } else {
           openWindow(selectedItem.name.replaceAll(' ', '').toLowerCase());
@@ -275,18 +276,21 @@ const TopBar = ({ currentTopComponent }) => {
           style={{ padding: "0px 8px" }} autoFocus={true} onChange={(e) => handleChange(e.target.value)} />
       </div>}
 
-      {searchString && <div className="absolute top-14 w-96 right-44 h-fit z-10 bg-[#E7EDF2]"
+      {(searchString && isSpotlightActive) && <div className="absolute top-14 w-96 right-44 h-fit z-10 bg-[#E7EDF2]"
         style={{ boxShadow: "0px 7px 16px 0px #00000099" }}>
         <ul>
 
           {results.map((item, index) => (
             <li
               key={index}
-              className={`px-2 py-1 cursor-pointer flex items-center gap-x-0.5 ${index === selectedIndex ? 'bg-[#2A68C8] text-white' : ''
+              className={`px-2 py-1 cursor-pointer flex items-center gap-x-2 ${index === selectedIndex ? 'bg-[#2A68C8] text-white' : ''
                 }`}
             >
-              <img src={item.icon} alt="" className="h-8" />
-              {item.name}
+              <div className="flex items-center gap-x-0.5">
+                <img src={item.icon} alt="" className="h-8" />
+                {item.name}
+              </div>
+              <p className={`text-gray-600 text-sm ${index === selectedIndex ? 'text-white' : ''}` }>{item.fullPath}</p>
             </li>
           ))}
         </ul>
