@@ -1,4 +1,3 @@
-import React, { useEffect } from 'react';
 import './component.css';
 import TypeIt from 'typeit-react';
 import email from '../assets/icons/email.svg'
@@ -7,8 +6,15 @@ import github from '../assets/icons/github.svg'
 import art1 from '../assets/icons/art1.png'
 import art2 from '../assets/icons/art2.png'
 import art3 from '../assets/icons/art3.png'
+import React, { useRef } from 'react';
+
 
 const About = () => {
+    const journeyRef = useRef(null);
+
+    const handleScrollToJourney = () => {
+        journeyRef.current?.scrollIntoView({ behavior: 'smooth' });
+    };
 
     return (
         <>
@@ -38,7 +44,7 @@ const About = () => {
                     <p className="w-full text-center text-base font-medium ">
                         Hi, 👋 I'm Yashodhar Chavan! I'm passionate about new technologies and always eager to learn. Lately, I've been diving deep into React.js with a lot of curiosity.
                     </p>
-                    <div className="m-auto px-4 sm:px-6 select-none py-2 sm:py-3 rounded-2xl w-fit text-white font-semibold cursor-pointer gradient-button transition-transform duration-300">
+                    <div className="m-auto px-4 sm:px-6 select-none py-2 sm:py-3 rounded-2xl w-fit text-white font-semibold cursor-pointer gradient-button transition-transform duration-300" onClick={handleScrollToJourney}>
                         <p className="text-sm sm:text-base" style={{ padding: "4px 12px" }}>Explore</p>
                     </div>
                 </div>
@@ -59,7 +65,7 @@ const About = () => {
             <div className="hidden lg:block absolute bg-red-500 h-4 w-4 bottom-[30%] left-[30%] rounded-full blur-lg red-glow"></div>
             <hr className="gradient-hr" />
 
-            <div className="journey bg-[#ECF2F9] relative w-full px-4 sm:px-6 py-8 sm:py-12">
+            <div className="journey bg-[#ECF2F9] relative w-full px-4 sm:px-6 py-8 sm:py-12" ref={journeyRef}>
                 <h1 className="text-3xl font-bold mb-6 sm:mb-8 text-center underline decoration-wavy decoration-red-500" style={{ padding: "24px 0px" }}>
                     My Journey
                 </h1>
@@ -178,11 +184,11 @@ const About = () => {
                     </div>
                     <div className="email flex items-center flex-col gap-y-3 text-center">
                         <p className="text-2xl font-bold">Mail</p>
-                        <p className="text-md font-bold text-gray-500 break-words">yashodhar2907@gmail.com</p>
+                        <p className="text-md font-bold text-gray-500 break-words">yashodharvchavan@gmail.com</p>
                         <a
                             className="flex items-center gap-x-2 select-none rounded-full w-fit text-white font-semibold cursor-pointer gradient-button transition-transform duration-300"
                             style={{ padding: "4px 8px" }}
-                            href="https://mail.google.com/mail/?view=cm&to=yashodhar2907@gmail.com"
+                            href="https://mail.google.com/mail/?view=cm&to=yashodharvchavan@gmail.com"
                             target="_blank"
                             rel="noopener noreferrer"
                         >

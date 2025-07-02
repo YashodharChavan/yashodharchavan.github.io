@@ -1,9 +1,10 @@
-import React from 'react'
 import education from '../assets/icons/education.png'
 import art4 from '../assets/icons/art4.png'
 import art5 from '../assets/icons/art5.png'
 import genericDocument from '../assets/folders/GenericDocumentIcon.ico'
 import redirect from '../assets/icons/redirect.svg'
+
+import React, { useRef } from 'react';
 
 const RedirectComponent = ({ name, url }) => {
 
@@ -37,6 +38,11 @@ const CompletionBar = ({ percentage }) => {
 
 
 const Education = () => {
+    const academicsRef = useRef(null);
+
+    const handleScrollToAcademics = () => {
+        academicsRef.current?.scrollIntoView({ behavior: 'smooth' });
+    };
     return (
         <div className="min-h-screen w-full bg-[#ECF2F9]">
             <div className="topbar font-bold text-lg sm:text-xl" style={{ padding: "12px 24px" }}>Yashodhar</div>
@@ -49,7 +55,7 @@ const Education = () => {
                     <p className="w-full text-center text-base font-medium ">
                         I always love to learn. Learning is the only difference between today and tomarrow 😇
                     </p>
-                    <div className="m-auto px-4 sm:px-6 select-none py-2 sm:py-3 rounded-2xl w-fit text-white font-semibold cursor-pointer gradient-button transition-transform duration-300">
+                    <div className="m-auto px-4 sm:px-6 select-none py-2 sm:py-3 rounded-2xl w-fit text-white font-semibold cursor-pointer gradient-button transition-transform duration-300" onClick={handleScrollToAcademics}>
                         <p className="text-sm sm:text-base" style={{ padding: "4px 12px" }}>Explore</p>
                     </div>
                 </div>
@@ -69,11 +75,11 @@ const Education = () => {
             </div>
             <hr className="gradient-hr" />
 
-            <h1 className="text-3xl font-bold mb-6 sm:mb-8 text-center underline decoration-wavy decoration-red-500" style={{ padding: "24px 0px" }}>
+            <h1 className="text-3xl font-bold mb-6 sm:mb-8 text-center underline decoration-wavy decoration-red-500" style={{ padding: "24px 0px" }} ref={academicsRef}>
                 My Academics:
             </h1>
 
-            <table className="w-[90%]" style={{"margin": "0px auto 32px auto"}}>
+            <table className="w-[90%]" style={{ "margin": "0px auto 32px auto" }}>
                 <thead>
                     <tr style={{ backgroundColor: "#f3f4f6" }}>
                         <th className="border border-gray-300" style={{ padding: "8px 16px" }}>Year</th>
@@ -122,8 +128,8 @@ const Education = () => {
                 My Favourite Books:
             </h1>
 
-            <table className="w-[90%] relative" style={{"margin": "0px auto 32px auto"}}>
-                 <img
+            <table className="w-[90%] relative" style={{ "margin": "0px auto 32px auto" }}>
+                <img
                     src={art5}
                     alt=""
                     draggable="false"
@@ -164,7 +170,7 @@ const Education = () => {
                     <td className="border border-gray-300" style={{ padding: "8px 16px" }}>4</td>
                     <td className="border border-gray-300" style={{ padding: "8px 16px" }}>As a Man Thinketh</td>
                     <td className="border border-gray-300" style={{ padding: "8px 16px" }}>James Allen</td>
-                    <td className="border border-gray-300" style={{ padding: "8px 16px" }}><CompletionBar percentage={80}/></td>
+                    <td className="border border-gray-300" style={{ padding: "8px 16px" }}><CompletionBar percentage={80} /></td>
                     <td className="border border-gray-300" style={{ padding: "8px 16px" }}>0</td>
                 </tr>
                 <tr className="bg-white">
@@ -197,7 +203,7 @@ const Education = () => {
             </table>
 
 
-            
+
         </div>
 
     )

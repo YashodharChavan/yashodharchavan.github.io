@@ -78,8 +78,8 @@ const MailInbox = ({ isWindowOpen, setIsWindowOpen, searchQuery }) => {
                     <br />
                     <p>
                         {highlightMatch("You can contact me at: ")}
-                        <a href="mailto:yashodhar2907@gmail.com" className="text-blue-500 underline">
-                            {highlightMatch("yashodhar2907@gmail.com")}
+                        <a href="mailto:yashodharvchavan@gmail.com" className="text-blue-500 underline">
+                            {highlightMatch("yashodharvchavan@gmail.com")}
                         </a>
                     </p>
                     <br />

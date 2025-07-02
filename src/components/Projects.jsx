@@ -3,22 +3,21 @@ import art9 from '../assets/icons/art9.png';
 import art10 from '../assets/icons/art10.png';
 import macOsXTiger from '../assets/projects/macOSXTiger.png';
 import photoEnhancer from '../assets/projects/photoEnhancer.png';
-import emailLess from '../assets/projects/emailLessCompose.png';
-import folderVisualizer from '../assets/projects/folderVisualizer.png';
 import linkToQrCode from '../assets/projects/linkToQrCode.png';
-import onlineHTMLEditor from '../assets/projects/onlineHTMLEditor.png';
 import oxygenWeather from '../assets/projects/oxygenWeather.png';
-import webDrawer from '../assets/projects/webDrawer.png';
 import bForm from '../assets/projects/BForm.png';
-import ReactMarkdown from 'react-markdown';
 import github from '../assets/icons/github.svg'
 import back from '../assets/back.svg'
 import ProjectDetails from './ProjectDetails';
-
+import { useRef } from 'react'
 
 import './component.css';
 
 const Projects = () => {
+    const projectsRef = useRef(null)
+    const handleScrollToProjects = () => {
+        projectsRef.current?.scrollIntoView({ behavior: 'smooth' });
+    }
     const [selectedProject, setSelectedProject] = React.useState(null);
     const [hoveredIndex, setHoveredIndex] = React.useState(null);
     const hoverTimeout = React.useRef(null);
@@ -50,7 +49,7 @@ const Projects = () => {
             ],
             challenges: [
                 {
-                    title: "🪟 Complex Window Management",
+                    title: "🛠️ Complex Window Management",
                     description: "Implementing draggable and resizable windows required precise state management, z-index tracking, and smooth UX across screen sizes."
                 },
                 {
@@ -69,9 +68,8 @@ const Projects = () => {
                     title: "🔁 Component Reusability & State Isolation",
                     description: "Maintaining separation between multiple interactive components (windows, file manager, terminal) while managing global state was non-trivial and required careful architecture."
                 }
-            ]
-            
-
+            ],
+            outcome: "The project successfully recreated a nostalgic and functional simulation of macOS X Tiger, complete with a responsive terminal, interactive file system, and draggable UI components. It not only evoked nostalgia through its vintage Apple design but also served as a deep technical exercise in managing complex state and UI interactions in React. The result was a polished desktop-like experience entirely in the browser, demonstrating both design fidelity and frontend engineering depth."
         },
         {
             title: 'Oxygen Weather App (React Native)',
@@ -123,9 +121,12 @@ const Projects = () => {
                     title: "📏 Responsive Layout in React Native",
                     description: "Designing a responsive interface that looked good on various screen sizes required experimenting with Tailwind-compatible styling and custom breakpoints."
                 }
-            ]
-
-
+            ],
+            outcome: "Oxygen Weather App was successfully developed as a sleek, cross-platform mobile application that delivers accurate, real-time weather updates using WeatherAPI. The app demonstrated smooth integration of geolocation services, efficient API usage, and responsive UI design tailored for both Android and iOS platforms. It not only achieved consistent performance and visual coherence across devices but also served as a strong showcase of building performant, mobile-first applications with React Native, Tailwind CSS, and Expo.",
+            teamwork: {
+                information: "This project was completed as part of a microproject for the course Environmental Education and Sustainability. Our team consisted of three members. I independently handled all the coding and application development, using documentation, tutorials, and AI assistance when needed. My teammates contributed to report writing, documentation formatting, and final printing tasks. This setup allowed me to take technical ownership while collaborating for overall project delivery.",
+                team: ["Aditya Bhosale", "Yashodhar Chavan", "Suraj Rathod"]
+            }
         },
         {
             title: 'Indian Railways B-Form Automation',
@@ -133,7 +134,7 @@ const Projects = () => {
             tools: ['Google Apps Script', 'Excel', 'Google Sheets'],
             description: 'Automates IC/NON-IC data generation from ICMNTR sheet via Apps Script.',
             link: "https://www.google.com",
-            overview: "A data automation tool built using Google Apps Script and Google Sheets to streamline B-Form generation for Indian Railways. It parses the raw ICMNTR sheet, classifies entries into IC and NON-IC, and automatically generates structured sheets and downloadable Excel files. The tool significantly reduces manual effort and minimizes errors in handling operational railway data.",
+            overview: "A data automation solution built directly within Google Sheets using embedded Google Apps Script, designed to streamline B-Form generation for Indian Railways. It parses the raw ICMNTR sheet, classifies entries into IC and NON-IC, and automatically generates structured sheets and downloadable PDF files. This approach significantly reduces manual effort and minimizes errors in handling operational railway data.",
             features: [
                 {
                     title: "📥 ICMNTR Sheet Import",
@@ -177,8 +178,12 @@ const Projects = () => {
                     title: "🔐 Data Security and Access Control",
                     description: "Ensuring the tool worked only with authorized personnel and avoided data leaks required proper access settings and script-level permissions."
                 }
-            ]
-
+            ],
+            outcome: "The tool proved to be a game-changer for railway officers by transforming a time-consuming, error-prone task into a fully automated process. What once took thousands of manual clicks and hours of analysis was reduced to just a few interactions. Officers who previously struggled with deciphering the massive and complex ICMNTR sheets found the automation intuitive, fast, and immensely helpful. By enabling instant classification, sheet generation, and Excel export, the solution not only saved time but also ensured consistency and accuracy. Its success highlighted how impactful thoughtful automation can be in streamlining bureaucratic workflows.",
+            teamwork: {
+                information: "This project was undertaken during our industrial training at the DRM office of Indian Railways in the 5th semester. The initial few days were spent understanding the structure of the ICMNTR sheet and the expectations from the automation tool. I took the lead on development and implemented the first 80% of the code using Google Apps Script, largely with the help of AI tools to guide logic and syntax. Throughout the project, my teammates contributed actively with suggestions, helped refine the workflow, and eventually began implementing parts of the code based on the evolving logic. This collaborative approach helped us complete the tool within a week. While I managed the core development, the project was made stronger and completed faster thanks to the team\'s shared efforts and constant ideation.",
+                team: ['Yashodhar Chavan', 'Yuvraj Gandhmal', 'Shruti Gajul', 'Prajwal Hulle']
+            }
 
         },
         {
@@ -231,8 +236,12 @@ const Projects = () => {
                     title: "📁 File I/O & Format Support",
                     description: "Supporting multiple image formats (like PNG, JPG) and handling file saving/loading robustly required integrating `ImageIO` and accounting for format limitations and exceptions."
                 }
-            ]
-
+            ],
+            outcome: "The Photo Enhancer application was successfully developed as a lightweight, offline image editing tool that delivers core enhancement features like brightness, contrast, grayscale, and inversion. It provided users with an intuitive Java Swing interface and responsive real-time previews. Despite the limitations of Java for image processing, the tool maintained high visual fidelity while offering essential editing capabilities. Its standalone, no-install nature made it ideal for quick desktop photo tweaks without relying on bulky software or internet access—making it both practical and accessible for everyday users.",
+            teamwork: {
+                information: "This project was selected as a microproject for the Java Programming course in my 4th semester. I was responsible for implementing the entire codebase, including designing the UI with Java Swing and integrating the core image enhancement logic (brightness, contrast, grayscale, invert), which was developed with the help of AI tools. My teammates contributed by designing a Figma prototype that mirrored the final application and managed project documentation and the presentation aspects effectively.",
+                team: ['Yashodhar Chavan', 'Yuvraj Gandhmal', 'Prajwal Hulle']
+            }
 
         },
         {
@@ -285,65 +294,9 @@ const Projects = () => {
                     title: "⏱️ Real-Time Updates without Performance Drop",
                     description: "Rendering a new QR code on every keystroke needed to be smooth. Optimized input debouncing and component re-renders to maintain snappy performance."
                 }
-            ]
-
-
-        },
-        {
-            title: 'Folder Visualizer (Java Swing)',
-            image: folderVisualizer,
-            tools: ['Java', 'Java Swing'],
-            description: 'A visual file/folder tree built using Java Swing.',
-            link: "https://github.com/YashodharChavan/folder-visualizer",
-            overview: "A desktop-based folder visualization tool developed using Java Swing. It dynamically reads the file system and presents directories in an interactive tree view structure, allowing users to explore folders with expand/collapse functionality. This tool offers an intuitive interface for navigating hierarchical data locally.",
-            features: [
-                {
-                    title: "🌲 Interactive Folder Tree View",
-                    description: "Displays a hierarchical tree structure of directories using Java Swing's `JTree`, making file exploration intuitive."
-                },
-                {
-                    title: "📁 Expand/Collapse Navigation",
-                    description: "Users can interactively expand or collapse folders to view their contents without loading everything at once."
-                },
-                {
-                    title: "💻 Local File System Access",
-                    description: "Reads the actual file system of the user's machine in real-time, reflecting current folder structures."
-                },
-                {
-                    title: "🖥️ Native Java GUI",
-                    description: "Built with Java Swing, providing a lightweight, responsive, and platform-independent desktop interface."
-                },
-                {
-                    title: "🔎 Fast and Lightweight",
-                    description: "Efficiently parses and renders directories without significant performance overhead—even with large folder trees."
-                }
             ],
-            challenges: [
-                {
-                    title: "📂 Navigating Deeply Nested Structures",
-                    description: "Handling deeply nested directories risked stack overflows or infinite recursion due to symlinks. Implemented lazy loading to only fetch subfolders when needed, improving stability and responsiveness."
-                },
-                {
-                    title: "📁 Performance Bottlenecks with Large Trees",
-                    description: "Rendering large folder trees caused UI lags. Used Java Swing’s DefaultTreeModel with dynamic updates and background thread loading to keep the interface responsive."
-                },
-                {
-                    title: "🧭 Designing a Responsive UI in Swing",
-                    description: "Java Swing doesn’t offer modern UI components out of the box. Carefully used layout managers and split panes to create an intuitive and resizable user interface."
-                },
-                {
-                    title: "🔐 Handling File System Permissions",
-                    description: "Some system directories threw access errors. Handled this by wrapping file access in try-catch blocks and gracefully skipping unreadable folders."
-                },
-                {
-                    title: "🧠 Memory Management",
-                    description: "Keeping all folder nodes in memory increased RAM usage. Limited the depth of preloaded folders and released memory when nodes were collapsed."
-                }
-            ]
-
+            outcome: "The Link to QR Code Generator successfully delivers a seamless and efficient way to transform URLs into scannable QR codes in real time. With features like instant preview, download as PNG, and a fully responsive layout, the app stands out as a lightweight tool for quick link sharing across devices. Through thoughtful optimizations in validation, rendering, and styling, the project demonstrates how React and third-party libraries can be leveraged to build fast, user-friendly utilities. It’s practical for both personal and professional use, especially in situations where fast, offline-compatible QR code generation is needed."
         },
-
-
     ];
 
     return (
@@ -355,13 +308,13 @@ const Projects = () => {
                     {/* Header */}
                     <div className="landing-container w-full relative bg-[#ECF2F9] background-inset" style={{ padding: "64px 24px" }}>
                         <div className="introduction m-auto w-full h-full py-8 sm:py-16 flex flex-col items-center justify-center gap-4 sm:gap-6">
-                            <h1 className="text-4xl font-bold text-center">
+                            <h1 className="text-4xl font-bold text-center" ref={projectsRef}>
                                 My Projects
                             </h1>
                             <p className="w-full text-center text-base font-medium">
                                 I believe true learning happens through building. Every time I explore something new, my imagination sparks ideas—and I bring them to life through projects.
                             </p>
-                            <div className="m-auto px-4 sm:px-6 select-none py-2 sm:py-3 rounded-2xl w-fit text-white font-semibold cursor-pointer gradient-button transition-transform duration-300">
+                            <div className="m-auto px-4 sm:px-6 select-none py-2 sm:py-3 rounded-2xl w-fit text-white font-semibold cursor-pointer gradient-button transition-transform duration-300" onClick={handleScrollToProjects}>
                                 <p className="text-sm sm:text-base" style={{ padding: "4px 12px" }}>Explore</p>
                             </div>
                             <div className="absolute bg-[#8493FF] h-4 w-4 right-[20%] top-[20%] blur-lg glow-one"></div>
@@ -372,8 +325,8 @@ const Projects = () => {
 
                     {/* Grid */}
                     <hr className="gradient-hr" />
-                    <h1 className="text-3xl font-bold mb-6 sm:mb-8 text-center underline decoration-wavy decoration-rose-500" style={{ padding: "24px 0px" }}>
-                        Technical Skills:
+                    <h1 className="text-3xl font-bold mb-6 sm:mb-8 text-center underline decoration-wavy decoration-rose-500" style={{ padding: "24px 0px" }} ref={projectsRef}>
+                        My Projects:
                     </h1>
 
                     <div
@@ -453,6 +406,7 @@ const Projects = () => {
                         features={selectedProject.features}
                         challenges={selectedProject.challenges}
                         outcome={selectedProject.outcome}
+                        teamwork={selectedProject.teamwork || null}
                     />
                 </div>
             )}
