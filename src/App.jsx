@@ -7,12 +7,12 @@ import Desktop from "./components/Desktop";
 
 const App = () => {
 
-  const [showBootScreen, setShowBootScreen] = useState(false);
+  const [showBootScreen, setShowBootScreen] = useState(true);
   const [height, setHeight] = useState(window.innerHeight);
   useEffect(() => {
     const timer = setTimeout(() => {
       setShowBootScreen(false);
-    }, 3000);
+    }, 10000);
 
     return () => clearTimeout(timer);
   }
