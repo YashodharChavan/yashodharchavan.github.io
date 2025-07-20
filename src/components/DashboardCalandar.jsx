@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import './component.css';
 // import AnalogClock from 'analog-clock-react';
 import "react-clock/dist/Clock.css";
-
+import { useWindowManager } from '../context/WindowManagerContext';
 
 const RemainingDashboardCalender = () => {
 
@@ -75,6 +75,8 @@ const DashboardCalendar = () => {
     const areaRef = useRef(null)
     const wasDragged = useRef(false);
 
+    const {bringToFront, getZIndex} = useWindowManager();
+    
 
 
     const handleCalenderClick = (e) => {
@@ -114,6 +116,7 @@ const DashboardCalendar = () => {
 
     const handleMouseDown = (e) => {
         e.preventDefault();
+        bringToFront('calendar'); // Use a unique ID per widget
         setIsDragging(true);
         wasDragged.current = false;
         dragStartRef.current = {
@@ -156,7 +159,7 @@ const DashboardCalendar = () => {
         <div
             className="flex flex-col gap-y-1.5 items-center h-24 w-48 bg-[#B80A0A] rounded-lg select-none shadow-[0px_0px_20px_black]"
             style={{
-                zIndex: isDragging ? 100 : 1,
+                zIndex: getZIndex('calendar'),
                 position: 'absolute',
                 left: "61%",
                 top: "33%",

@@ -11,7 +11,8 @@ export const WindowManagerProvider = ({ children }) => {
   const [optionalPath, setOptionalPath] = useState('');
   const [currentTopComponent, setCurrentTopComponent] = useState();
   const [optionalTextEditPath, setOptionalTextEditPath] = useState();
-  
+  const [zOrder, setZOrder] = useState([]);
+  const [optionalUrl, setOptionalUrl] = useState('');
 
 
   // Register window only once
@@ -22,20 +23,42 @@ export const WindowManagerProvider = ({ children }) => {
     });
   };
 
+  // Used for Dashboard.jsx
+  const bringToFront = (id) => {
+    setZOrder((prev) => [...prev.filter(w => w !== id), id]);
+  };
+
+  const getZIndex = (id) => {
+    const index = zOrder.indexOf(id);
+    if (index === -1) return 1; // Not registered yet
+
+    const baseZ = 900; // Start from 900 for all windows
+    return baseZ + index;
+  };
+
+
   // Open window and register if needed
   const openWindow = (id, title, icon, parameterText, parameterTitle, parameterPath) => {
     registerWindow(id, title, icon);
-    if(id==='textedit') {
+    bringToFront(id);  // <-- 🔥 Make sure it's always 
+
+    if (id === 'textedit') {
       setOptionalText(parameterText);
       setOptionalTitle(parameterTitle);
       setOptionalTextEditPath(parameterPath);
     }
 
-    if(id==='finder') {
+    if (id === 'finder') {
       setOptionalPath(parameterPath)
     }
 
+    if (id === 'safari') {
+      setOptionalUrl(parameterPath);
+    }
+
     setOpenWindows(prev => ({ ...prev, [id.toLowerCase()]: true }));
+    console.log(`Opening window: ${id}`);
+
   };
 
   const toggleWindow = (name) => setOpenWindows(prev => ({ ...prev, [name.toLowerCase()]: !prev[name.toLowerCase()] }));
@@ -72,10 +95,15 @@ export const WindowManagerProvider = ({ children }) => {
       registerWindow,
       focusedWindowId,
       setFocusedWindowId,
-      optionalText, 
+      optionalText,
       optionalTitle,
-      optionalPath, 
-      optionalTextEditPath
+      optionalPath,
+      optionalTextEditPath,
+      bringToFront,
+      currentTopComponent,
+      setCurrentTopComponent,
+      getZIndex,
+      optionalUrl,
     }}>
       {children}
     </WindowManagerContext.Provider>

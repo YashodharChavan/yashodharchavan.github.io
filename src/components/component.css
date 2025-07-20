@@ -3,6 +3,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&display=swap');
 
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap');
+
 @font-face {
   font-family: 'Monaco';
   src: url('../../public/fonts/Monaco.ttf') format('truetype');
@@ -25,6 +26,57 @@
   font-style: normal;
 }
 
+
+
+/* testing */
+.cursor-pointer, a, .top-mail-bar .address-button button, .url-bar button, section > div > div {
+  cursor: url('../../public/cursors/Link\ Select.cur'), pointer;
+}
+
+
+
+.css-1f1pi2l-MuiButtonBase-root-MuiAccordionSummary-root:hover:not(.Mui-disabled) {
+  cursor: url('../../public/cursors/Link\ Select.cur'), pointer;
+}
+
+
+
+.cursor-text {
+  cursor: url('../../public/cursors/Text\ Select.cur'), text!important;
+}
+
+.cursor-wait {
+  cursor: url('../../public/cursors/RainbowSwirl-Busy.ani'), wait;
+}
+
+
+body, #root, .dashboard-calculator-buttons, iframe, .font-operation .buttons button {
+  cursor: url('../../public/cursors/Normal\ Select.cur'), auto;
+
+}
+
+
+input[type="text"],
+textarea {
+  cursor: url('/cursors/Text\ Select.cur'), text !important;
+}
+
+.cursor-ew-resize,
+.cursor-col-resize {
+  cursor: url('../../public/cursors/Horizontal Resize.cur'), ew-resize;
+}
+
+.cursor-ns-resize {
+  cursor: url('../../public/cursors/Vertical Resize.cur'), ns-resize;
+}
+
+.cursor-nwse-resize {
+  cursor: url('../../public/cursors/Diagonal\ Resize\ 1.cur'), nwse-resize;
+}
+
+.cursor-nesw-resize {
+  cursor: url('../../public/cursors/Diagonal\ Resize\ 2.cur'), nesw-resize;
+}
 
 .padding-top {
   padding: 0px 34px;
@@ -85,7 +137,8 @@
   height: 6px;
   left: 0;
   right: 0;
-  cursor: ns-resize;
+
+  cursor: url('../../public/cursors/Vertical Resize.cur'), ns-resize;
 }
 
 .resize-handle.top {
@@ -101,7 +154,7 @@
   width: 6px;
   top: 0;
   bottom: 0;
-  cursor: ew-resize;
+  cursor: url('../../public/cursors/Horizontal Resize.cur'), ew-resize;
 }
 
 .resize-handle.left {
@@ -117,7 +170,14 @@
   height: 16px;
   right: -3px;
   bottom: -3px;
-  cursor: nwse-resize;
+
+  cursor: url('../../public/cursors/Diagonal\ Resize\ 1.cur'), nwse-resize;
+}
+
+.simple-frame,
+.top-finder-bar,
+.left-finder-side .buttons button {
+  cursor: url('../../public/cursors/Normal\ Select.cur'), auto;
 }
 
 .calc-buttons {
@@ -131,6 +191,7 @@
   border: 1px solid #A5A5A5;
   box-shadow: 0px 0px 0 1px #888888;
   border-radius: 4px;
+  cursor: url('../../public/cursors/Normal\ Select.cur'), pointer;
 }
 
 .contact-details div {
@@ -399,7 +460,7 @@
 code {
   padding: 0px !important;
   font-family: 'Monaco', monospace !important;
-  cursor: text !important;
+  cursor: url('../../public/cursors/Text\ Select.cur'), text !important;
 }
 
 pre {

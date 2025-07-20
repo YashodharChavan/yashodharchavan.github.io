@@ -290,7 +290,7 @@ const TopBar = ({ currentTopComponent }) => {
                 <img src={item.icon} alt="" className="h-8" />
                 {item.name}
               </div>
-              <p className={`text-gray-600 text-sm ${index === selectedIndex ? 'text-white' : ''}` }>{item.fullPath}</p>
+              <p className={`text-gray-600 text-sm ${index === selectedIndex ? 'text-white' : ''}` }>{item.fullPath ? item.fullPath.substring(0, item.fullPath.lastIndexOf('/')) : ''}</p>
             </li>
           ))}
         </ul>

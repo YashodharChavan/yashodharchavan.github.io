@@ -98,7 +98,7 @@ const Finder = ({ optionalPath = null }) => {
       height="450"
       width="800"
       minHeight="300"
-      minWidth="450"
+      minWidth="550"
       isResizable={true}
       showDimensions={false}
       hasPadding={false}

@@ -4,9 +4,11 @@ import ReloadIcon from '../assets/ReloadIcon.svg';
 import './component.css';
 import URLRedirection from './URLRedirection';
 import SearchRedirection from './SearchRedirection';
+import { useWindowManager } from '../context/WindowManagerContext';
 
 const Safari = () => {
-  const [urlString, setUrlString] = useState('https://www.wikipedia.com');
+  const { optionalUrl } = useWindowManager();
+  const [urlString, setUrlString] = useState(optionalUrl || 'https://www.wikipedia.com');
   const [searchString, setSearchString] = useState('');
   const [isResizing, setIsResizing] = useState(false);
 
@@ -24,6 +26,9 @@ const Safari = () => {
       setTriggeredUrl((prev) => prev + ' '); // Trigger re-render
     }
   };
+
+
+
 
   useEffect(() => {
     const keyHandler = (e) => {

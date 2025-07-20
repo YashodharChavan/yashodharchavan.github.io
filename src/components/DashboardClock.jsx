@@ -3,11 +3,12 @@ import './component.css';
 // import AnalogClock from 'analog-clock-react';
 import Clock from "react-clock";
 import "react-clock/dist/Clock.css";
-
+import { useWindowManager } from '../context/WindowManagerContext';
 
 
 
 const DashboardClock = () => {
+    const { bringToFront, getZIndex } = useWindowManager();
     const [position, setPosition] = useState({ x: 0, y: 0 });
     const [isDragging, setIsDragging] = useState(false);
     const clockRef = useRef(null);
@@ -23,6 +24,7 @@ const DashboardClock = () => {
 
     const handleMouseDown = (e) => {
         e.preventDefault();
+        bringToFront('clock'); // Use a unique ID per widget
         setIsDragging(true);
         dragStartRef.current = {
             x: e.clientX - position.x,
@@ -58,7 +60,7 @@ const DashboardClock = () => {
             ref={clockRef}
             className="bg-gradient-to-b split-background flex flex-col justify-center items-center h-36 w-36  rounded-lg select-none shadow-[0px_0px_20px_black]"
             style={{
-                zIndex: isDragging? 100 : 1,
+                zIndex: getZIndex('clock'),
                 position: 'absolute',
                 left: "42%",
                 top: "40%",

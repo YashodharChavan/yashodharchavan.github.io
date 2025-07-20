@@ -16,7 +16,7 @@ const SimpleFrame = ({ title, children, hasDrawer, id, icon, height, width, minW
   const resizeRef = useRef({ type: null, startX: 0, startY: 0, startW: 0, startH: 0, startLeft: 0, startTop: 0 });
   const [isResizing, setIsResizing] = useState(false);
   const [isMaximized, setIsMaximized] = useState(false);
-  const { registerWindow, minimizeWindow, restoreWindow, windows, closeWindow } = useWindowManager();
+  const { registerWindow, minimizeWindow, restoreWindow, windows, closeWindow, getZIndex } = useWindowManager();
 
 
   const isMin = windows.find(w => w.id === id)?.minimized;
@@ -226,10 +226,11 @@ const SimpleFrame = ({ title, children, hasDrawer, id, icon, height, width, minW
 
     <div
       ref={frameRef}
-      className="simple-frame absolute z-10 bg-white rounded-md shadow-[0px_0px_20px_black]"
+      className="simple-frame absolute bg-white rounded-md shadow-[0px_0px_20px_black]"
       style={{
+        zIndex: getZIndex(id),
         left: position.x, top: position.y, width: size.width,
-        height: size.height, display: isMin ? 'none' : 'block', zIndex: isFocused ? 999 : 10
+        height: size.height, display: isMin ? 'none' : 'block',
       }}
       onClick={handleFocus} onMouseDown={handleFocus}
     >

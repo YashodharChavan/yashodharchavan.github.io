@@ -20,7 +20,6 @@ import Finder from './Finder';
 import { rootFileOptions } from './Utils/fileSystem.js';
 import { useFileSystem } from '../context/FileSystemContext.jsx';
 import txt from '../assets/folders/TXT.ico';
-
 const Desktop = () => {
   const { fileSystem, deleteNodeAtPath } = useFileSystem();
 
@@ -40,6 +39,27 @@ const Desktop = () => {
       if (extension === '.md') {
         const mdMatch = rootFileOptions.find(opt => opt.label === '.md');
         return mdMatch.icon;
+      }
+      else if (extension === '.pdf') {
+        const pdfMatch = rootFileOptions.find(opt => opt.label === '.pdf');
+        return pdfMatch.icon;
+      }
+      else if (extension === '.bin') {
+        const binMatch = rootFileOptions.find(opt => opt.label === '.bin');
+        console.log(binMatch)
+        return binMatch.icon;
+      }
+      else if (extension === '.zip') {
+        const zipMatch = rootFileOptions.find(opt => opt.label === '.zip');
+        return zipMatch.icon;
+      }
+      else if (extension === '.html' || extension === '.css' || extension === '.js' || extension === '.jsx') {
+        const htmlMatch = rootFileOptions.find(opt => opt.label === '.html');
+        return htmlMatch.icon;
+      }
+      else if (extension === '.ico') {
+        const icoMatch = rootFileOptions.find(opt => opt.label === '.ico');
+        return icoMatch.icon;
       }
       return txt;
     }
@@ -80,7 +100,7 @@ const Desktop = () => {
   };
 
 
-  useEffect(()=> {
+  useEffect(() => {
   }, [optionalPath])
 
 
@@ -141,13 +161,20 @@ const Desktop = () => {
   };
 
   const handleDoubleClick = (icon) => {
+    const fileNode = desktopFileTree[icon.name];
+
     if (icon.type === 'dir') {
-      openWindow('finder', '', '', '',icon.name, '/Users/yashodhar/Desktop/' + icon.name);
+      openWindow('finder', '', '', '', icon.name, `/Users/yashodhar/Desktop/${icon.name}`);
     } else if (icon.type === 'file') {
-      console.log(icon)
-      openWindow('textedit', '', '', desktopFileTree[icon.name].content, icon.name);
+      if (icon.name.split('.').pop().toLowerCase() === 'pdf') {
+        const href = fileNode?.href || '';
+        openWindow('safari', '', '', '', icon.name, href);
+      } else {
+        openWindow('textedit', '', '', fileNode?.content || '', icon.name);
+      }
     }
   };
+
 
   const getIconAtPosition = (position) => {
     const iconId = Object.keys(positions).find(
@@ -181,9 +208,8 @@ const Desktop = () => {
             return (
               <div
                 key={index}
-                className={`icon-container flex flex-col items-center justify-center p-1 w-full h-full ${
-                  dropTargetId === index ? 'bg-[#7c7c7c8c] rounded' : ''
-                }`}
+                className={`icon-container flex flex-col items-center justify-center p-1 w-full h-full ${dropTargetId === index ? 'bg-[#7c7c7c8c] rounded' : ''
+                  }`}
                 onDragOver={(e) => handleDragOver(index, e)}
                 onDragEnter={(e) => handleDragEnter(index, e)}
                 onDragLeave={(e) => handleDragLeave(index, e)}

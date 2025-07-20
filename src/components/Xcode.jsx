@@ -21,6 +21,11 @@ function CodeViewer({ content, language }) {
         whiteSpace: 'pre-wrap',
         fontFamily: 'Monaco'    // Forces wrapping
       }}
+      preTagProps={{
+        style: {
+          cursor: `url('/cursors/Text\ Select.cur'), text` 
+        }
+      }}
     >
       {content}
     </SyntaxHighlighter>

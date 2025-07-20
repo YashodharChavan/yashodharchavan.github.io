@@ -27,7 +27,7 @@ const ProjectDetails = ({ overview, features, challenges, outcome, teamwork }) =
           {challenges.map((challenge, index) => {
             return (
               <div key={index}>
-                <h3 className="font-semibold text-xl font-[outfit]" style={{ marginTop: "12px" }}>{challenge.title}</h3>
+                <h3 className="font-semibold text-xl font-[outfit] cursor-pointer" style={{ marginTop: "12px" }}>{challenge.title}</h3>
                 <p>{challenge.description}</p>
               </div>
             )

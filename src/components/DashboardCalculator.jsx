@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import './component.css';
 // import AnalogClock from 'analog-clock-react';
+import { useWindowManager } from '../context/WindowManagerContext';
 import "react-clock/dist/Clock.css";
 
 
@@ -17,6 +18,7 @@ const DashboardCalculator = () => {
     const [operator, setOperator] = useState('')
 
 
+    const { bringToFront, getZIndex } = useWindowManager();
     const operands = [
         '7', '8', '9', '4', '5', '6', '1', '2', '3', '0', '.', 'c'
     ]
@@ -27,7 +29,6 @@ const DashboardCalculator = () => {
 
     const handleButtonClick = (value) => {
 
-        console.log("clicked" + value)
         if (value === 'c') {
             setExpression('');
             setOperand('');
@@ -54,6 +55,7 @@ const DashboardCalculator = () => {
 
     const handleMouseDown = (e) => {
         e.preventDefault();
+        bringToFront('calculator'); // Use a unique ID per widget
         setIsDragging(true);
         dragStartRef.current = {
             x: e.clientX - position.x,
@@ -89,7 +91,7 @@ const DashboardCalculator = () => {
             ref={clockRef}
             className="flex flex-col gap-y-1.5 items-center h-64 w-44 bg-[#FC952D] gradient-box rounded-lg select-none shadow-[0px_0px_20px_black]"
             style={{
-                zIndex: isDragging? 100: 1,
+                zIndex: getZIndex('calculator'),
                 position: 'absolute',
                 left: "20%",
                 top: "33%",
@@ -101,7 +103,7 @@ const DashboardCalculator = () => {
             onClick={(e) => e.stopPropagation()}>
 
             <div className="screen w-full h-11 bg-[#89949B] rounded-lg text-end text-2xl"
-                style={{ boxShadow: 'inset 0px 0px 3px 0px #141414', fontFamily: "Digital-7", padding: "4px 12px" }}>{ operand.toString().slice(0, 12) || 0}</div>
+                style={{ boxShadow: 'inset 0px 0px 3px 0px #141414', fontFamily: "Digital-7", padding: "4px 12px" }}>{operand && operand.toString().slice(0, 12) || 0}</div>
 
             <div className="buttons w-full flex h-4/5 rounded-lg bg-[#BEBEBE]" style={{ padding: "2px" }}>
 
@@ -136,7 +138,7 @@ const DashboardCalculator = () => {
 
                     {operators.map((oper, index) => (
                         <button key={index} className='dashboard-calculator-buttons rounded-[50%] bg-[#E9E9E9]' onClick={() => handleButtonClick(oper)}
-                        style={{backgroundColor: operator === oper ? "#FC952D"  : '#E9E9E9'}}
+                            style={{ backgroundColor: operator === oper ? "#FC952D" : '#E9E9E9' }}
                         >{oper}</button>
                     ))}
                     <button className='dashboard-calculator-buttons rounded-full bg-[#E9E9E9] row-span-2' onClick={() => handleButtonClick('=')}>=</button>
