@@ -27,6 +27,7 @@
     "nodemailer": "^7.0.3",
     "react": "^19.1.0",
     "react-clock": "^6.0.0",
+    "react-contexify": "^6.0.0",
     "react-dom": "^19.1.0",
     "react-markdown": "^10.1.0",
     "react-simple-typewriter": "^5.0.1",

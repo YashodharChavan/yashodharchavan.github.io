@@ -71,21 +71,43 @@ const fileSystem = {
               Documents: {
                 type: 'dir', children: {
                   Academics: { type: 'dir', children: {} },
-                  Certificates: { type: 'dir', children: {} },
-                  Books: { type: 'dir', children: {
-                    'Self Help': {type: 'dir', children: {
-                      'Atomic Habits.pdf': { type: 'file', href: 'https://ia904500.us.archive.org/8/items/atomic-habits-pdfdrive/Atomic%20habits%20%28%20PDFDrive%20%29.pdf' },
-                      'Mindset.pdf': {type: 'file', href: 'https://adrvantage.com/wp-content/uploads/2023/02/Mindset-The-New-Psychology-of-Success-Dweck.pdf' },
-                      'The 48 Laws of Power.pdf': {type: 'file', href: 'https://ia803106.us.archive.org/10/items/the48lawsofpowerpdfdrive.com/The%2048%20Laws%20Of%20Power%20%28%20PDFDrive.com%20%29.pdf' },
-                      'Think And Grow Rich.pdf': {type: 'file', href: 'https://marjankogelnik.wordpress.com/wp-content/uploads/2016/02/napoleon-hill-think-and-grow-rich.pdf' },
-                      'The 7 Habits of Highly Effective People.pdf': {type: 'file', href: 'https://ati.dae.gov.in/ati12052021_1.pdf' },
-                    }}, 
-                    Finance: {type: 'dir', children: {}},
-                    Biography: {type: 'dir', children: {
-                      'The Autobiography of A Yogi.pdf': {type: 'file', href: 'https://www.freespiritualebooks.com/uploads/5/0/5/8/50589505/autobiography-of-a-yogi.pdf'} 
-                    }},
-                  } },
-                  'Resume.pdf': { type: 'file', href: 'https://ia904500.us.archive.org/8/items/atomic-habits-pdfdrive/Atomic%20habits%20%28%20PDFDrive%20%29.pdf' },
+                  Certificates: {
+                    type: 'dir', children: {
+                      'Programming in C.pdf': { type: 'file', href: 'https://yashodharchavan.github.io/certificates/Programming%20in%20C.pdf' },
+                      'Introduction to Python.pdf': { type: 'file', href: 'https://yashodharchavan.github.io/certificates/Introduction%20to%20Python.pdf' },
+                      'Programming Using C++.pdf': { type: 'file', href: 'https://yashodharchavan.github.io/certificates/Programming%20Using%20C++.pdf' },
+                      'Introduction to AI Simplilearn.pdf': { type: 'file', href: 'https://yashodharchavan.github.io/certificates/Introduction%20to%20AI%20Simplilearn.pdf' },
+                      'Introduction to ChatGPT.pdf': { type: 'file', href: 'https://yashodharchavan.github.io/certificates/introduction%20to%20chatGPT.pdf' },
+                    }
+                  },
+                  Books: {
+                    type: 'dir', children: {
+                      'Self Help': {
+                        type: 'dir', children: {
+                          'Atomic Habits.pdf': { type: 'file', href: 'https://yashodharchavan.github.io/books/Atomic%20Habits.pdf' },
+                          'Mindset.pdf': { type: 'file', href: 'https://yashodharchavan.github.io/books/Mindset.pdf' },
+                          'The 48 Laws of Power.pdf': { type: 'file', href: 'https://yashodharchavan.github.io/books/The%2048%20Laws%20Of%20Power.pdf' },
+                          'Think And Grow Rich.pdf': { type: 'file', href: 'https://yashodharchavan.github.io/books/Think%20And%20Grow%20Rich.pdf' },
+                          'The 7 Habits of Highly Effective People.pdf': { type: 'file', href: 'https://yashodharchavan.github.io/books/7%20Habits%20of%20Highly%20Effective%20People.pdf' },
+                        }
+                      },
+                      Finance: {
+                        type: 'dir', children: {
+                          'Rich Dad Poor Dad.pdf': { type: 'file', href: "https://yashodharchavan.github.io/books/Rich%20Dad%20Poor%20Dad.pdf" },
+                          'Psychology of Money.pdf': { type: 'file', href: "https://yashodharchavan.github.io/books/Psychology%20of%20Money.pdf" },
+                        }
+                      },
+                      Biography: {
+                        type: 'dir', children: {
+                          'The Autobiography of A Yogi.pdf': { type: 'file', href: 'https://yashodharchavan.github.io/books/Autobiography%20of%20a%20Yogi.pdf' },
+                          'Steve Jobs.pdf': { type: 'file', href: "https://yashodharchavan.github.io/books/Steve%20Jobs.pdf" },
+                          'Mans Search for Meaning.pdf': { type: 'file', href: "https://yashodharchavan.github.io/books/Man's%20Search%20for%20Meaning.pdf" },
+                          'Shoe Dog.pdf': { type: 'file', href: "https://www.freespiritualebooks.com/uploads/5/0/5/8/50589505/shoe-dog.pdf" },
+                        }
+                      },
+                    }
+                  },
+                  'Resume.pdf': { type: 'file', href: 'https://docs.google.com/document/d/1Sa169BawHnjk_CpzQYoSpnZi2HY1esQ0tCGA5tCWTMM/edit?usp=sharing' },
 
                 }
               },
@@ -104,10 +126,56 @@ const fileSystem = {
           }
         }
       },
-      etc: { type: 'dir', children: {} },
-      tmp: { type: 'dir', children: {} },
-      var: { type: 'dir', children: {} },
-      bin: { type: 'dir', children: {} }
+      etc: {
+        type: 'dir', children: {
+          passwd: { type: 'dir', children: {} },
+          shadow: { type: 'dir', children: {} },
+          group: { type: 'dir', children: {} },
+          hostname: { type: 'dir', children: {} },
+          network: { type: 'dir', children: {} },
+          systemd: { type: 'dir', children: {} },
+          ssh: { type: 'dir', children: {} },
+          zsh: { type: 'dir', children: {} },
+        }
+      },
+      tmp: {
+        type: 'dir', children: {
+          'mysql.stock': { type: 'dir', children: {} },
+          'systemd-private': { type: 'dir', children: {} },
+        }
+      },
+      var: {
+        type: 'dir', children: {
+          log: { type: 'dir', children: {} },
+          tmp: { type: 'dir', children: {} },
+          run: { type: 'dir', children: {} },
+          spool: { type: 'dir', children: {} },
+          cache: { type: 'dir', children: {} },
+          mail: { type: 'dir', children: {} },
+          lock: { type: 'dir', children: {} },
+        }
+      },
+      bin: {
+        type: 'dir', children: {
+          ls: { type: 'file', content: '' },
+          cat: { type: 'file', content: '' },
+          write: { type: 'file', content: '' },
+          append: { type: 'file', content: '' },
+          exit: { type: 'file', content: '' },
+          man: { type: 'file', content: '' },
+          cp: { type: 'file', content: '' },
+          cd: { type: 'file', content: '' },
+          mv: { type: 'file', content: '' },
+          pwd: { type: 'file', content: '' },
+          mkdir: { type: 'file', content: '' },
+          echo: { type: 'file', content: '' },
+          touch: { type: 'file', content: '' },
+          rm: { type: 'file', content: '' },
+          rmdir: { type: 'file', content: '' },
+          clear: { type: 'file', content: '' },
+          tree: { type: 'file', content: '' },
+        }
+      }
     }
   }
 };

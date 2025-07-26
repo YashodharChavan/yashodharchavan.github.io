@@ -21,6 +21,10 @@ import aboutme from '../assets/icons/applications/AboutMe.ico';
 
 import genericFolderIcon from '../assets/folders/genericFolderIcon.ico'
 import txt from '../assets/folders/TXT.ico'
+import html from '../assets/folders/HTML.ico'
+import pdf from '../assets/folders/PDF.ico'
+import zip from '../assets/folders/ZIP.ico'
+import md from '../assets/folders/ClippingText.ico'
 import { fileSystem } from './Utils/fileSystem'
 import { topMenuData } from './Utils/menuConfig'
 
@@ -35,8 +39,6 @@ const TopBar = ({ currentTopComponent }) => {
 
   const { openWindow } = useWindowManager()
   const allFilesAndFolders = collectFilesAndFolders();
-
-
 
   const appList = [
     { name: "Terminal", icon: terminal },
@@ -81,7 +83,10 @@ const TopBar = ({ currentTopComponent }) => {
 
     for (const [name, child] of Object.entries(node.children || {})) {
       const fullPath = path === '/' ? `/${name}` : `${path}/${name}`;
-      const icon = child.type === 'dir' ? genericFolderIcon : txt; // customize per extension
+      const icon = getIconForFile(name, child.type);
+
+      if(name.split('.').pop().toLowerCase() === 'app') continue; // Skip .app files
+
       items.push({
         name,
         fullPath,
@@ -96,6 +101,29 @@ const TopBar = ({ currentTopComponent }) => {
 
     return items;
   }
+
+  function getIconForFile(name, type) {
+    if (type === 'dir') return genericFolderIcon;
+
+    const ext = name.split('.').pop().toLowerCase();
+
+    // Match by extension
+    if (ext === 'txt') return txt;
+    if (ext === 'pdf') return pdf;
+    if (ext === 'zip') return zip;
+    if (ext === 'html' || ext === 'css' || ext === 'js') return html;
+    if (ext === 'md') return md;
+    if (['png', 'jpg', 'jpeg', 'gif', 'svg'].includes(ext)) return imageIcon;
+
+    // Match by exact filename (no extension)
+    // const knownBinaries = ['ls', 'cp', 'mv', 'rm', 'echo', 'cat', 'sh'];
+    // if (knownBinaries.includes(name)) return binaryIcon;
+
+    // Default
+    return txt;
+  }
+
+
 
 
 
@@ -149,7 +177,7 @@ const TopBar = ({ currentTopComponent }) => {
           if (selectedItem.type === 'dir') {
             openWindow('finder', "", "", "", "", selectedItem.fullPath);
           } else {
-            console.log(selectedItem.fullPath)
+            // console.log(selectedItem.fullPath)
             openWindow('textedit', "", "", "", selectedItem.name, selectedItem.fullPath);
           }
         } else {
@@ -250,7 +278,7 @@ const TopBar = ({ currentTopComponent }) => {
         >
           {topMenuData[currentMenuOpen].map((menuItem, index) => (
             <div key={index} className="flex items-center gap-x-2 hover:bg-[#2A68C8] hover:text-white cursor-pointer"
-              style={{padding: '0px 16px'}}  
+              style={{ padding: '0px 16px' }}
             >
               {menuItem.icon && <img src={menuItem.icon} alt="" className="h-4" />}
               <p>{menuItem.label}</p>
@@ -276,7 +304,7 @@ const TopBar = ({ currentTopComponent }) => {
           style={{ padding: "0px 8px" }} autoFocus={true} onChange={(e) => handleChange(e.target.value)} />
       </div>}
 
-      {(searchString && isSpotlightActive) && <div className="absolute top-14 w-96 right-44 h-fit z-10 bg-[#E7EDF2]"
+      {(searchString && isSpotlightActive) && <div className="absolute top-14 w-96 right-44 h-fit max-h-[500px] overflow-y-scroll overflow-x-hidden z-10 bg-[#E7EDF2]"
         style={{ boxShadow: "0px 7px 16px 0px #00000099" }}>
         <ul>
 
@@ -290,7 +318,7 @@ const TopBar = ({ currentTopComponent }) => {
                 <img src={item.icon} alt="" className="h-8" />
                 {item.name}
               </div>
-              <p className={`text-gray-600 text-sm ${index === selectedIndex ? 'text-white' : ''}` }>{item.fullPath ? item.fullPath.substring(0, item.fullPath.lastIndexOf('/')) : ''}</p>
+              <p className={`text-gray-600 text-sm ${index === selectedIndex ? 'text-white' : ''}`}>{item.fullPath ? item.fullPath.substring(0, item.fullPath.lastIndexOf('/')) : ''}</p>
             </li>
           ))}
         </ul>

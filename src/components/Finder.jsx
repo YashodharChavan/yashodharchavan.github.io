@@ -16,11 +16,14 @@ import Pictures from '../assets/folders/ToolbarPicturesFolderIcon.ico';
 import FileSystemFolder from './FileSystemFolder.jsx';
 import { useFileSystem } from '../context/FileSystemContext.jsx';
 import { getNodeAtPath } from './Utils/fileSystemUtils';
+import settings from '../assets/icons/settings.svg';
+import { finderMenu } from './Utils/menuConfig.js';
 
 const Finder = ({ optionalPath = null }) => {
   const { fileSystem } = useFileSystem();
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [sidebarWidth, setSidebarWidth] = useState(150);
+  const [isMenuOptionOpen, setIsMenuOptionOpen] = useState(false);
   const isResizing = useRef(false);
   const startX = useRef(0);
   const startWidth = useRef(0);
@@ -108,7 +111,7 @@ const Finder = ({ optionalPath = null }) => {
       isSidebarOpen={isSidebarOpen}
     >
       {isSidebarOpen && (
-        <div className="top-finder-bar w-full flex justify-between items-center" style={{ paddingBottom: isSidebarOpen ? '12px' : '0px', padding: "4px", background: 'linear-gradient(rgb(204, 204, 204), rgb(213, 213, 213))' }}>
+        <div className="top-finder-bar w-full flex justify-between items-center relative" style={{ paddingBottom: isSidebarOpen ? '12px' : '0px', padding: "4px", background: 'linear-gradient(rgb(204, 204, 204), rgb(213, 213, 213))' }}>
           <div className="left-finder-side flex select-none gap-x-2 items-center">
             <div
               className="buttons w-fit h-fit outline outline-[#666666] rounded-sm"
@@ -129,6 +132,52 @@ const Finder = ({ optionalPath = null }) => {
                 <img src={bars} className="w-2/5" draggable={false} style={{ margin: 'auto auto' }} />
               </button>
             </div>
+
+            <div
+              className="relative w-fit"
+              onMouseEnter={() => setIsMenuOptionOpen(true)}
+              onMouseLeave={() => setIsMenuOptionOpen(false)}
+            >
+              {/* Settings Button */}
+              <div
+                className="buttons w-fit-h-fit outline select-none outline-[#666666] rounded-sm"
+                style={{
+                  background: 'linear-gradient(to bottom, #f2f2f2 0%, #d9d9d9 100%)',
+                }}
+              >
+                <button className="h-full text-sm w-9 bg-transparent text-inherit">
+                  <img
+                    src={settings}
+                    className="w-2/5"
+                    draggable={false}
+                    style={{ margin: 'auto auto' }}
+                  />
+                </button>
+              </div>
+
+              {/* Menu Dropdown */}
+              {isMenuOptionOpen && (
+                <div
+                  className="absolute bg-white shadow-md p-2 z-50"
+                  style={{ top: '100%', left: '0px', minWidth: "153px" }}
+                >
+                  {finderMenu.map((menuItem, index) => (
+                    <div
+                      key={index}
+                      className="flex items-center gap-x-2 hover:bg-[#2A68C8] hover:text-white cursor-pointer"
+                      style={{ padding: '0px 16px' }}
+                    >
+                      {menuItem.icon && (
+                        <img src={menuItem.icon} alt="" className="h-4" />
+                      )}
+                      <p>{menuItem.label}</p>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+
+
           </div>
 
           <div className="right-finder-side">

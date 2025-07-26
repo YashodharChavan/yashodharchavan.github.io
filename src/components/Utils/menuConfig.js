@@ -110,3 +110,10 @@ export const dd = [
         ]
     }
 ];
+
+export const finderMenu = [
+    { label: "New Folder", action: () => console.log("new folder")},
+    { label: "New File", action: () => console.log("new file")},
+    { label: "New Burn Folder", action: () => console.log("burn folder")},
+    { label: "Get Info", action: () => console.log("Get info")},
+]

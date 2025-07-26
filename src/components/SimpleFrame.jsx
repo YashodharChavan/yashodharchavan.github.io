@@ -2,8 +2,15 @@ import React, { useRef, useState, useEffect } from 'react';
 import './component.css';
 import cornerStone from '../assets/cornerStone.svg';
 import { useWindowManager } from '../context/WindowManagerContext';
+import { Menu, Item, useContextMenu } from 'react-contexify';
+import 'react-contexify/ReactContexify.css';
 
-const SimpleFrame = ({ title, children, hasDrawer, id, icon, height, width, minWidth, minHeight, showDimensions, optionalBackground, isResizable=true, hasPadding = true, setOverflowY = true, onResizing = () => {}, exitFlag=false, setIsSidebarOpen=null, isSidebarOpen=null}) => {
+const MENU_ID = 'my-context-menu';
+
+const SimpleFrame = ({ title, children, hasDrawer, id, icon, height, width, minWidth, minHeight, showDimensions, optionalBackground, isResizable = true, hasPadding = true, setOverflowY = true, onResizing = () => { }, exitFlag = false, setIsSidebarOpen = null, isSidebarOpen = null }) => {
+
+  const { show } = useContextMenu({ id: MENU_ID });
+
 
   const [isAtFront, setIsAtFront] = useState(false);
   const frameRef = useRef(null);
@@ -24,6 +31,11 @@ const SimpleFrame = ({ title, children, hasDrawer, id, icon, height, width, minW
   const { focusedWindowId, setFocusedWindowId } = useWindowManager();
 
   const isFocused = focusedWindowId === id;
+
+  const handleContextMenu = (event) => {
+    event.preventDefault();
+    show({ event });
+  };
 
   useEffect(() => {
     registerWindow(id, title, icon);
@@ -48,8 +60,8 @@ const SimpleFrame = ({ title, children, hasDrawer, id, icon, height, width, minW
   };
 
 
-  useEffect(()=> {
-    if(exitFlag) {
+  useEffect(() => {
+    if (exitFlag) {
       closeWindow(id)
     }
   }, [exitFlag])
@@ -92,7 +104,7 @@ const SimpleFrame = ({ title, children, hasDrawer, id, icon, height, width, minW
       if (!isResizing) return;
       if (!isResizable) return;
 
-      
+
       const dx = e.clientX - resizeRef.current.startX;
       const dy = e.clientY - resizeRef.current.startY;
       let newWidth = resizeRef.current.startW;
@@ -227,7 +239,9 @@ const SimpleFrame = ({ title, children, hasDrawer, id, icon, height, width, minW
     <div
       ref={frameRef}
       className="simple-frame absolute bg-white rounded-md shadow-[0px_0px_20px_black]"
+      onContextMenu={handleContextMenu}
       style={{
+
         zIndex: getZIndex(id),
         left: position.x, top: position.y, width: size.width,
         height: size.height, display: isMin ? 'none' : 'block',
@@ -235,6 +249,11 @@ const SimpleFrame = ({ title, children, hasDrawer, id, icon, height, width, minW
       onClick={handleFocus} onMouseDown={handleFocus}
     >
       {/* Corner resizer */}
+      <Menu id={MENU_ID}>
+        <Item onClick={() => alert("New Folder")}>New Folder</Item>
+        <Item onClick={() => alert("New File")}>New File</Item>
+        <Item onClick={() => alert("Open")}>Open</Item>
+      </Menu>
       <div className="resize-handle bottom-right" onMouseDown={(e) => startResizing(e, 'bottom-right')} />
 
       {/* Edge resizers */}
@@ -261,8 +280,8 @@ const SimpleFrame = ({ title, children, hasDrawer, id, icon, height, width, minW
         )}
         {hasDrawer ? (
           <button className="drawer-toggle rounded-lg w-7 h-3 outline outline-gray-400"
-            style={{background: "linear-gradient(to bottom, #b2b2b2, #e1e1e1)", boxShadow: "inset 0px -1px 3px 0px #e1e1e1"}}
-            onClick={(e)=> {
+            style={{ background: "linear-gradient(to bottom, #b2b2b2, #e1e1e1)", boxShadow: "inset 0px -1px 3px 0px #e1e1e1" }}
+            onClick={(e) => {
               setIsSidebarOpen(!isSidebarOpen)
             }}
 
