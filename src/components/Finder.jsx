@@ -18,35 +18,14 @@ import { useFileSystem } from '../context/FileSystemContext.jsx';
 import { getNodeAtPath } from './Utils/fileSystemUtils';
 import settings from '../assets/icons/settings.svg';
 import { finderMenu } from './Utils/menuConfig.js';
-import { Menu, Item, useContextMenu, Separator, Submenu } from 'react-contexify';
 // import 'react-contexify/dist/ReactContexify.css';
 // import './component.css'
+import MenuContext from './MenuContext.jsx';
 
 
-
-const CustomContextMenu = ({ children }) => {
-  <div
-    className="absolute z-50 w-48 rounded-md shadow-lg bg-white border border-gray-300"
-    style={{ top: position.y, left: position.x }}
-  >
-    {menuItems.map((item, idx) => (
-      <div
-        key={idx}
-        className="px-4 py-2 text-sm hover:bg-[#2A68C8] hover:text-white cursor-pointer flex items-center gap-2"
-        onClick={item.onClick}
-      >
-        {item.icon && <img src={item.icon} alt="" className="h-4 w-4" />}
-        <span>{item.label}</span>
-      </div>
-    ))}
-  </div>
-
-};
 
 const Finder = ({ optionalPath = null }) => {
-  const MENU_ID = 'my-context-menu';
 
-  const { show } = useContextMenu({ id: MENU_ID });
   const { fileSystem } = useFileSystem();
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [sidebarWidth, setSidebarWidth] = useState(150);
@@ -57,6 +36,7 @@ const Finder = ({ optionalPath = null }) => {
   const COLLAPSE_THRESHOLD = 100;
   const [iconIndex, setIconIndex] = useState(4);
   const [fileSystemPath, setFileSystemPath] = useState('/');
+  const [position, setPosition] = useState({ left: null, top: null })
 
   const options = [
     { label: 'Network', icon: genericNetwork, path: "/" },
@@ -73,7 +53,13 @@ const Finder = ({ optionalPath = null }) => {
 
   const handleContextMenu = (event) => {
     event.preventDefault();
-    show({ event });
+
+    const boundingRect = event.currentTarget.getBoundingClientRect(); // get element's bounding box
+    const left = event.clientX - boundingRect.left;
+    const top = event.clientY - boundingRect.top;
+
+    setPosition({ left, top });
+    // setIsMenuOptionOpen(true);
   };
 
 
@@ -110,6 +96,21 @@ const Finder = ({ optionalPath = null }) => {
       window.removeEventListener('mouseup', stopResizing);
     };
 
+
+  }, []);
+
+  useEffect(() => {
+    const handleClick = () => {
+      // Close the menu when user clicks anywhere else
+      setPosition({ left: null, top: null });
+    };
+
+    window.addEventListener("click", handleClick);
+
+    // Cleanup on unmount
+    return () => {
+      window.removeEventListener("click", handleClick);
+    };
   }, []);
 
   useEffect(() => {
@@ -143,7 +144,6 @@ const Finder = ({ optionalPath = null }) => {
       setIsSidebarOpen={setIsSidebarOpen}
       isSidebarOpen={isSidebarOpen}
     >
-
 
       {isSidebarOpen && (
         <div className="top-finder-bar w-full flex justify-between items-center relative" style={{ paddingBottom: isSidebarOpen ? '12px' : '0px', padding: "4px", background: 'linear-gradient(rgb(204, 204, 204), rgb(213, 213, 213))' }}>
@@ -276,7 +276,9 @@ const Finder = ({ optionalPath = null }) => {
           </>
         )}
 
-        <div className="code-section bg-white w-full h-full overflow-y-auto outline-gray-500 outline">
+        <div className="code-section relative bg-white w-full h-full overflow-y-auto outline-gray-500 outline" onContextMenu={(e) => handleContextMenu(e)}>
+          <MenuContext position={position} source={'finder'}/>
+
           <div className="breadcrumb flex items-center p-2 border-b select-none border-gray-300">
             {breadcrumbs.map((crumb, index) => (
               <div key={index} className="flex items-center">

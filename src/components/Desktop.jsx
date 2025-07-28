@@ -20,6 +20,7 @@ import Finder from './Finder';
 import { rootFileOptions } from './Utils/fileSystem.js';
 import { useFileSystem } from '../context/FileSystemContext.jsx';
 import txt from '../assets/folders/TXT.ico';
+import MenuContext from './MenuContext.jsx';
 const Desktop = () => {
   const { fileSystem, deleteNodeAtPath } = useFileSystem();
 
@@ -29,6 +30,21 @@ const Desktop = () => {
   const [draggedId, setDraggedId] = useState(null);
   const [dropTargetId, setDropTargetId] = useState(null);
   const [currentTopComponent, setCurrentTopComponent] = useState(null);
+  const [contextMenuPosition, setContextMenuPosition] = useState({ left: null, top: null });
+
+  useEffect(() => {
+    const handleClick = () => {
+      setContextMenuPosition({ left: null, top: null });
+    };
+
+    window.addEventListener("click", handleClick);
+
+    // Cleanup on unmount
+    return () => {
+      window.removeEventListener("click", handleClick);
+    };
+  }, []);
+
 
   const getIconForNode = (name, type) => {
     if (type === 'dir') {
@@ -100,8 +116,32 @@ const Desktop = () => {
   };
 
 
-  useEffect(() => {
-  }, [optionalPath])
+  const handleContextMenu = (event) => {
+    event.preventDefault();
+
+    const menuWidth = 200;  // estimated width of the context menu
+    const menuHeight = 200; // estimated height of the context menu
+
+    const boundingRect = event.currentTarget.getBoundingClientRect(); // container (desktop) bounds
+    let left = event.clientX - boundingRect.left;
+    let top = event.clientY - boundingRect.top;
+
+    // Flip to left if not enough horizontal space
+    if (left + menuWidth > boundingRect.width) {
+      left = boundingRect.width - menuWidth;
+    }
+
+    // Flip upward if not enough vertical space
+    if (top + menuHeight > boundingRect.height) {
+      top = boundingRect.height - menuHeight;
+    }
+
+    // Clamp to non-negative values just in case
+    left = Math.max(0, left);
+    top = Math.max(0, top);
+
+    setContextMenuPosition({ left, top });
+  };
 
 
   const handleDragEnd = () => {
@@ -201,7 +241,8 @@ const Desktop = () => {
           backgroundPosition: 'center',
         }}
       >
-        <div className='actual-icons-space h-[88%] w-full grid grid-cols-9 grid-rows-5 gap-x-4 gap-y-4 p-4'>
+        <div className='actual-icons-space h-[88%] w-full grid grid-cols-9 grid-rows-5 gap-x-4 gap-y-4 p-4 relative' onContextMenu={(e) => handleContextMenu(e)}>
+          <MenuContext position={contextMenuPosition} source={'desktop'} />
           {Array.from({ length: 45 }).map((_, index) => {
             const icon = getIconAtPosition(index);
 

@@ -230,7 +230,7 @@ const SimpleFrame = ({ title, children, hasDrawer, id, icon, height, width, minW
     <div
       ref={frameRef}
       className="simple-frame absolute bg-white rounded-md shadow-[0px_0px_20px_black]"
-      
+      onContextMenu={(e) => e.preventDefault()}
       style={{
 
         zIndex: getZIndex(id),
