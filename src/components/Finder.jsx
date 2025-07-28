@@ -18,8 +18,35 @@ import { useFileSystem } from '../context/FileSystemContext.jsx';
 import { getNodeAtPath } from './Utils/fileSystemUtils';
 import settings from '../assets/icons/settings.svg';
 import { finderMenu } from './Utils/menuConfig.js';
+import { Menu, Item, useContextMenu, Separator, Submenu } from 'react-contexify';
+// import 'react-contexify/dist/ReactContexify.css';
+// import './component.css'
+
+
+
+const CustomContextMenu = ({ children }) => {
+  <div
+    className="absolute z-50 w-48 rounded-md shadow-lg bg-white border border-gray-300"
+    style={{ top: position.y, left: position.x }}
+  >
+    {menuItems.map((item, idx) => (
+      <div
+        key={idx}
+        className="px-4 py-2 text-sm hover:bg-[#2A68C8] hover:text-white cursor-pointer flex items-center gap-2"
+        onClick={item.onClick}
+      >
+        {item.icon && <img src={item.icon} alt="" className="h-4 w-4" />}
+        <span>{item.label}</span>
+      </div>
+    ))}
+  </div>
+
+};
 
 const Finder = ({ optionalPath = null }) => {
+  const MENU_ID = 'my-context-menu';
+
+  const { show } = useContextMenu({ id: MENU_ID });
   const { fileSystem } = useFileSystem();
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [sidebarWidth, setSidebarWidth] = useState(150);
@@ -43,6 +70,12 @@ const Finder = ({ optionalPath = null }) => {
     { label: 'Music', icon: Music },
     { label: 'Pictures', icon: Pictures },
   ];
+
+  const handleContextMenu = (event) => {
+    event.preventDefault();
+    show({ event });
+  };
+
 
   const startResizing = (e) => {
     isResizing.current = true;
@@ -110,6 +143,8 @@ const Finder = ({ optionalPath = null }) => {
       setIsSidebarOpen={setIsSidebarOpen}
       isSidebarOpen={isSidebarOpen}
     >
+
+
       {isSidebarOpen && (
         <div className="top-finder-bar w-full flex justify-between items-center relative" style={{ paddingBottom: isSidebarOpen ? '12px' : '0px', padding: "4px", background: 'linear-gradient(rgb(204, 204, 204), rgb(213, 213, 213))' }}>
           <div className="left-finder-side flex select-none gap-x-2 items-center">
@@ -158,13 +193,13 @@ const Finder = ({ optionalPath = null }) => {
               {/* Menu Dropdown */}
               {isMenuOptionOpen && (
                 <div
-                  className="absolute bg-white shadow-md p-2 z-50"
-                  style={{ top: '100%', left: '0px', minWidth: "153px" }}
+                  className="absolute bg-transparent shadow-md z-50"
+                  style={{ top: '100%', left: '0px', minWidth: "153px", paddingTop: "12px" }}
                 >
                   {finderMenu.map((menuItem, index) => (
                     <div
                       key={index}
-                      className="flex items-center gap-x-2 hover:bg-[#2A68C8] hover:text-white cursor-pointer"
+                      className="flex items-center gap-x-2 hover:bg-[#2A68C8] hover:text-white cursor-pointer bg-white"
                       style={{ padding: '0px 16px' }}
                     >
                       {menuItem.icon && (
@@ -194,7 +229,9 @@ const Finder = ({ optionalPath = null }) => {
       <div
         className="finder flex w-full"
         style={{ height: isSidebarOpen ? 'calc(100% - 38px)' : '100%', padding: "4px" }}
+        onContextMenu={handleContextMenu}
       >
+
         {isSidebarOpen && (
           <>
             <div

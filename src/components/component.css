@@ -26,10 +26,34 @@
   font-style: normal;
 }
 
+/* REACT CONTEXIFY CSS */
+/* Stronger selectors to override default styles */
+.custom-context-menu .react-contexify__item {
+  padding: 2px 16px !important;
+  background-color: white !important;
+  color: black !important;
+  font-size: 14px;
+}
+
+/* override default hover behavior */
+.custom-context-menu .react-contexify__item:hover {
+  background-color: #2A68C8 !important;
+  color: white !important;
+}
+
+/* submenu arrow color */
+.custom-context-menu .react-contexify__submenu-arrow {
+  color: #888 !important;
+  margin-left: auto;
+}
 
 
 /* testing */
-.cursor-pointer, a, .top-mail-bar .address-button button, .url-bar button, section > div > div {
+.cursor-pointer,
+a,
+.top-mail-bar .address-button button,
+.url-bar button,
+section>div>div {
   cursor: url('../../public/cursors/Link\ Select.cur'), pointer;
 }
 
@@ -42,7 +66,7 @@
 
 
 .cursor-text {
-  cursor: url('../../public/cursors/Text\ Select.cur'), text!important;
+  cursor: url('../../public/cursors/Text\ Select.cur'), text !important;
 }
 
 .cursor-wait {
@@ -50,7 +74,11 @@
 }
 
 
-body, #root, .dashboard-calculator-buttons, iframe, .font-operation .buttons button {
+body,
+#root,
+.dashboard-calculator-buttons,
+iframe,
+.font-operation .buttons button {
   cursor: url('../../public/cursors/Normal\ Select.cur'), auto;
 
 }

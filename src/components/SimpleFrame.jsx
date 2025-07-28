@@ -2,14 +2,9 @@ import React, { useRef, useState, useEffect } from 'react';
 import './component.css';
 import cornerStone from '../assets/cornerStone.svg';
 import { useWindowManager } from '../context/WindowManagerContext';
-import { Menu, Item, useContextMenu } from 'react-contexify';
-import 'react-contexify/ReactContexify.css';
-
-const MENU_ID = 'my-context-menu';
 
 const SimpleFrame = ({ title, children, hasDrawer, id, icon, height, width, minWidth, minHeight, showDimensions, optionalBackground, isResizable = true, hasPadding = true, setOverflowY = true, onResizing = () => { }, exitFlag = false, setIsSidebarOpen = null, isSidebarOpen = null }) => {
 
-  const { show } = useContextMenu({ id: MENU_ID });
 
 
   const [isAtFront, setIsAtFront] = useState(false);
@@ -32,11 +27,7 @@ const SimpleFrame = ({ title, children, hasDrawer, id, icon, height, width, minW
 
   const isFocused = focusedWindowId === id;
 
-  const handleContextMenu = (event) => {
-    event.preventDefault();
-    show({ event });
-  };
-
+ 
   useEffect(() => {
     registerWindow(id, title, icon);
   }, [id, title, icon, registerWindow]);
@@ -239,7 +230,7 @@ const SimpleFrame = ({ title, children, hasDrawer, id, icon, height, width, minW
     <div
       ref={frameRef}
       className="simple-frame absolute bg-white rounded-md shadow-[0px_0px_20px_black]"
-      onContextMenu={handleContextMenu}
+      
       style={{
 
         zIndex: getZIndex(id),
@@ -249,11 +240,7 @@ const SimpleFrame = ({ title, children, hasDrawer, id, icon, height, width, minW
       onClick={handleFocus} onMouseDown={handleFocus}
     >
       {/* Corner resizer */}
-      <Menu id={MENU_ID}>
-        <Item onClick={() => alert("New Folder")}>New Folder</Item>
-        <Item onClick={() => alert("New File")}>New File</Item>
-        <Item onClick={() => alert("Open")}>Open</Item>
-      </Menu>
+      
       <div className="resize-handle bottom-right" onMouseDown={(e) => startResizing(e, 'bottom-right')} />
 
       {/* Edge resizers */}

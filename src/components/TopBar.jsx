@@ -219,37 +219,37 @@ const TopBar = ({ currentTopComponent }) => {
           <p className={`${currentMenuOpen === 'file' ? 'text-white' : ''} font-medium`}
             style={{ background: currentMenuOpen === 'file' ? 'linear-gradient(rgb(38, 129, 234) 30%, rgb(2, 84, 205) 70%)' : '', padding: '0px 4px' }}
             onMouseEnter={(e) => setCurrentMenuOpen('file')}
-            onMouseLeave={(e) => setCurrentMenuOpen(null)}
+            // onMouseLeave={(e) => setCurrentMenuOpen(null)}
           >File</p>
 
           <p className={`${currentMenuOpen === 'edit' ? 'text-white' : ''}`}
             style={{ background: currentMenuOpen === 'edit' ? 'linear-gradient(rgb(38, 129, 234) 30%, rgb(2, 84, 205) 70%)' : '', padding: '0px 4px' }}
             onMouseEnter={(e) => setCurrentMenuOpen('edit')}
-            onMouseLeave={(e) => setCurrentMenuOpen(null)}
+            // onMouseLeave={(e) => setCurrentMenuOpen(null)}
           >Edit</p>
 
           <p className={`${currentMenuOpen === 'view' ? 'text-white' : ''}`}
             style={{ background: currentMenuOpen === 'view' ? 'linear-gradient(rgb(38, 129, 234) 30%, rgb(2, 84, 205) 70%)' : '', padding: '0px 4px' }}
             onMouseEnter={(e) => setCurrentMenuOpen('view')}
-            onMouseLeave={(e) => setCurrentMenuOpen(null)}
+            // onMouseLeave={(e) => setCurrentMenuOpen(null)}
           >View</p>
 
           <p className={`${currentMenuOpen === 'go' ? 'text-white' : ''}`}
             style={{ background: currentMenuOpen === 'go' ? 'linear-gradient(rgb(38, 129, 234) 30%, rgb(2, 84, 205) 70%)' : '', padding: '0px 4px' }}
             onMouseEnter={(e) => setCurrentMenuOpen('go')}
-            onMouseLeave={(e) => setCurrentMenuOpen(null)}
+            // onMouseLeave={(e) => setCurrentMenuOpen(null)}
           >Go</p>
 
           <p className={`${currentMenuOpen === 'window' ? 'text-white' : ''}`}
             style={{ background: currentMenuOpen === 'window' ? 'linear-gradient(rgb(38, 129, 234) 30%, rgb(2, 84, 205) 70%)' : '', padding: '0px 4px' }}
             onMouseEnter={(e) => setCurrentMenuOpen('window')}
-            onMouseLeave={(e) => setCurrentMenuOpen(null)}
+            // onMouseLeave={(e) => setCurrentMenuOpen(null)}
           >Window</p>
 
           <p className={`${currentMenuOpen === 'help' ? 'text-white' : ''}`}
             style={{ background: currentMenuOpen === 'help' ? 'linear-gradient(rgb(38, 129, 234) 30%, rgb(2, 84, 205) 70%)' : '', padding: '0px 4px' }}
             onMouseEnter={(e) => setCurrentMenuOpen('help')}
-            onMouseLeave={(e) => setCurrentMenuOpen(null)}
+            // onMouseLeave={(e) => setCurrentMenuOpen(null)}
           >Help</p>
         </div>
       </div>
