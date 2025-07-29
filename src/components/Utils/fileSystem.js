@@ -28,6 +28,7 @@ import xCode from '../../assets/icons/applications/Xcode.ico'
 import textEdit from '../../assets/icons/applications/TextEdit.ico'
 import terminal from '../../assets/icons/applications/Terminal.ico'
 import calculator from '../../assets/icons/applications/Calculator.ico'
+import burn from '../../assets/folders/burnableFolder.ico'
 
 const fileSystem = {
   '/': {
@@ -220,6 +221,7 @@ const rootFileOptions = [
   { label: ".js", icon: html },
   { label: ".jsx", icon: html },
   { label: ".ico", icon: ico },
+  { label: "burn", icon: burn },
 ]
 
 

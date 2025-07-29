@@ -37,6 +37,9 @@ const Finder = ({ optionalPath = null }) => {
   const [iconIndex, setIconIndex] = useState(4);
   const [fileSystemPath, setFileSystemPath] = useState('/');
   const [position, setPosition] = useState({ left: null, top: null })
+  const [creatingItem, setCreatingItem] = useState(null); // null | 'folder' | 'file' | 'burn'
+  const [newItemName, setNewItemName] = useState('');
+  const [fileSystemItems, setFileSystemItems] = useState([]);
 
   const options = [
     { label: 'Network', icon: genericNetwork, path: "/" },
@@ -51,15 +54,37 @@ const Finder = ({ optionalPath = null }) => {
     { label: 'Pictures', icon: Pictures },
   ];
 
+  const handleAddNewItem = (type) => {
+    const newItem = {
+      id: Date.now(),
+      name: '',
+      type: type, // 'file', 'folder', or 'burn-folder'
+      isEditing: true,
+      path: fileSystemPath,
+    };
+    setFileSystemItems((prev) => [...prev, newItem]);
+  };
+
   const handleContextMenu = (event) => {
     event.preventDefault();
+    const boundingRect = event.currentTarget.getBoundingClientRect();
+    const clickX = event.clientX - boundingRect.left;
+    const clickY = event.clientY - boundingRect.top;
+    console.log(clickX, clickY)
+    const menuWidth = 160;
 
-    const boundingRect = event.currentTarget.getBoundingClientRect(); // get element's bounding box
-    const left = event.clientX - boundingRect.left;
-    const top = event.clientY - boundingRect.top;
+    let left = clickX;
+    let top = clickY
+    // Flip to left side of cursor if near right edge
+    if (clickX + menuWidth > boundingRect.width) {
+      left = clickX - menuWidth;
+    }
+
+    if (clickY + menuWidth > boundingRect.height) {
+      top = clickY - menuWidth
+    }
 
     setPosition({ left, top });
-    // setIsMenuOptionOpen(true);
   };
 
 
@@ -127,6 +152,19 @@ const Finder = ({ optionalPath = null }) => {
     return { label: part || '/', path: pathUpToIndex };
   });
 
+  const handleFileSystemBackward = () => {
+    if (fileSystemPath === '/') return;
+
+    // Remove the trailing slash if it exists
+    let trimmedPath = fileSystemPath.endsWith('/') ? fileSystemPath.slice(0, -1) : fileSystemPath;
+
+    // Get the parent path
+    const parentPath = trimmedPath.substring(0, trimmedPath.lastIndexOf('/') + 1);
+
+    // If nothing left, fallback to root
+    setFileSystemPath(parentPath || '/');
+  };
+
   return (
     <SimpleFrame
       title={`Finder - ${fileSystemPath}`}
@@ -152,7 +190,7 @@ const Finder = ({ optionalPath = null }) => {
               className="buttons w-fit h-fit outline outline-[#666666] rounded-sm"
               style={{ background: 'linear-gradient(to bottom, #f2f2f2 0%, #d9d9d9 100%)' }}
             >
-              <button className="h-full text-sm w-9 bg-transparent text-inherit" onClick={(e) => setFileSystemPath(fileSystemPath.substring(0, fileSystemPath.lastIndexOf('/')))}>&lt;</button>
+              <button className="h-full text-sm w-9 bg-transparent text-inherit" onClick={handleFileSystemBackward}>&lt;</button>
               <button className="h-full w-9 bg-transparent border-l border-[#666666] text-inherit">&gt;</button>
             </div>
 
@@ -277,7 +315,7 @@ const Finder = ({ optionalPath = null }) => {
         )}
 
         <div className="code-section relative bg-white w-full h-full overflow-y-auto outline-gray-500 outline" onContextMenu={(e) => handleContextMenu(e)}>
-          <MenuContext position={position} source={'finder'}/>
+          <MenuContext position={position} source={'finder'} onAddItem={handleAddNewItem} currentPath={fileSystemPath}/>
 
           <div className="breadcrumb flex items-center p-2 border-b select-none border-gray-300">
             {breadcrumbs.map((crumb, index) => (
@@ -298,7 +336,7 @@ const Finder = ({ optionalPath = null }) => {
               node={currentNode}
               path={fileSystemPath}
               setFileSystemPath={setFileSystemPath}
-
+              
             />
           ) : (
             <div className="p-4 text-gray-500">Directory not found</div>

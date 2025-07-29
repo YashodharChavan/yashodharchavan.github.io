@@ -1,59 +1,85 @@
-import React from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { rootFileOptions, applicationIcons } from './Utils/fileSystem';
 import { useWindowManager } from '../context/WindowManagerContext';
+import { useFileSystem } from '../context/FileSystemContext';
 
 const FileSystemFolder = ({ node, path, setFileSystemPath }) => {
+
   if (!node || node.type !== 'dir') return null;
 
+  const { openWindow } = useWindowManager();
+  const { pendingNewItem, setPendingNewItem, updateFileSystem, addItemAtPath, fileSystem } = useFileSystem(); // assumes you have update logic in context
+  const [newItemName, setNewItemName] = useState('');
+  const inputRef = useRef(null);
+
   const isPathApplication = path === '/Applications';
-  const { openWindows, openWindow } = useWindowManager();
   const children = Object.entries(node.children);
 
-  // Find the appropriate icon for a file or folder
+  useEffect(() => {
+    if (pendingNewItem && pendingNewItem.path === path) {
+      setNewItemName('');
+      setTimeout(() => {
+        inputRef.current?.focus();
+      }, 0);
+    }
+  }, [pendingNewItem, path]);
+
+  const handleNameSubmit = () => {
+    const name = newItemName.trim();
+    if (!name) {
+      setPendingNewItem(null);
+      return;
+    }
+
+    if (!pendingNewItem || !pendingNewItem.path) return;
+
+    if (node?.children?.[name]) {
+      alert("Item with this name already exists!");
+      return;
+    }
+
+    const type = pendingNewItem.type === 'folder' ? 'dir'
+      : pendingNewItem.type === 'file' ? 'file'
+        : pendingNewItem.type === 'burn' ? 'burn'
+          : 'file';
+
+    const pathArray = ['/', ...pendingNewItem.path.split('/').filter(Boolean)];
+
+    addItemAtPath(
+      fileSystem,
+      pathArray,
+      name,
+      {
+        type,
+        ...(type === 'dir' || type === 'burn' ? { children: {} } : { content: '' }),
+        icon: getIconForItem(name, type)
+      }
+    );
+    setPendingNewItem(null);
+  };
+
+
   const getIconForItem = (name, type) => {
+    if (type === 'burn') {
+      return rootFileOptions.find(opt => opt.label === 'burn')?.icon;
+    }
+
     if (type === 'dir') {
-      // For directories, match by folder name
       const option = rootFileOptions.find((opt) => opt.label === name);
       return option ? option.icon : rootFileOptions.find(opt => opt.label === 'home')?.icon;
-    } else {
-      // For files, match by extension
-      const extension = name.includes('.') ? `.${name.split('.').pop()}` : '';
-      if (extension === '.md') {
-        // Use the .md icon for markdown files
-        const mdOption = rootFileOptions.find(opt => opt.label === '.md');
-        return mdOption ? mdOption.icon : null;
-      }
-      else if (extension === '.pdf') {
-        // Use the .pdf icon for pdf files
-        const pdfOption = rootFileOptions.find(opt => opt.label === '.pdf');
-        return pdfOption ? pdfOption.icon : null;
-      }
-      else if (extension === '.bin') {
-        const binOption = rootFileOptions.find(opt => opt.label === '.bin');
-        return binOption ? binOption.icon : null;
-      }
-      else if (extension === '.zip') {
-        const zipOption = rootFileOptions.find(opt => opt.label === '.zip');
-        return zipOption ? zipOption.icon : null;
-      }
-      else if (extension === '.html') {
-        const htmlOption = rootFileOptions.find(opt => opt.label === '.html');
-        return htmlOption ? htmlOption.icon : null;
-      }
-      else if (extension === '.ico') {
-        const icoOption = rootFileOptions.find(opt => opt.label === '.ico');
-        return icoOption ? icoOption.icon : null;
-      }
-      else if (extension === '.app') {
-        const appOption = applicationIcons.find(opt => opt.label === name);
-        return appOption ? appOption.icon : null;
-      }
-      else {
-        // Use the .txt icon for all other files (including .txt)
-        const txtOption = rootFileOptions.find(opt => opt.label === '.txt');
-        return txtOption ? txtOption.icon : null;
-      }
     }
+    const ext = name.includes('.') ? `.${name.split('.').pop()}` : '';
+    const iconMap = {
+      '.md': '.md', '.pdf': '.pdf', '.bin': '.bin',
+      '.zip': '.zip', '.html': '.html', '.ico': '.ico', '.css': '.css', '.js': '.js',
+    };
+    if (iconMap[ext]) {
+      return rootFileOptions.find(opt => opt.label === iconMap[ext])?.icon;
+    }
+    if (ext === '.app') {
+      return applicationIcons.find(opt => opt.label === name)?.icon;
+    }
+    return rootFileOptions.find(opt => opt.label === type || opt.label === '.txt')?.icon;
   };
 
   return (
@@ -68,35 +94,52 @@ const FileSystemFolder = ({ node, path, setFileSystemPath }) => {
               if (child.type === 'dir') {
                 const newPath = path === '/' ? `/${name}` : `${path}/${name}`;
                 setFileSystemPath(newPath);
-              }
-              else if (child.type === 'file') {
-                if (child.href) {
-                  openWindow('safari', '', '', '', icon.name, child.href);
-                }
-                else {
-                  openWindow('textedit', "", "", child.content, name);
-                }
-              }
-              else if(child.type === 'app') {
+              } else if (child.type === 'file') {
+                child.href
+                  ? openWindow('safari', '', '', '', icon.name, child.href)
+                  : openWindow('textedit', '', '', child.content, name);
+              } else if (child.type === 'app') {
                 openWindow(icon.split('/').pop().split('.')[0].toLowerCase());
               }
             }}
           >
             <img
               src={icon}
-              draggable
+              draggable={false}
               alt={name}
               className="w-12 h-12"
-              onDragStart={(e) => {
-                const fullPath = path === '/' ? `/${name}` : `${path}/${name}`;
-                e.dataTransfer.setData('fullPath', fullPath);
-              }}
             />
-
             <span className="text-sm text-center mt-1">{name}</span>
           </div>
         );
       })}
+
+      {pendingNewItem && pendingNewItem.path === path && (
+        <div className="flex flex-col items-center justify-center p-2">
+          <img
+            src={
+              rootFileOptions.find(opt => opt.label === pendingNewItem.type)?.icon
+              ?? (pendingNewItem.type === 'folder'
+                ? rootFileOptions.find(opt => opt.label === 'home')?.icon
+                : rootFileOptions.find(opt => opt.label === '.txt')?.icon)
+            }
+            alt="New"
+            className="w-12 h-12"
+          />
+          <input
+            ref={inputRef}
+            value={newItemName}
+            onChange={(e) => setNewItemName(e.target.value)}
+            onBlur={handleNameSubmit}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') handleNameSubmit();
+              if (e.key === 'Escape') setPendingNewItem(null);
+            }}
+            className="text-sm text-center mt-1 border rounded px-1"
+            autoFocus
+          />
+        </div>
+      )}
     </div>
   );
 };
