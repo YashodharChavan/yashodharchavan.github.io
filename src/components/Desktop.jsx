@@ -21,9 +21,11 @@ import { rootFileOptions } from './Utils/fileSystem.js';
 import { useFileSystem } from '../context/FileSystemContext.jsx';
 import txt from '../assets/folders/TXT.ico';
 import MenuContext from './MenuContext.jsx';
-const Desktop = () => {
-  const { fileSystem, deleteNodeAtPath } = useFileSystem();
 
+
+const Desktop = () => {
+
+  const { pendingNewItem, setPendingNewItem, fileSystem, addItemAtPath, deleteNodeAtPath } = useFileSystem();
   const [desktopFileTree, setDesktopFileTree] = useState(fileSystem?.['/']?.['children']?.['Users']?.['children']?.['yashodhar']?.['children']?.['Desktop']?.['children'] || {})
   const [icons, setIcons] = useState([]);
   const [positions, setPositions] = useState({});
@@ -31,7 +33,57 @@ const Desktop = () => {
   const [dropTargetId, setDropTargetId] = useState(null);
   const [currentTopComponent, setCurrentTopComponent] = useState(null);
   const [contextMenuPosition, setContextMenuPosition] = useState({ left: null, top: null });
+  const [newItemName, setNewItemName] = useState('');
+  // Find first empty position in the 45 grid slots
+  const usedPositions = new Set(Object.values(positions));
+  const firstAvailableSlot = Array.from({ length: 45 }).findIndex((_, i) => !usedPositions.has(i));
+  const pendingNewItemPosition = firstAvailableSlot === -1 ? 0 : firstAvailableSlot;
 
+
+  const handleNameSubmit = () => {
+
+    console.log('reaching here')
+    const name = newItemName.trim();
+    if (!name) {
+      setPendingNewItem(null);
+      return;
+    }
+
+    const node = fileSystem['/']?.children?.Users?.children?.yashodhar?.children?.Desktop;
+    if (!node || node.children[name]) {
+      alert("Item with this name already exists!");
+      return;
+    }
+
+    const type = pendingNewItem.type === 'folder' ? 'dir'
+      : pendingNewItem.type === 'file' ? 'file'
+        : pendingNewItem.type === 'burn' ? 'burn'
+          : 'file';
+
+    addItemAtPath(
+      fileSystem,
+      ['/', 'Users', 'yashodhar', 'Desktop'],
+      name,
+      {
+        type,
+        ...(type === 'dir' || type === 'burn' ? { children: {} } : { content: '' }),
+        icon: rootFileOptions.find(opt => opt.label === type || opt.label === '.txt')?.icon,
+      }
+    );
+    setPendingNewItem(null);
+    setNewItemName('');
+  };
+
+  const handleAddNewItem = (type) => {
+    const newItem = {
+      id: Date.now(),
+      name: '',
+      type, // 'file', 'folder', or 'burn-folder'
+      isEditing: true,
+      path: '/Users/yashodhar/Desktop',
+    };
+    setPendingNewItem(newItem);
+  };
   useEffect(() => {
     const handleClick = () => {
       setContextMenuPosition({ left: null, top: null });
@@ -47,6 +99,9 @@ const Desktop = () => {
 
 
   const getIconForNode = (name, type) => {
+    if (type === 'burn') {
+      return rootFileOptions.find(opt => opt.label === 'burn')?.icon;
+    }
     if (type === 'dir') {
       const match = rootFileOptions.find(opt => opt.label.toLowerCase() === name.toLowerCase());
       return match ? match.icon : genericFolder;
@@ -203,7 +258,7 @@ const Desktop = () => {
   const handleDoubleClick = (icon) => {
     const fileNode = desktopFileTree[icon.name];
 
-    if (icon.type === 'dir') {
+    if (icon.type === 'dir' || icon.type === 'burn') {
       openWindow('finder', '', '', '', icon.name, `/Users/yashodhar/Desktop/${icon.name}`);
     } else if (icon.type === 'file') {
       if (icon.name.split('.').pop().toLowerCase() === 'pdf') {
@@ -242,7 +297,7 @@ const Desktop = () => {
         }}
       >
         <div className='actual-icons-space h-[88%] w-full grid grid-cols-9 grid-rows-5 gap-x-4 gap-y-4 p-4 relative' onContextMenu={(e) => handleContextMenu(e)}>
-          <MenuContext position={contextMenuPosition} source={'desktop'} />
+          <MenuContext position={contextMenuPosition} source={'desktop'} onAddItem={handleAddNewItem} currentPath={'/Users/yashodhar/Desktop'} />
           {Array.from({ length: 45 }).map((_, index) => {
             const icon = getIconAtPosition(index);
 
@@ -283,6 +338,36 @@ const Desktop = () => {
                     </span>
                   </>
                 )}
+
+                {pendingNewItem &&
+                  pendingNewItem.path.replace(/^\/?/, '/') === '/Users/yashodhar/Desktop' &&
+                  index === pendingNewItemPosition && (
+                    <div className="flex flex-col items-center justify-center p-2">
+                      <img
+                        src={
+                          pendingNewItem.icon ||
+                          (pendingNewItem.type === 'folder'
+                            ? rootFileOptions.find(opt => opt.label === 'home')?.icon
+                            : rootFileOptions.find(opt => opt.label === '.txt')?.icon)
+                        }
+                        alt="New"
+                        className="w-12 h-12"
+                      />
+                      <input
+                        value={newItemName}
+                        onChange={(e) => setNewItemName(e.target.value)}
+                        onBlur={handleNameSubmit}
+                        onKeyDown={(e) => {
+                          if (e.key === 'Enter') handleNameSubmit();
+                          if (e.key === 'Escape') setPendingNewItem(null);
+                        }}
+                        className="text-sm text-center mt-1 border rounded-4xl px-1 text-white outline-none w-11/12"
+                        autoFocus
+                      />
+                    </div>
+                  )}
+
+
               </div>
             );
           })}

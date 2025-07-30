@@ -24,7 +24,7 @@ function createCommandProcessor(fileSystemRef, updateFileSystem, currentPath, up
             const pointer = isLast ? '└── ' : '├── ';
             output += prefix + pointer + key + '\n';
 
-            if (child.type === 'dir') {
+            if (child.type === 'dir' || child.type === 'burn') {
                 const childPrefix = prefix + (isLast ? '    ' : '│   ');
                 output += printTree(child, childPrefix);
             }
@@ -71,7 +71,7 @@ function createCommandProcessor(fileSystemRef, updateFileSystem, currentPath, up
                     }
                 }
             } else {
-                if (!dir.children[part] || dir.children[part].type !== 'dir') {
+                if (!dir.children[part] || (dir.children[part].type !== 'dir' && dir.children[part].type !== 'burn')) {
                     return null;
                 }
                 newPath.push(part);
@@ -180,7 +180,7 @@ function createCommandProcessor(fileSystemRef, updateFileSystem, currentPath, up
                 if (!fileName) return 'rm: missing operand';
                 const dir = getCurrentDir();
                 if (!dir.children[fileName]) return `rm: cannot remove '${fileName}': No such file or directory`;
-                if (dir.children[fileName].type === 'dir') return `${fileName} is a directory`;
+                if (dir.children[fileName].type === 'dir' || dir.children[fileName].type === 'burn') return `${fileName} is a directory`;
                 delete dir.children[fileName];
                 updateFileSystem({ ...fileSystemRef });
                 return '';
@@ -192,7 +192,7 @@ function createCommandProcessor(fileSystemRef, updateFileSystem, currentPath, up
                 const dir = getCurrentDir();
                 const target = dir.children[dirName];
                 if (!target) return `rmdir: failed to remove '${dirName}': No such file or directory`;
-                if (target.type !== 'dir') return `rmdir: failed to remove '${dirName}': Not a directory`;
+                if (target.type !== 'dir' || target.type !== 'burn') return `rmdir: failed to remove '${dirName}': Not a directory`;
                 if (Object.keys(target.children).length > 0) return `rmdir: failed to remove '${dirName}': Directory not empty`;
                 delete dir.children[dirName];
                 updateFileSystem({ ...fileSystemRef });
@@ -214,7 +214,7 @@ function createCommandProcessor(fileSystemRef, updateFileSystem, currentPath, up
                 const srcNode = dir.children[src];
                 if (!srcNode) return `cp: cannot stat '${src}': No such file or directory`;
                 if (srcNode.type !== 'file') return `cp: -r not specified; omitting directory '${src}'`;
-                if (dir.children[dest]?.type === 'dir') {
+                if (dir.children[dest]?.type === 'dir' || dir.children[dest]?.type === 'burn') {
                     dir.children[dest].children[src] = { ...srcNode };
                 } else {
                     dir.children[dest] = { ...srcNode };
@@ -230,7 +230,7 @@ function createCommandProcessor(fileSystemRef, updateFileSystem, currentPath, up
                 const srcNode = dir.children[src];
                 if (!srcNode) return `mv: cannot stat '${src}': No such file or directory`;
 
-                if (dir.children[dest]?.type === 'dir') {
+                if (dir.children[dest]?.type === 'dir' || dir.children[dest]?.type === 'burn') {
                     if (dir.children[dest].children[src]) {
                         return `mv: cannot move '${src}': destination '${dest}/${src}' already exists`;
                     }

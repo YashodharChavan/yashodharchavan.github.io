@@ -5,13 +5,18 @@ import { useFileSystem } from '../context/FileSystemContext';
 
 const FileSystemFolder = ({ node, path, setFileSystemPath }) => {
 
-  if (!node || node.type !== 'dir') return null;
+  if (!node || (node.type !== 'dir' && node.type !== 'burn')) return null;
+
 
   const { openWindow } = useWindowManager();
   const { pendingNewItem, setPendingNewItem, updateFileSystem, addItemAtPath, fileSystem } = useFileSystem(); // assumes you have update logic in context
   const [newItemName, setNewItemName] = useState('');
   const inputRef = useRef(null);
 
+
+  useEffect(()=> {
+    console.log(fileSystem)
+  }, [fileSystem])
   const isPathApplication = path === '/Applications';
   const children = Object.entries(node.children);
 
@@ -60,6 +65,7 @@ const FileSystemFolder = ({ node, path, setFileSystemPath }) => {
 
 
   const getIconForItem = (name, type) => {
+    console.log(name, type)
     if (type === 'burn') {
       return rootFileOptions.find(opt => opt.label === 'burn')?.icon;
     }
@@ -91,7 +97,7 @@ const FileSystemFolder = ({ node, path, setFileSystemPath }) => {
             key={name}
             className="flex flex-col items-center justify-center p-2 hover:bg-[#A2B2CA] rounded cursor-pointer select-none"
             onDoubleClick={() => {
-              if (child.type === 'dir') {
+              if (child.type === 'dir' || child.type === 'burn') {
                 const newPath = path === '/' ? `/${name}` : `${path}/${name}`;
                 setFileSystemPath(newPath);
               } else if (child.type === 'file') {
@@ -135,7 +141,7 @@ const FileSystemFolder = ({ node, path, setFileSystemPath }) => {
               if (e.key === 'Enter') handleNameSubmit();
               if (e.key === 'Escape') setPendingNewItem(null);
             }}
-            className="text-sm text-center mt-1 border rounded px-1"
+            className="text-sm text-center mt-1 border rounded-4xl px-1 outline-none w-11/12"
             autoFocus
           />
         </div>

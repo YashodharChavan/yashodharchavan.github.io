@@ -36,7 +36,8 @@ const TopBar = ({ currentTopComponent }) => {
   const [results, setResults] = React.useState([])
   const [selectedIndex, setSelectedIndex] = React.useState(-1);
   const [currentMenuOpen, setCurrentMenuOpen] = React.useState('')
-
+  const spotlightRef = React.useRef(null);
+  const triggerRef = React.useRef(null);
   const { openWindow } = useWindowManager()
   const allFilesAndFolders = collectFilesAndFolders();
 
@@ -72,6 +73,32 @@ const TopBar = ({ currentTopComponent }) => {
     help: { x: 561, y: 24 },
   }
 
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape') {
+        setIsSpotlightActive(false);
+      }
+    };
+
+    const handleClickOutside = (e) => {
+      if (
+        spotlightRef.current &&
+        !spotlightRef.current.contains(e.target) &&
+        triggerRef.current &&
+        !triggerRef.current.contains(e.target)
+      ) {
+        setIsSpotlightActive(false);
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    window.addEventListener('click', handleClickOutside);
+
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+      window.removeEventListener('click', handleClickOutside);
+
+    };
+  }, []);
   const handleMenuClick = (menuName) => {
     const rect = menuRefs[menuName]?.current?.getBoundingClientRect();
     setCurrentMenuOpen(menuName);
@@ -85,7 +112,7 @@ const TopBar = ({ currentTopComponent }) => {
       const fullPath = path === '/' ? `/${name}` : `${path}/${name}`;
       const icon = getIconForFile(name, child.type);
 
-      if(name.split('.').pop().toLowerCase() === 'app') continue; // Skip .app files
+      if (name.split('.').pop().toLowerCase() === 'app') continue; // Skip .app files
 
       items.push({
         name,
@@ -219,37 +246,37 @@ const TopBar = ({ currentTopComponent }) => {
           <p className={`${currentMenuOpen === 'file' ? 'text-white' : ''} font-medium`}
             style={{ background: currentMenuOpen === 'file' ? 'linear-gradient(rgb(38, 129, 234) 30%, rgb(2, 84, 205) 70%)' : '', padding: '0px 4px' }}
             onMouseEnter={(e) => setCurrentMenuOpen('file')}
-            // onMouseLeave={(e) => setCurrentMenuOpen(null)}
+            onMouseLeave={(e) => setCurrentMenuOpen(null)}
           >File</p>
 
           <p className={`${currentMenuOpen === 'edit' ? 'text-white' : ''}`}
             style={{ background: currentMenuOpen === 'edit' ? 'linear-gradient(rgb(38, 129, 234) 30%, rgb(2, 84, 205) 70%)' : '', padding: '0px 4px' }}
             onMouseEnter={(e) => setCurrentMenuOpen('edit')}
-            // onMouseLeave={(e) => setCurrentMenuOpen(null)}
+            onMouseLeave={(e) => setCurrentMenuOpen(null)}
           >Edit</p>
 
           <p className={`${currentMenuOpen === 'view' ? 'text-white' : ''}`}
             style={{ background: currentMenuOpen === 'view' ? 'linear-gradient(rgb(38, 129, 234) 30%, rgb(2, 84, 205) 70%)' : '', padding: '0px 4px' }}
             onMouseEnter={(e) => setCurrentMenuOpen('view')}
-            // onMouseLeave={(e) => setCurrentMenuOpen(null)}
+            onMouseLeave={(e) => setCurrentMenuOpen(null)}
           >View</p>
 
           <p className={`${currentMenuOpen === 'go' ? 'text-white' : ''}`}
             style={{ background: currentMenuOpen === 'go' ? 'linear-gradient(rgb(38, 129, 234) 30%, rgb(2, 84, 205) 70%)' : '', padding: '0px 4px' }}
             onMouseEnter={(e) => setCurrentMenuOpen('go')}
-            // onMouseLeave={(e) => setCurrentMenuOpen(null)}
+            onMouseLeave={(e) => setCurrentMenuOpen(null)}
           >Go</p>
 
           <p className={`${currentMenuOpen === 'window' ? 'text-white' : ''}`}
             style={{ background: currentMenuOpen === 'window' ? 'linear-gradient(rgb(38, 129, 234) 30%, rgb(2, 84, 205) 70%)' : '', padding: '0px 4px' }}
             onMouseEnter={(e) => setCurrentMenuOpen('window')}
-            // onMouseLeave={(e) => setCurrentMenuOpen(null)}
+            onMouseLeave={(e) => setCurrentMenuOpen(null)}
           >Window</p>
 
           <p className={`${currentMenuOpen === 'help' ? 'text-white' : ''}`}
             style={{ background: currentMenuOpen === 'help' ? 'linear-gradient(rgb(38, 129, 234) 30%, rgb(2, 84, 205) 70%)' : '', padding: '0px 4px' }}
             onMouseEnter={(e) => setCurrentMenuOpen('help')}
-            // onMouseLeave={(e) => setCurrentMenuOpen(null)}
+            onMouseLeave={(e) => setCurrentMenuOpen(null)}
           >Help</p>
         </div>
       </div>
@@ -258,7 +285,7 @@ const TopBar = ({ currentTopComponent }) => {
 
           <img src={battery} alt="" className='h-5' />
           <p>{date}</p>
-          <div className='w-8 flex justify-center' onClick={activateSpotlightSearch}>
+          <div className='w-8 flex justify-center' onClick={activateSpotlightSearch} ref={triggerRef}>
 
             <img src={spotlight} alt="" className='h-5' />
           </div>
@@ -268,10 +295,12 @@ const TopBar = ({ currentTopComponent }) => {
 
       {currentMenuOpen && topMenuData[currentMenuOpen] && (
         <div
-          className="absolute bg-white shadow-md p-2 z-50"
+          className="absolute bg-white shadow-md p-2"
           style={{
             top: `${menuPosition[currentMenuOpen].y}px`,
             left: `${menuPosition[currentMenuOpen].x}px`,
+            zIndex: 1000,
+            boxShadow: 'rgb(118, 118, 118) -1px 1px 6px 0px'
           }}
           onMouseEnter={(e) => setCurrentMenuOpen(currentMenuOpen)}
           onMouseLeave={(e) => setCurrentMenuOpen(null)}
@@ -297,6 +326,7 @@ const TopBar = ({ currentTopComponent }) => {
           boxShadow: "0px 7px 16px 0px #00000099",
           padding: "0px 8px"
         }}
+        ref={spotlightRef}
       >
 
         <span className="text-white font-sans">Spotlight</span>

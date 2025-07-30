@@ -18,8 +18,6 @@ import { useFileSystem } from '../context/FileSystemContext.jsx';
 import { getNodeAtPath } from './Utils/fileSystemUtils';
 import settings from '../assets/icons/settings.svg';
 import { finderMenu } from './Utils/menuConfig.js';
-// import 'react-contexify/dist/ReactContexify.css';
-// import './component.css'
 import MenuContext from './MenuContext.jsx';
 
 
@@ -37,8 +35,6 @@ const Finder = ({ optionalPath = null }) => {
   const [iconIndex, setIconIndex] = useState(4);
   const [fileSystemPath, setFileSystemPath] = useState('/');
   const [position, setPosition] = useState({ left: null, top: null })
-  const [creatingItem, setCreatingItem] = useState(null); // null | 'folder' | 'file' | 'burn'
-  const [newItemName, setNewItemName] = useState('');
   const [fileSystemItems, setFileSystemItems] = useState([]);
 
   const options = [
@@ -211,7 +207,6 @@ const Finder = ({ optionalPath = null }) => {
               onMouseEnter={() => setIsMenuOptionOpen(true)}
               onMouseLeave={() => setIsMenuOptionOpen(false)}
             >
-              {/* Settings Button */}
               <div
                 className="buttons w-fit-h-fit outline select-none outline-[#666666] rounded-sm"
                 style={{
@@ -239,6 +234,7 @@ const Finder = ({ optionalPath = null }) => {
                       key={index}
                       className="flex items-center gap-x-2 hover:bg-[#2A68C8] hover:text-white cursor-pointer bg-white"
                       style={{ padding: '0px 16px' }}
+                      onClick={menuItem.action}
                     >
                       {menuItem.icon && (
                         <img src={menuItem.icon} alt="" className="h-4" />
