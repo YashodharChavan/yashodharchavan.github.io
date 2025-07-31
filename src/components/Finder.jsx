@@ -17,14 +17,13 @@ import FileSystemFolder from './FileSystemFolder.jsx';
 import { useFileSystem } from '../context/FileSystemContext.jsx';
 import { getNodeAtPath } from './Utils/fileSystemUtils';
 import settings from '../assets/icons/settings.svg';
-import { finderMenu } from './Utils/menuConfig.js';
+// import { finderMenu } from './Utils/menuConfig.js';
 import MenuContext from './MenuContext.jsx';
-
-
+import burn from '../assets/folders/burnableFolder.ico'
 
 const Finder = ({ optionalPath = null }) => {
 
-  const { fileSystem } = useFileSystem();
+  const { fileSystem, setPendingNewItem, currentPath } = useFileSystem();
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [sidebarWidth, setSidebarWidth] = useState(150);
   const [isMenuOptionOpen, setIsMenuOptionOpen] = useState(false);
@@ -36,7 +35,40 @@ const Finder = ({ optionalPath = null }) => {
   const [fileSystemPath, setFileSystemPath] = useState('/');
   const [position, setPosition] = useState({ left: null, top: null })
   const [fileSystemItems, setFileSystemItems] = useState([]);
+  const dropdownRef = useRef(null);
 
+
+  const finderMenu = [
+    {
+      label: "New Folder",
+      action: () =>
+        setPendingNewItem({
+          type: "folder",
+          path: fileSystemPath, 
+        }),
+    },
+    {
+      label: "New File",
+      action: () =>
+        setPendingNewItem({
+          type: "file",
+          path: fileSystemPath,
+        }),
+    },
+    {
+      label: "New Burn Folder",
+      action: () =>
+        setPendingNewItem({
+          type: "burn",
+          path: fileSystemPath,
+          icon: burn,
+        }),
+    },
+    {
+      label: "Get Info",
+      action: () => console.log("Get info"),
+    },
+  ];
   const options = [
     { label: 'Network', icon: genericNetwork, path: "/" },
     { label: 'Mac OS X Tiger', icon: hardDrive },
@@ -135,6 +167,33 @@ const Finder = ({ optionalPath = null }) => {
   }, []);
 
   useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape') {
+        setIsMenuOptionOpen(false);
+      }
+    };
+
+    const handleClickOutside = (e) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(e.target)
+      ) {
+        setIsMenuOptionOpen(false);
+      }
+    };
+
+    if (isMenuOptionOpen) {
+      document.addEventListener('keydown', handleKeyDown);
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [isMenuOptionOpen]);
+
+  useEffect(() => {
     if (optionalPath) {
       setFileSystemPath(optionalPath);
     }
@@ -228,6 +287,7 @@ const Finder = ({ optionalPath = null }) => {
                 <div
                   className="absolute bg-transparent shadow-md z-50"
                   style={{ top: '100%', left: '0px', minWidth: "153px", paddingTop: "12px" }}
+                  ref={dropdownRef}
                 >
                   {finderMenu.map((menuItem, index) => (
                     <div
@@ -311,7 +371,7 @@ const Finder = ({ optionalPath = null }) => {
         )}
 
         <div className="code-section relative bg-white w-full h-full overflow-y-auto outline-gray-500 outline" onContextMenu={(e) => handleContextMenu(e)}>
-          <MenuContext position={position} source={'finder'} onAddItem={handleAddNewItem} currentPath={fileSystemPath}/>
+          <MenuContext position={position} source={'finder'} onAddItem={handleAddNewItem} currentPath={fileSystemPath} />
 
           <div className="breadcrumb flex items-center p-2 border-b select-none border-gray-300">
             {breadcrumbs.map((crumb, index) => (
@@ -332,7 +392,7 @@ const Finder = ({ optionalPath = null }) => {
               node={currentNode}
               path={fileSystemPath}
               setFileSystemPath={setFileSystemPath}
-              
+
             />
           ) : (
             <div className="p-4 text-gray-500">Directory not found</div>

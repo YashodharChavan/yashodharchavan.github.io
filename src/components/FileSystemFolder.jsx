@@ -14,11 +14,15 @@ const FileSystemFolder = ({ node, path, setFileSystemPath }) => {
   const inputRef = useRef(null);
 
 
-  useEffect(()=> {
-    console.log(fileSystem)
-  }, [fileSystem])
   const isPathApplication = path === '/Applications';
   const children = Object.entries(node.children);
+  const handleDragStart = (e, iconName) => {
+    e.stopPropagation();
+    console.log(e, iconName, path)
+    e.dataTransfer.setData('fullPath', path);
+    e.dataTransfer.setData('text/plain', iconName); // optional, for display
+    e.dataTransfer.effectAllowed = 'move';
+  };
 
   useEffect(() => {
     if (pendingNewItem && pendingNewItem.path === path) {
@@ -40,6 +44,7 @@ const FileSystemFolder = ({ node, path, setFileSystemPath }) => {
 
     if (node?.children?.[name]) {
       alert("Item with this name already exists!");
+      setPendingNewItem(null); // ✅ Clear to prevent re-trigger
       return;
     }
 
@@ -65,7 +70,6 @@ const FileSystemFolder = ({ node, path, setFileSystemPath }) => {
 
 
   const getIconForItem = (name, type) => {
-    console.log(name, type)
     if (type === 'burn') {
       return rootFileOptions.find(opt => opt.label === 'burn')?.icon;
     }
@@ -111,7 +115,8 @@ const FileSystemFolder = ({ node, path, setFileSystemPath }) => {
           >
             <img
               src={icon}
-              draggable={false}
+              onDragStart={(e) => handleDragStart(e, name)}
+              draggable
               alt={name}
               className="w-12 h-12"
             />

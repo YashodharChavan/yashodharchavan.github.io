@@ -12,6 +12,10 @@ export const FileSystemProvider = ({ children }) => {
     setFileSystem({ ...updatedFS });
   };
 
+  React.useEffect(() => {
+    console.log(currentPath)
+  }, [currentPath])
+
   const updateCurrentPath = (newPath) => {
     setCurrentPath(newPath);
   };
@@ -30,14 +34,31 @@ export const FileSystemProvider = ({ children }) => {
     }
 
     const lastPart = parts[parts.length - 1];
-    if (current.children && current.children[lastPart]) {
-      delete current.children[lastPart];
-      setFileSystem(newFileSystem);
-    }
+    const nodeToDelete = current.children?.[lastPart];
+
+    if (!nodeToDelete) return;
+
+    // ✅ Recursively delete children if it's a folder
+    const recursivelyDelete = (node) => {
+      if (node.type === 'dir' && node.children) {
+        for (const childName in node.children) {
+          recursivelyDelete(node.children[childName]);
+        }
+      }
+    };
+
+    recursivelyDelete(nodeToDelete);
+
+    // ✅ Now delete the folder/file itself
+    delete current.children[lastPart];
+
+    // ✅ Update the state
+    setFileSystem(newFileSystem);
   };
 
+
   function addItemAtPath(fileSystem, path, itemName, itemData = null) {
-    if (!Array.isArray(path) || path.length === 0 || !itemName ) {
+    if (!Array.isArray(path) || path.length === 0 || !itemName) {
       console.log(fileSystem, path, itemName, itemData)
       console.warn('Invalid arguments provided to addItemAtPath');
       return;

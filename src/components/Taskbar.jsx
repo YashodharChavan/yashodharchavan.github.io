@@ -21,7 +21,7 @@ import { useFileSystem } from '../context/FileSystemContext';
 const Taskbar = ({ setCurrentTopComponent, onTrashDrop }) => {
   const { windows, restoreWindow, openWindow } = useWindowManager();
   const [isTrashFull, setIsTrashFull] = React.useState(false);
-  const {deleteNodeAtPath} = useFileSystem();
+  const { deleteNodeAtPath } = useFileSystem();
 
 
   const icons = [
@@ -70,13 +70,12 @@ const Taskbar = ({ setCurrentTopComponent, onTrashDrop }) => {
 
                 const fullPath = e.dataTransfer.getData('fullPath');
                 const iconId = e.dataTransfer.getData('text/plain');
-
-                if (fullPath) {
-                  // File/folder dropped from Finder
-                  deleteNodeAtPath(fullPath);
+                const fullResolvedPath = `${fullPath.replace(/\/?$/, '/')}${iconId}`;
+                if (fullResolvedPath) {
+                  console.log('fullPath:', fullResolvedPath); // verify this
+                  deleteNodeAtPath(fullResolvedPath);
                   setIsTrashFull(true);
                 } else if (iconId && onTrashDrop) {
-                  // File/folder dropped from Desktop
                   onTrashDrop(iconId);
                   setIsTrashFull(true);
                 }

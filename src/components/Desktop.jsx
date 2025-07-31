@@ -26,7 +26,8 @@ import MenuContext from './MenuContext.jsx';
 const Desktop = () => {
 
   const { pendingNewItem, setPendingNewItem, fileSystem, addItemAtPath, deleteNodeAtPath } = useFileSystem();
-  const [desktopFileTree, setDesktopFileTree] = useState(fileSystem?.['/']?.['children']?.['Users']?.['children']?.['yashodhar']?.['children']?.['Desktop']?.['children'] || {})
+  const [desktopFileTree, setDesktopFileTree] = useState({});
+
   const [icons, setIcons] = useState([]);
   const [positions, setPositions] = useState({});
   const [draggedId, setDraggedId] = useState(null);
@@ -38,7 +39,11 @@ const Desktop = () => {
   const usedPositions = new Set(Object.values(positions));
   const firstAvailableSlot = Array.from({ length: 45 }).findIndex((_, i) => !usedPositions.has(i));
   const pendingNewItemPosition = firstAvailableSlot === -1 ? 0 : firstAvailableSlot;
-
+  
+  useEffect(() => {
+    const updatedTree = fileSystem?.['/']?.['children']?.['Users']?.['children']?.['yashodhar']?.['children']?.['Desktop']?.['children'] || {};
+    setDesktopFileTree(updatedTree);
+  }, [fileSystem]);
 
   const handleNameSubmit = () => {
 
@@ -74,6 +79,9 @@ const Desktop = () => {
     setNewItemName('');
   };
 
+  React.useEffect(() => {
+    console.log(fileSystem)
+  }, [fileSystem])
   const handleAddNewItem = (type) => {
     const newItem = {
       id: Date.now(),
@@ -339,7 +347,7 @@ const Desktop = () => {
                   </>
                 )}
 
-                {pendingNewItem &&
+                {pendingNewItem?.path &&
                   pendingNewItem.path.replace(/^\/?/, '/') === '/Users/yashodhar/Desktop' &&
                   index === pendingNewItemPosition && (
                     <div className="flex flex-col items-center justify-center p-2">
