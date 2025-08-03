@@ -58,10 +58,23 @@ const Terminal = () => {
     }
   };
 
-  useEffect(() => {
-    terminalRef.current.scrollTop = terminalRef.current.scrollHeight;
-  }, [history]);
 
+
+  useEffect(() => {
+    const scrollToBottom = () => {
+      if (terminalRef.current) {
+        terminalRef.current.scrollTo({
+          top: terminalRef.current.scrollHeight,
+          behavior: 'smooth', // or 'auto' for instant
+        });
+      }
+    };
+
+    // Use a slight delay to ensure layout is committed
+    const raf = requestAnimationFrame(scrollToBottom);
+
+    return () => cancelAnimationFrame(raf);
+  }, [history]);
   useEffect(() => {
     inputRef.current.focus();
   }, []);
@@ -82,7 +95,7 @@ const Terminal = () => {
     >
       <div
         ref={terminalRef}
-        className="terminal p-2 max-h-[186%] overflow-y-hidden text-[13px] font-mono bg-white text-black break-words"
+        className="terminal p-2 max-h-[186%] overflow-y-auto text-[13px] font-mono bg-white text-black break-words"
         onClick={() => inputRef.current.focus()}
         style={{ fontFamily: 'Monaco' }}
       >

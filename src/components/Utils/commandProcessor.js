@@ -105,7 +105,7 @@ append <file> <text> Append text to a file
 mkdir <dir>         Create a new directory
 touch <file.ext>    Create a new empty file
 rm <file>           Remove a file
-rmdir <dir>         Remove an empty directory
+rmdir [-f] <dir>    Remove an empty directory
 cp <src> <dest>     Copy file to destination
 mv <src> <dest>     Move/Rename file or move into directory
 echo <text>         Print text to output
@@ -208,7 +208,16 @@ Type "man" to show this help message.`;
             }
 
             case 'rmdir': {
-                const dirName = args[0];
+                let force = false;
+                const filteredArgs = args.filter(arg => {
+                    if (arg === '-f') {
+                        force = true;
+                        return false;
+                    }
+                    return true;
+                });
+
+                const dirName = filteredArgs[0];
                 if (!dirName) return 'rmdir: missing operand';
 
                 const dir = getCurrentDir();
@@ -217,13 +226,17 @@ Type "man" to show this help message.`;
                 if (!target) return `rmdir: failed to remove '${dirName}': No such file or directory`;
                 if (target.type !== 'dir' && target.type !== 'burn')
                     return `rmdir: failed to remove '${dirName}': Not a directory`;
-                if (Object.keys(target.children || {}).length > 0)
-                    return `rmdir: failed to remove '${dirName}': Directory not empty`;
+
+                const isEmpty = !target.children || Object.keys(target.children).length === 0;
+                if (!isEmpty && !force)
+                    return `rmdir: failed to remove '${dirName}': Directory not empty use -f to force`;
 
                 delete dir.children[dirName];
-                updateFileSystem({ ...fileSystemRef }); // assuming fileSystemRef is your current filesystem
+                updateFileSystem({ ...fileSystemRef });
+
                 return '';
             }
+
 
 
             case 'clear':
