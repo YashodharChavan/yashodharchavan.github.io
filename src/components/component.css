@@ -117,8 +117,8 @@ textarea {
 }
 
 .mac-dot {
-  width: 12px;
-  height: 12px;
+  width: 14px;
+  height: 14px;
   border-radius: 50%;
   position: relative;
   box-shadow:
@@ -204,7 +204,7 @@ textarea {
 
 .simple-frame,
 .top-finder-bar,
-.left-finder-side .buttons button {
+.left-finder-side .buttons button, .cursor-auto {
   cursor: url('../../public/cursors/Normal Select.cur'), auto;
 }
 

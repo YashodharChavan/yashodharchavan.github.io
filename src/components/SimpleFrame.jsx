@@ -266,7 +266,7 @@ const SimpleFrame = ({ title, children, hasDrawer, id, icon, height, width, minW
           <span className="title select-none">{title}</span>
         )}
         {hasDrawer ? (
-          <button className="drawer-toggle rounded-lg w-7 h-3 outline outline-gray-400"
+          <button className="drawer-toggle rounded-lg w-7 h-3 outline outline-gray-400 cursor-auto"
             style={{ background: "linear-gradient(to bottom, #b2b2b2, #e1e1e1)", boxShadow: "inset 0px -1px 3px 0px #e1e1e1" }}
             onClick={(e) => {
               setIsSidebarOpen(!isSidebarOpen)
