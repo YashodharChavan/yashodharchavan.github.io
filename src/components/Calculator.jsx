@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import SimpleFrame from './SimpleFrame';
-import texture from '../assets/texture.jpg';
+import texture from '../assets/texture.avif';
 import './component.css';
 
 const Calculator = () => {

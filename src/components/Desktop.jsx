@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import '../index.css';
 import { useWindowManager } from '../context/WindowManagerContext';
-import background from '../assets/background.png';
+import background from '../assets/background.avif';
 import TopBar from './TopBar';
 import Taskbar from './Taskbar';
-import hardDrive from '../assets/folders/Hard Drive.ico';
-import genericFolder from '../assets/folders/GenericFolderIcon.ico';
+import hardDrive from '../assets/folders/Hard Drive.avif';
+import genericFolder from '../assets/folders/GenericFolderIcon.avif';
 import Terminal from './Terminal';
 import Calculator from './Calculator';
 import Contacts from './Contacts';
@@ -19,7 +19,7 @@ import AboutMe from './AboutMe';
 import Finder from './Finder';
 import { rootFileOptions } from './Utils/fileSystem.js';
 import { useFileSystem } from '../context/FileSystemContext.jsx';
-import txt from '../assets/folders/TXT.ico';
+import txt from '../assets/folders/TXT.avif';
 import MenuContext from './MenuContext.jsx';
 
 
@@ -142,8 +142,8 @@ const Desktop = () => {
         const htmlMatch = rootFileOptions.find(opt => opt.label === '.html');
         return htmlMatch.icon;
       }
-      else if (extension === '.ico') {
-        const icoMatch = rootFileOptions.find(opt => opt.label === '.ico');
+      else if (extension === '.avif') {
+        const icoMatch = rootFileOptions.find(opt => opt.label === '.avif');
         return icoMatch.icon;
       }
       return txt;
@@ -179,11 +179,14 @@ const Desktop = () => {
   const { openWindows, openWindow, optionalText, optionalTitle, optionalPath, optionalTextEditPath } = useWindowManager();
 
   const handleDragStart = (id, e) => {
-    e.dataTransfer.setData('text/plain', id);
-    e.dataTransfer.effectAllowed = 'move';
-    setDraggedId(id);
+    const icon = icons.find((i) => i.id === id);
+    if (icon) {
+      e.dataTransfer.setData('text/plain', icon.name); // Set the icon name
+      e.dataTransfer.setData('fullPath', '/Users/yashodhar/Desktop'); // Set the full path
+      e.dataTransfer.effectAllowed = 'move';
+      setDraggedId(id);
+    }
   };
-
 
   const handleContextMenu = (event) => {
     event.preventDefault();
@@ -292,13 +295,13 @@ const Desktop = () => {
     return iconId !== undefined ? icons.find((icon) => icon.id === iconId) : null;
   };
 
-  const handleTrashDrop = (iconId) => {
+  const handleTrashDrop = (e, iconId) => {
     const icon = icons.find((i) => i.id === iconId);
-    if (!icon) return
-
+    if (!icon) return;
     const fullPath = `/Users/yashodhar/Desktop/${icon.name}`;
     deleteNodeAtPath(fullPath);
   };
+
   return (
     <>
       <TopBar currentTopComponent={currentTopComponent} />
@@ -400,7 +403,7 @@ const Desktop = () => {
       </div>
       <Taskbar
         setCurrentTopComponent={setCurrentTopComponent}
-        onTrashDrop={handleTrashDrop}
+        handleTrashDrop={handleTrashDrop}
       />
     </>
   );

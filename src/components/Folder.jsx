@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import genericFolder from '../assets/folders/GenericFolderIcon.ico'
-import fileIcon from '../assets/folders/Document_1.ico'
+import genericFolder from '../assets/folders/GenericFolderIcon.avif'
+import fileIcon from '../assets/folders/Document_1.avif'
 
 const TreeNode = ({ node, currentFileURL, setCurrentFileURL }) => {
     const [children, setChildren] = useState([]);

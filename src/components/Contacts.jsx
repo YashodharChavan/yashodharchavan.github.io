@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react'
 import './component.css'
 import { useWindowManager } from '../context/WindowManagerContext';
 import SimpleFrame from './SimpleFrame'
-import texture from '../assets/texture.jpg'
+import texture from '../assets/texture.avif'
 import appleLogo from "../../public/appleLogo.svg"
 import userLogo from "../../public/userLogo.svg"
 import Yashodhar from './Yashodhar'

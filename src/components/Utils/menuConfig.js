@@ -1,9 +1,9 @@
 // menuConfig.js
 // menuConfig.js
-import HomeIcon from '../../assets/folders/HomeFolderIcon.ico';
-import NetworkIcon from '../../assets/folders/GenericNetworkIcon.ico';
-import IDiskIcon from '../../assets/folders/iDiskGenericIcon.ico';
-import ApplicationsIcon from '../../assets/folders/ApplicationsFolderIcon.ico';
+import HomeIcon from '../../assets/folders/HomeFolderIcon.avif';
+import NetworkIcon from '../../assets/folders/GenericNetworkIcon.avif';
+import IDiskIcon from '../../assets/folders/iDiskGenericIcon.avif';
+import ApplicationsIcon from '../../assets/folders/ApplicationsFolderIcon.avif';
 
 export const topMenuData = {
     file: [
@@ -94,10 +94,10 @@ export const dd = [
             { label: "Back", active: false, action: () => console.log("Zoom In") },
             { label: "Forward", active: false, action: () => console.log("Zoom Out") },
             { label: "Computer", active: true, action: () => console.log("Zoom Out") },
-            { label: "Home", active: true, icon: '../assets/folders/HomeFolderIcon.ico', action: () => console.log("Zoom Out") },
-            { label: "Network", active: true, icon: '../assets/folders/GenericNetworkIcon.ico', action: () => console.log("Zoom Out") },
-            { label: "iDisk", active: true, icon: '../assets/folders/iDiskGenericIcon.ico', action: () => console.log("Zoom Out") },
-            { label: "Applications", active: true, icon: '../assets/folders/ApplicationsFolderIcon.ico', action: () => console.log("Zoom Out") },
+            { label: "Home", active: true, icon: '../assets/folders/HomeFolderIcon.avif', action: () => console.log("Zoom Out") },
+            { label: "Network", active: true, icon: '../assets/folders/GenericNetworkIcon.avif', action: () => console.log("Zoom Out") },
+            { label: "iDisk", active: true, icon: '../assets/folders/iDiskGenericIcon.avif', action: () => console.log("Zoom Out") },
+            { label: "Applications", active: true, icon: '../assets/folders/ApplicationsFolderIcon.avif', action: () => console.log("Zoom Out") },
             { label: "Recent Folders", active: false, action: () => console.log("Zoom Out") },
         ],
     },

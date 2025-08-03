@@ -1,25 +1,25 @@
 import React, { useEffect, useState, useRef } from 'react';
 import SimpleFrame from './SimpleFrame';
-import texture from '../assets/texture.jpg';
+import texture from '../assets/texture.avif';
 import menu from '../assets/menu.svg';
 import bars from '../assets/bars.svg';
-import genericNetwork from '../assets/folders/GenericNetworkIcon.ico';
-import hardDrive from '../assets/folders/Hard Drive.ico';
-import Dvd from '../assets/folders/DVD.ico';
-import Desktop from '../assets/folders/DesktopFolderIcon.ico';
-import Home from '../assets/folders/HomeFolderIcon.ico';
-import Applications from '../assets/folders/ToolbarAppsFolderIcon.ico';
-import Documents from '../assets/folders/ToolbarDocumentsFolderIcon.ico';
-import Movie from '../assets/folders/ToolbarMovieFolderIcon.ico';
-import Music from '../assets/folders/ToolBarMusicFolderIcon.ico';
-import Pictures from '../assets/folders/ToolbarPicturesFolderIcon.ico';
+import genericNetwork from '../assets/folders/GenericNetworkIcon.avif';
+import hardDrive from '../assets/folders/Hard Drive.avif';
+import Dvd from '../assets/folders/DVD.avif';
+import Desktop from '../assets/folders/DesktopFolderIcon.avif';
+import Home from '../assets/folders/HomeFolderIcon.avif';
+import Applications from '../assets/folders/ToolbarAppsFolderIcon.avif';
+import Documents from '../assets/folders/ToolbarDocumentsFolderIcon.avif';
+import Movie from '../assets/folders/ToolbarMovieFolderIcon.avif';
+import Music from '../assets/folders/ToolBarMusicFolderIcon.avif';
+import Pictures from '../assets/folders/ToolbarPicturesFolderIcon.avif';
 import FileSystemFolder from './FileSystemFolder.jsx';
 import { useFileSystem } from '../context/FileSystemContext.jsx';
 import { getNodeAtPath } from './Utils/fileSystemUtils';
 import settings from '../assets/icons/settings.svg';
 // import { finderMenu } from './Utils/menuConfig.js';
 import MenuContext from './MenuContext.jsx';
-import burn from '../assets/folders/burnableFolder.ico'
+import burn from '../assets/folders/burnableFolder.avif'
 
 const Finder = ({ optionalPath = null }) => {
 

@@ -59,7 +59,7 @@ const Xcode = () => {
 
     const fileExt = currentFileURL.split('.').pop().toLowerCase();
 
-    if (['png', 'jpg', 'jpeg', 'gif', 'ico', 'bmp', 'webp'].includes(fileExt)) {
+    if (['avif', 'avif', 'avif', 'gif', 'avif', 'bmp', 'webp'].includes(fileExt)) {
       // Binary image file
       setIsSVG(false)
       fetch(currentFileURL)

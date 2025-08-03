@@ -84,7 +84,7 @@ const Mail = () => {
                         <input
                             type="file"
                             ref={fileInputRef}
-                            accept=".png,.jpg,.jpeg,.pdf"
+                            accept=".avif,.avif,.avif,.pdf"
                             onChange={handleFileChange}
                             style={{ display: 'none' }}
                         />

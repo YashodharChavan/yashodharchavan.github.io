@@ -1,24 +1,24 @@
 import React from 'react';
 import '../index.css';
-import finder from "../assets/icons/applications/Finder.ico";
-import dashboard from "../assets/icons/applications/Dashboard.ico";
-import mail from "../assets/icons/applications/Mail.ico";
-import safari from "../assets/icons/applications/Safari.ico";
-import contacts from "../assets/icons/applications/Contacts.ico";
-// import iPhotos from '../assets/icons/applications/iPhoto.ico';
-import terminal from '../assets/icons/applications/Terminal.ico';
-import trashBin from '../assets/icons/applications/TrashIcon.ico';
-import calculator from '../assets/icons/applications/Calculator.ico';
-import dictionary from '../assets/icons/applications/Dictionary.ico';
-import textEdit from '../assets/icons/applications/TextEdit.ico';
-import xCode from '../assets/icons/applications/XCode.ico';
-import aboutme from '../assets/icons/applications/AboutMe.ico';
-import fullTrashBin from '../assets/folders/FullTrashIcon.ico'
+import finder from "../assets/icons/applications/Finder.avif";
+import dashboard from "../assets/icons/applications/Dashboard.avif";
+import mail from "../assets/icons/applications/Mail.avif";
+import safari from "../assets/icons/applications/Safari.avif";
+import contacts from "../assets/icons/applications/Contacts.avif";
+// import iPhotos from '../assets/icons/applications/iPhoto.avif';
+import terminal from '../assets/icons/applications/Terminal.avif';
+import trashBin from '../assets/icons/applications/TrashIcon.avif';
+import calculator from '../assets/icons/applications/Calculator.avif';
+import dictionary from '../assets/icons/applications/Dictionary.avif';
+import textEdit from '../assets/icons/applications/TextEdit.avif';
+import xCode from '../assets/icons/applications/XCode.avif';
+import aboutme from '../assets/icons/applications/AboutMe.avif';
+import fullTrashBin from '../assets/folders/FullTrashIcon.avif'
 
 import { useWindowManager } from '../context/WindowManagerContext';
 import { useFileSystem } from '../context/FileSystemContext';
 
-const Taskbar = ({ setCurrentTopComponent, onTrashDrop }) => {
+const Taskbar = ({ setCurrentTopComponent, handleTrashDrop }) => {
   const { windows, restoreWindow, openWindow } = useWindowManager();
   const [isTrashFull, setIsTrashFull] = React.useState(false);
   const { deleteNodeAtPath } = useFileSystem();
@@ -70,13 +70,13 @@ const Taskbar = ({ setCurrentTopComponent, onTrashDrop }) => {
 
                 const fullPath = e.dataTransfer.getData('fullPath');
                 const iconId = e.dataTransfer.getData('text/plain');
-                const fullResolvedPath = `${fullPath.replace(/\/?$/, '/')}${iconId}`;
+                const fullResolvedPath = `${fullPath}/${iconId}`.replace(/\/+/g, '/');
+                console.log(fullPath, iconId, fullResolvedPath)
                 if (fullResolvedPath) {
-                  console.log('fullPath:', fullResolvedPath); // verify this
                   deleteNodeAtPath(fullResolvedPath);
                   setIsTrashFull(true);
-                } else if (iconId && onTrashDrop) {
-                  onTrashDrop(iconId);
+                } else if (iconId && handleTrashDrop) {
+                  handleTrashDrop(e, iconId);
                   setIsTrashFull(true);
                 }
               }

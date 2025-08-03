@@ -1,6 +1,6 @@
-import art6 from '../assets/icons/art6.png'
-import art7 from '../assets/icons/art7.png'
-import art8 from '../assets/icons/art8.png'
+import art6 from '../assets/icons/art6.avif'
+import art7 from '../assets/icons/art7.avif'
+import art8 from '../assets/icons/art8.avif'
 import React, { useRef } from 'react';
 import { skills, softSkills } from '../components/Utils/skillUtils'
 

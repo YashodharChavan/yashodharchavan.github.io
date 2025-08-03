@@ -4,27 +4,27 @@ import React from 'react'
 import { useEffect } from 'react'
 import topIcon from '../assets/topIcon.svg' // Uncomment if you want to use the top icon as a local image
 import spotlight from '../assets/spotlight.svg' // Uncomment if you want to use the spotlight icon as a local image
-import battery from '../assets/battery.png' // Uncomment if you want to use the battery icon as a local image
+import battery from '../assets/battery.avif' // Uncomment if you want to use the battery icon as a local image
 import { useWindowManager } from '../context/WindowManagerContext'
 
-import finder from "../assets/icons/applications/Finder.ico";
-import dashboard from "../assets/icons/applications/Dashboard.ico";
-import mail from "../assets/icons/applications/Mail.ico";
-import safari from "../assets/icons/applications/Safari.ico";
-import contacts from "../assets/icons/applications/Contacts.ico";
-import terminal from '../assets/icons/applications/Terminal.ico';
-import calculator from '../assets/icons/applications/Calculator.ico';
-import dictionary from '../assets/icons/applications/Dictionary.ico';
-import textEdit from '../assets/icons/applications/TextEdit.ico';
-import xCode from '../assets/icons/applications/XCode.ico';
-import aboutme from '../assets/icons/applications/AboutMe.ico';
+import finder from "../assets/icons/applications/Finder.avif";
+import dashboard from "../assets/icons/applications/Dashboard.avif";
+import mail from "../assets/icons/applications/Mail.avif";
+import safari from "../assets/icons/applications/Safari.avif";
+import contacts from "../assets/icons/applications/Contacts.avif";
+import terminal from '../assets/icons/applications/Terminal.avif';
+import calculator from '../assets/icons/applications/Calculator.avif';
+import dictionary from '../assets/icons/applications/Dictionary.avif';
+import textEdit from '../assets/icons/applications/TextEdit.avif';
+import xCode from '../assets/icons/applications/XCode.avif';
+import aboutme from '../assets/icons/applications/AboutMe.avif';
 
-import genericFolderIcon from '../assets/folders/genericFolderIcon.ico'
-import txt from '../assets/folders/TXT.ico'
-import html from '../assets/folders/HTML.ico'
-import pdf from '../assets/folders/PDF.ico'
-import zip from '../assets/folders/ZIP.ico'
-import md from '../assets/folders/ClippingText.ico'
+import genericFolderIcon from '../assets/folders/genericFolderIcon.avif'
+import txt from '../assets/folders/TXT.avif'
+import html from '../assets/folders/HTML.avif'
+import pdf from '../assets/folders/PDF.avif'
+import zip from '../assets/folders/ZIP.avif'
+import md from '../assets/folders/ClippingText.avif'
 import { fileSystem } from './Utils/fileSystem'
 import { topMenuData } from './Utils/menuConfig'
 
@@ -144,7 +144,7 @@ const TopBar = ({ currentTopComponent }) => {
     if (ext === 'zip') return zip;
     if (ext === 'html' || ext === 'css' || ext === 'js') return html;
     if (ext === 'md') return md;
-    if (['png', 'jpg', 'jpeg', 'gif', 'svg'].includes(ext)) return imageIcon;
+    if (['avif', 'avif', 'avif', 'gif', 'svg'].includes(ext)) return imageIcon;
 
     // Match by exact filename (no extension)
     // const knownBinaries = ['ls', 'cp', 'mv', 'rm', 'echo', 'cat', 'sh'];

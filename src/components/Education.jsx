@@ -1,7 +1,7 @@
-import education from '../assets/icons/education.png'
-import art4 from '../assets/icons/art4.png'
-import art5 from '../assets/icons/art5.png'
-import genericDocument from '../assets/folders/GenericDocumentIcon.ico'
+import education from '../assets/icons/education.avif'
+import art4 from '../assets/icons/art4.avif'
+import art5 from '../assets/icons/art5.avif'
+import genericDocument from '../assets/folders/GenericDocumentIcon.avif'
 import redirect from '../assets/icons/redirect.svg'
 
 import React, { useRef } from 'react';

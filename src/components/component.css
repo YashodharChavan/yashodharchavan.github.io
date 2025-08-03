@@ -54,19 +54,19 @@ a,
 .top-mail-bar .address-button button,
 .url-bar button,
 section>div>div {
-  cursor: url('../../public/cursors/Link\ Select.cur'), pointer;
+  cursor: url('../../public/cursors/Link Select.cur'), pointer;
 }
 
 
 
 .css-1f1pi2l-MuiButtonBase-root-MuiAccordionSummary-root:hover:not(.Mui-disabled) {
-  cursor: url('../../public/cursors/Link\ Select.cur'), pointer;
+  cursor: url('../../public/cursors/Link Select.cur'), pointer;
 }
 
 
 
 .cursor-text {
-  cursor: url('../../public/cursors/Text\ Select.cur'), text !important;
+  cursor: url('../../public/cursors/Text Select.cur'), text !important;
 }
 
 .cursor-wait {
@@ -79,14 +79,14 @@ body,
 .dashboard-calculator-buttons,
 iframe,
 .font-operation .buttons button {
-  cursor: url('../../public/cursors/Normal\ Select.cur'), auto;
+  cursor: url('../../public/cursors/Normal Select.cur'), auto;
 
 }
 
 
 input[type="text"],
 textarea {
-  cursor: url('/cursors/Text\ Select.cur'), text !important;
+  cursor: url('/cursors/Text Select.cur'), text !important;
 }
 
 .cursor-ew-resize,
@@ -99,11 +99,11 @@ textarea {
 }
 
 .cursor-nwse-resize {
-  cursor: url('../../public/cursors/Diagonal\ Resize\ 1.cur'), nwse-resize;
+  cursor: url('../../public/cursors/Diagonal Resize 1.cur'), nwse-resize;
 }
 
 .cursor-nesw-resize {
-  cursor: url('../../public/cursors/Diagonal\ Resize\ 2.cur'), nesw-resize;
+  cursor: url('../../public/cursors/Diagonal Resize 2.cur'), nesw-resize;
 }
 
 .padding-top {
@@ -199,13 +199,13 @@ textarea {
   right: -3px;
   bottom: -3px;
 
-  cursor: url('../../public/cursors/Diagonal\ Resize\ 1.cur'), nwse-resize;
+  cursor: url('../../public/cursors/Diagonal Resize 1.cur'), nwse-resize;
 }
 
 .simple-frame,
 .top-finder-bar,
 .left-finder-side .buttons button {
-  cursor: url('../../public/cursors/Normal\ Select.cur'), auto;
+  cursor: url('../../public/cursors/Normal Select.cur'), auto;
 }
 
 .calc-buttons {
@@ -219,7 +219,7 @@ textarea {
   border: 1px solid #A5A5A5;
   box-shadow: 0px 0px 0 1px #888888;
   border-radius: 4px;
-  cursor: url('../../public/cursors/Normal\ Select.cur'), pointer;
+  cursor: url('../../public/cursors/Normal Select.cur'), pointer;
 }
 
 .contact-details div {
@@ -488,7 +488,7 @@ textarea {
 code {
   padding: 0px !important;
   font-family: 'Monaco', monospace !important;
-  cursor: url('../../public/cursors/Text\ Select.cur'), text !important;
+  cursor: url('../../public/cursors/Text Select.cur'), text !important;
 }
 
 pre {

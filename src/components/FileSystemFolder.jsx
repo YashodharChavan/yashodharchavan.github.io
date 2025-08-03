@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import { rootFileOptions, applicationIcons } from './Utils/fileSystem';
 import { useWindowManager } from '../context/WindowManagerContext';
 import { useFileSystem } from '../context/FileSystemContext';
-import genericFolder from '../assets/folders/GenericFolderIcon.ico';
+import genericFolder from '../assets/folders/GenericFolderIcon.avif';
 const FileSystemFolder = ({ node, path, setFileSystemPath }) => {
 
   if (!node || (node.type !== 'dir' && node.type !== 'burn')) return null;
@@ -85,7 +85,7 @@ const FileSystemFolder = ({ node, path, setFileSystemPath }) => {
     const ext = name.includes('.') ? `.${name.split('.').pop()}` : '';
     const iconMap = {
       '.md': '.md', '.pdf': '.pdf', '.bin': '.bin',
-      '.zip': '.zip', '.html': '.html', '.ico': '.ico', '.css': '.css', '.js': '.js',
+      '.zip': '.zip', '.html': '.html', '.avif': '.avif', '.css': '.css', '.js': '.js',
     };
     if (iconMap[ext]) {
       return rootFileOptions.find(opt => opt.label === iconMap[ext])?.icon;

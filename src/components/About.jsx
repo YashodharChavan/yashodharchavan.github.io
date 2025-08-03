@@ -3,9 +3,9 @@ import TypeIt from 'typeit-react';
 import email from '../assets/icons/email.svg'
 import linkedin from '../assets/icons/linkedin.svg'
 import github from '../assets/icons/github.svg'
-import art1 from '../assets/icons/art1.png'
-import art2 from '../assets/icons/art2.png'
-import art3 from '../assets/icons/art3.png'
+import art1 from '../assets/icons/art1.avif'
+import art2 from '../assets/icons/art2.avif'
+import art3 from '../assets/icons/art3.avif'
 import React, { useRef } from 'react';
 
 
@@ -76,7 +76,7 @@ const About = () => {
                             <h1
                                 className="text-2xl font-bold bg-clip-text text-transparent"
                                 style={{
-                                    backgroundImage: "url('https://ik.imagekit.io/sheryians/three.js/mask_5gcMWG8mG.jpg')",
+                                    backgroundImage: "url('https://ik.imagekit.io/sheryians/three.js/mask_5gcMWG8mG.avif')",
                                     backgroundSize: 'cover',
                                     backgroundPosition: 'bottom center',
                                 }}

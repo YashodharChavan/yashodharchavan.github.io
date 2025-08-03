@@ -1,6 +1,6 @@
 import React from "react";
 import { useFileSystem } from '../context/FileSystemContext';
-import burn from '../assets/folders/burnableFolder.ico'
+import burn from '../assets/folders/burnableFolder.avif'
 
 
 const MenuContext = ({ position, source, currentPath, onAddItem = null }) => {
