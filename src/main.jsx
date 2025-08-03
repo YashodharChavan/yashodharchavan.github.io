@@ -10,7 +10,6 @@ createRoot(document.getElementById('root')).render(
 
     <WindowManagerProvider>
       <FileSystemProvider>
-
         <App />
       </FileSystemProvider>
     </WindowManagerProvider>

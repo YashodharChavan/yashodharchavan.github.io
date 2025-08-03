@@ -128,7 +128,7 @@ function createCommandProcessor(fileSystemRef, updateFileSystem, currentPath, up
                 const content = args.slice(1).join(' ');
                 if (!content) return 'write: missing content to write';
                 const dir = getCurrentDir();
-                dir.children[fileName] = { type: 'file', content:content };
+                dir.children[fileName] = { type: 'file', content: content };
                 updateFileSystem({ ...fileSystemRef });
                 console.log(dir.children[fileName])
                 return '';
@@ -189,15 +189,21 @@ function createCommandProcessor(fileSystemRef, updateFileSystem, currentPath, up
             case 'rmdir': {
                 const dirName = args[0];
                 if (!dirName) return 'rmdir: missing operand';
+
                 const dir = getCurrentDir();
                 const target = dir.children[dirName];
+
                 if (!target) return `rmdir: failed to remove '${dirName}': No such file or directory`;
-                if (target.type !== 'dir' || target.type !== 'burn') return `rmdir: failed to remove '${dirName}': Not a directory`;
-                if (Object.keys(target.children).length > 0) return `rmdir: failed to remove '${dirName}': Directory not empty`;
+                if (target.type !== 'dir' && target.type !== 'burn')
+                    return `rmdir: failed to remove '${dirName}': Not a directory`;
+                if (Object.keys(target.children || {}).length > 0)
+                    return `rmdir: failed to remove '${dirName}': Directory not empty`;
+
                 delete dir.children[dirName];
-                updateFileSystem({ ...fileSystemRef });
+                updateFileSystem({ ...fileSystemRef }); // assuming fileSystemRef is your current filesystem
                 return '';
             }
+
 
             case 'clear':
                 return '__CLEAR__';

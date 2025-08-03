@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import { rootFileOptions, applicationIcons } from './Utils/fileSystem';
 import { useWindowManager } from '../context/WindowManagerContext';
 import { useFileSystem } from '../context/FileSystemContext';
-
+import genericFolder from '../assets/folders/GenericFolderIcon.ico';
 const FileSystemFolder = ({ node, path, setFileSystemPath }) => {
 
   if (!node || (node.type !== 'dir' && node.type !== 'burn')) return null;
@@ -75,8 +75,12 @@ const FileSystemFolder = ({ node, path, setFileSystemPath }) => {
     }
 
     if (type === 'dir') {
-      const option = rootFileOptions.find((opt) => opt.label === name);
-      return option ? option.icon : rootFileOptions.find(opt => opt.label === 'home')?.icon;
+      // Prevent matching name === "burn" to burn icon when type is only 'dir'
+      const nameLower = name.toLowerCase();
+      if (nameLower === 'burn') return genericFolder;
+
+      const match = rootFileOptions.find(opt => opt.label.toLowerCase() === nameLower);
+      return match ? match.icon : genericFolder;
     }
     const ext = name.includes('.') ? `.${name.split('.').pop()}` : '';
     const iconMap = {

@@ -8,7 +8,6 @@ const MenuContext = ({ position, source, currentPath, onAddItem = null }) => {
   const { setPendingNewItem } = useFileSystem();
 
   const handleCreate = (type) => {
-    console.log(type)
     if(type==='burn') {
       setPendingNewItem({ type, path: currentPath, icon: burn }); 
     }

@@ -78,6 +78,10 @@ const TopBar = ({ currentTopComponent }) => {
       if (e.key === 'Escape') {
         setIsSpotlightActive(false);
       }
+      if ((e.metaKey || e.ctrlKey) && e.code === 'Space') {
+        setIsSpotlightActive(true);
+
+      }
     };
 
     const handleClickOutside = (e) => {
@@ -223,17 +227,23 @@ const TopBar = ({ currentTopComponent }) => {
 
 
   useEffect(() => {
-    const now = new Date();
-    const options = {
-      weekday: 'short',
-      hour: 'numeric',
-      minute: '2-digit',
-      hour12: true
+    const updateTime = () => {
+      const now = new Date();
+      const options = {
+        weekday: 'short',
+        hour: 'numeric',
+        minute: '2-digit',
+        hour12: true
+      };
+      const formatted = now.toLocaleString('en-US', options);
+      setDate(formatted);
     };
-    const formatted = now.toLocaleString('en-US', options);
-    setDate(formatted);
-  }, []); // Runs only once after first render
 
+    updateTime(); // Call once immediately
+    const interval = setInterval(updateTime, 60 * 1000); // Every minute
+
+    return () => clearInterval(interval); // Cleanup
+  }, []);
   return (
     <div className='w-full h-6 flex items-center select-none justify-between padding-top shadow-md rounded-tl-md rounded-tr-md' style={{
       background: 'linear-gradient(to bottom, #FDFDFD 0%, #FDFDFD 25%, #F2F2F2 25%, #F2F2F2 75%, #FDFDFD 75%, #FDFDFD 100%)'

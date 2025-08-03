@@ -39,7 +39,7 @@ const Desktop = () => {
   const usedPositions = new Set(Object.values(positions));
   const firstAvailableSlot = Array.from({ length: 45 }).findIndex((_, i) => !usedPositions.has(i));
   const pendingNewItemPosition = firstAvailableSlot === -1 ? 0 : firstAvailableSlot;
-  
+
   useEffect(() => {
     const updatedTree = fileSystem?.['/']?.['children']?.['Users']?.['children']?.['yashodhar']?.['children']?.['Desktop']?.['children'] || {};
     setDesktopFileTree(updatedTree);
@@ -57,6 +57,7 @@ const Desktop = () => {
     const node = fileSystem['/']?.children?.Users?.children?.yashodhar?.children?.Desktop;
     if (!node || node.children[name]) {
       alert("Item with this name already exists!");
+      setPendingNewItem(null);
       return;
     }
 
@@ -82,6 +83,7 @@ const Desktop = () => {
   React.useEffect(() => {
     console.log(fileSystem)
   }, [fileSystem])
+
   const handleAddNewItem = (type) => {
     const newItem = {
       id: Date.now(),
@@ -111,7 +113,11 @@ const Desktop = () => {
       return rootFileOptions.find(opt => opt.label === 'burn')?.icon;
     }
     if (type === 'dir') {
-      const match = rootFileOptions.find(opt => opt.label.toLowerCase() === name.toLowerCase());
+      // Prevent matching name === "burn" to burn icon when type is only 'dir'
+      const nameLower = name.toLowerCase();
+      if (nameLower === 'burn') return genericFolder;
+
+      const match = rootFileOptions.find(opt => opt.label.toLowerCase() === nameLower);
       return match ? match.icon : genericFolder;
     } else if (type === 'file') {
       const extension = '.' + name.split('.').pop().toLowerCase();
