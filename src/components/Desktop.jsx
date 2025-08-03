@@ -179,9 +179,13 @@ const Desktop = () => {
   const { openWindows, openWindow, optionalText, optionalTitle, optionalPath, optionalTextEditPath } = useWindowManager();
 
   const handleDragStart = (id, e) => {
-    e.dataTransfer.setData('text/plain', id);
-    e.dataTransfer.effectAllowed = 'move';
-    setDraggedId(id);
+    const icon = icons.find((i) => i.id === id);
+    if (icon) {
+      e.dataTransfer.setData('text/plain', icon.name); // Set the icon name
+      e.dataTransfer.setData('fullPath', '/Users/yashodhar/Desktop'); // Set the full path
+      e.dataTransfer.effectAllowed = 'move';
+      setDraggedId(id);
+    }
   };
 
 
@@ -292,10 +296,9 @@ const Desktop = () => {
     return iconId !== undefined ? icons.find((icon) => icon.id === iconId) : null;
   };
 
-  const handleTrashDrop = (iconId) => {
+  const handleTrashDrop = (e, iconId) => {
     const icon = icons.find((i) => i.id === iconId);
-    if (!icon) return
-
+    if (!icon) return;
     const fullPath = `/Users/yashodhar/Desktop/${icon.name}`;
     deleteNodeAtPath(fullPath);
   };

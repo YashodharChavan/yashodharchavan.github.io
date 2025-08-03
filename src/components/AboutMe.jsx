@@ -67,7 +67,7 @@ const AboutMe = () => {
             <div className="xcode flex w-full h-full">
 
 
-                <div className="sidebar h-full overflow-hidden whitespace-nowrap select-none text-ellipsis gap-y-1 flex flex-col overflow-y-scroll scrollbar-hide" style={{ width: sidebarWidth }}>
+                <div className="sidebar h-full overflow-x-hidden whitespace-nowrap select-none text-ellipsis gap-y-1 flex flex-col overflow-y-scroll scrollbar-hide" style={{ width: sidebarWidth }}>
 
                     <div className="mail-option h-11 flex items-center gap-x-2 hover:bg-[#A2B2CA]" style={{ padding: "4px" }}
                         onClick={() => setCurrentPage("about me")}

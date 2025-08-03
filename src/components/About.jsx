@@ -18,7 +18,7 @@ const About = () => {
 
     return (
         <>
-
+            
             <div className="topbar font-bold text-lg sm:text-xl" style={{ padding: "12px 24px" }}>Yashodhar</div>
             <hr className="gradient-hr" />
             <div className="landing-container w-full relative bg-[#ECF2F9] background-inset" style={{ padding: "64px 24px" }}>
@@ -76,7 +76,7 @@ const About = () => {
                             <h1
                                 className="text-2xl font-bold bg-clip-text text-transparent"
                                 style={{
-                                    backgroundImage: "url('https://ik.imagekit.io/sheryians/three.js/mask_5gcMWG8mG.avif')",
+                                    backgroundImage: "url('https://cdn.pixabay.com/photo/2021/06/02/21/37/abstract-6305508_960_720.jpg')",
                                     backgroundSize: 'cover',
                                     backgroundPosition: 'bottom center',
                                 }}
