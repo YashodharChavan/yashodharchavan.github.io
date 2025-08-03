@@ -20,10 +20,10 @@ const App = () => {
 
     const handleClick = () => {
       enableFullscreen();
-      document.removeEventListener("click", handleClick);
+      document.removeEventListener("load", handleClick);
     };
 
-    document.addEventListener("click", handleClick);
+    document.addEventListener("load", handleClick);
 
     return () => document.removeEventListener("click", handleClick);
   }, []);

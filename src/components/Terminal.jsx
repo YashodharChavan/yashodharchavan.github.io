@@ -82,16 +82,16 @@ const Terminal = () => {
     >
       <div
         ref={terminalRef}
-        className="terminal p-2 max-h-[186%] overflow-y-hidden text-[13px] font-mono bg-white text-black"
+        className="terminal p-2 max-h-[186%] overflow-y-hidden text-[13px] font-mono bg-white text-black break-words"
         onClick={() => inputRef.current.focus()}
         style={{ fontFamily: 'Monaco' }}
       >
         {history.map((entry, idx) => (
-          <div key={idx} className="mb-[2px] whitespace-pre-wrap">
+          <div key={idx} className="mb-[2px] whitespace-pre-wrap break-words">
             {entry.content}
           </div>
         ))}
-        <div className="flex">
+        <div className="flex flex-wrap break-words">
           <span className="mr-1">{`${getPromptPath()}#`}</span>
           <input
             ref={inputRef}
