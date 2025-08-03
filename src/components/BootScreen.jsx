@@ -1,8 +1,7 @@
 import '../index.css'
 import React from 'react'
-import logo from '../assets/logo.svg' // Uncomment if you want to use the logo as a local image
-import loading from '../assets/loading.gif' // Uncomment if you want to use the loading gif as a local image
-
+import logo from '../assets/logo.svg' 
+import loading from '../assets/loading.gif' 
 
 const BootScreen = () => {
     return (
