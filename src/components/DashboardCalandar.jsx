@@ -215,4 +215,4 @@ const DashboardCalendar = () => {
     );
 };
 
-export default DashboardCalendar;
+export default React.memo(DashboardCalendar);

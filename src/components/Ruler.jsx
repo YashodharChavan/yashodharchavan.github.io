@@ -54,4 +54,4 @@ const Ruler = ({ unit = 50, step = 10 }) => {
   );
 };
 
-export default Ruler;
+export default React.memo(Ruler);

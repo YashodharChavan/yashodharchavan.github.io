@@ -100,4 +100,4 @@ const DashboardClock = () => {
     );
 };
 
-export default DashboardClock;
+export default React.memo(DashboardClock);

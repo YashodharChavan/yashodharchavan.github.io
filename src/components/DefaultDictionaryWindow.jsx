@@ -15,4 +15,4 @@ const DefaultDictionaryWindow = () => {
 
 }
 
-export default DefaultDictionaryWindow
+export default React.memo(DefaultDictionaryWindow);

@@ -57,12 +57,14 @@ const Skills = () => {
                 </div>
                 <div className="absolute bg-[#8493FF] h-4 w-4 right-[20%] top-[20%] blur-lg glow-one"></div>
                 <img
+                    loading='lazy'
                     src={art6}
                     alt=""
                     draggable="false"
                     className="h-24 select-none w-fit absolute top-[10%] left-[5%] float-animation"
                 />
                 <img
+                    loading='lazy'
                     src={art7}
                     alt=""
                     draggable="false"
@@ -98,6 +100,7 @@ const Skills = () => {
             </h1>
             <div className="h-fit w-fit relative">
                 <img
+                    loading='lazy'
                     src={art8}
                     alt=""
                     draggable="false"
@@ -124,4 +127,4 @@ const Skills = () => {
     )
 }
 
-export default Skills
+export default React.memo(Skills);

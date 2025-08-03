@@ -72,14 +72,14 @@ const Mail = () => {
                 <div className='flex gap-x-2'>
                     <div className="address-button">
                         <button >
-                            <img src={paperPlane} alt="" />
+                            <img loading='lazy' src={paperPlane} alt="" />
                         </button>
                         <p>Send</p>
                     </div>
                     
                     <div className="address-button">
                         <button onClick={handleButtonClick}>
-                            <img src={paperClip} alt="" />
+                            <img loading='lazy' src={paperClip} alt="" />
                         </button>
                         <input
                             type="file"
@@ -159,4 +159,4 @@ const Mail = () => {
     )
 }
 
-export default Mail
+export default React.memo(Mail);

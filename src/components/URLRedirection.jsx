@@ -14,6 +14,7 @@ const URLRedirection = ({ url, disablePointerEvents }) => {
 
   return (
     <iframe
+      loading='lazy'
       ref={iframeRef}
       src={url}
       title="Search Results"
@@ -22,4 +23,4 @@ const URLRedirection = ({ url, disablePointerEvents }) => {
   );
 };
 
-export default URLRedirection;
+export default React.memo(URLRedirection);

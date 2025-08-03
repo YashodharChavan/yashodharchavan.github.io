@@ -105,4 +105,4 @@ export const FileSystemProvider = ({ children }) => {
   );
 };
 
-export const useFileSystem = () => useContext(FileSystemContext);
+export const useFileSystem = () => React.useContext(FileSystemContext);

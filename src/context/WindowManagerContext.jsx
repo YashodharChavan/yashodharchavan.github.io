@@ -1,10 +1,10 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useState, memo } from 'react';
 
 const WindowManagerContext = createContext();
 
 export const WindowManagerProvider = ({ children }) => {
   const [windows, setWindows] = useState([]);  // Registered windows
-  const [openWindows, setOpenWindows] = useState({});  // id -> open status
+  const [openWindows, setOpenWindows] = useState({'finder': true });  // id -> open status
   const [focusedWindowId, setFocusedWindowId] = useState(null);
   const [optionalText, setOptionalText] = useState('');
   const [optionalTitle, setOptionalTitle] = useState('');

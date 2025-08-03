@@ -1,13 +1,11 @@
 import React, { useState, useRef, useEffect } from 'react'
 import './component.css'
-import { useWindowManager } from '../context/WindowManagerContext';
 import SimpleFrame from './SimpleFrame'
 import texture from '../assets/texture.avif'
 import appleLogo from "../../public/appleLogo.svg"
 import userLogo from "../../public/userLogo.svg"
 import Yashodhar from './Yashodhar'
 import Apple from './Apple'
-import search from "../assets/icons/search.svg"
 
 
 const Contacts = () => {
@@ -74,12 +72,12 @@ const Contacts = () => {
                     <p className="w-full bg-gray-200 flex justify-center">Name</p>
 
                     <div className="w-full flex gap-x-1 items-center cursor-pointer hover:bg-gray-100" style={{ padding: "0px 12px" }} onClick={selectFirstChat}>
-                        <img src={userLogo} alt="" className='h-5' />
+                        <img loading='lazy' src={userLogo} alt="" className='h-5' />
                         <p>{highlightMatch("Yashodhar Chavan", searchString)}</p>
                     </div>
 
                     <div className="w-full flex gap-x-1 items-center cursor-pointer hover:bg-gray-100" style={{ padding: "0px 12px" }} onClick={selectSecondChat}>
-                        <img src={appleLogo} alt="" className='h-5' />
+                        <img loading='lazy' src={appleLogo} alt="" className='h-5' />
                         <p>{highlightMatch('Apple', searchString)}</p>
                     </div>
                 </div>
@@ -98,4 +96,4 @@ const Contacts = () => {
     )
 }
 
-export default Contacts
+export default React.memo(Contacts);

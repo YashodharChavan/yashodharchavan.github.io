@@ -53,4 +53,4 @@ const TranslationDefination = ({ word, fontSize }) => {
     );
 };
 
-export default TranslationDefination;
+export default React.memo(TranslationDefination);

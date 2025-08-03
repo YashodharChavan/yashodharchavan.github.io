@@ -58,12 +58,12 @@ const TreeNode = ({ node, currentFileURL, setCurrentFileURL }) => {
 
                     {node.type === 'dir' ? (
                         <div className='flex gap-x-0.5 hover:bg-gray-300' onClick={(e) => e.target.classList.toggle('folder-toggle')}>
-                            <img src={genericFolder} alt="" className='h-6' />
+                            <img loading='lazy' src={genericFolder} alt="" className='h-6' />
                             {node.name}
                         </div>
                     ) : (
                         <div className='flex gap-x-0.5 hover:bg-gray-300' onClick={() => handleFileClick(node)}>
-                            <img src={fileIcon} alt="" className='h-6' />
+                            <img loading='lazy' src={fileIcon} alt="" className='h-6' />
                             {node.name}
                         </div>
                     )}
@@ -106,4 +106,4 @@ const Folder = ({ currentFileURL, setCurrentFileURL }) => {
     );
 };
 
-export default Folder;
+export default React.memo(Folder);

@@ -16,4 +16,4 @@ const CenteredHrWithText = ({ text }) => {
 };
 
 
-export default CenteredHrWithText
+export default React.memo(CenteredHrWithText);

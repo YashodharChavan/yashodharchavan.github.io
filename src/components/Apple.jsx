@@ -7,7 +7,7 @@ const Apple = ({highlightMatch, searchString, showPadding}) => {
             style={{padding: showPadding ? "0px 8px" : "0px"}}
         >
             <div className="logo-and-name h-14 w-full  flex justify-center gap-x-4 text-2xl items-center">
-                <img src={appleLogo} alt="Apple Logo" className='h-10' />
+                <img loading='lazy' src={appleLogo} alt="Apple Logo" className='h-10' />
                 <p className='font-bold'>Apple Computer Inc.</p>
             </div>
 
@@ -37,4 +37,4 @@ const Apple = ({highlightMatch, searchString, showPadding}) => {
     )
 }
 
-export default Apple
+export default React.memo(Apple);

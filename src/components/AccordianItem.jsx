@@ -24,4 +24,4 @@ const AccordionItem = ({ features }) => {
   );
 };
 
-export default AccordionItem;
+export default React.memo(AccordionItem);

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, memo } from 'react';
 import '../index.css';
 import { useWindowManager } from '../context/WindowManagerContext';
 import background from '../assets/background.avif';
@@ -179,14 +179,11 @@ const Desktop = () => {
   const { openWindows, openWindow, optionalText, optionalTitle, optionalPath, optionalTextEditPath } = useWindowManager();
 
   const handleDragStart = (id, e) => {
-    const icon = icons.find((i) => i.id === id);
-    if (icon) {
-      e.dataTransfer.setData('text/plain', icon.name); // Set the icon name
-      e.dataTransfer.setData('fullPath', '/Users/yashodhar/Desktop'); // Set the full path
-      e.dataTransfer.effectAllowed = 'move';
-      setDraggedId(id);
-    }
+    e.dataTransfer.setData('text/plain', id);
+    e.dataTransfer.effectAllowed = 'move';
+    setDraggedId(id);
   };
+
 
   const handleContextMenu = (event) => {
     event.preventDefault();
@@ -295,13 +292,13 @@ const Desktop = () => {
     return iconId !== undefined ? icons.find((icon) => icon.id === iconId) : null;
   };
 
-  const handleTrashDrop = (e, iconId) => {
+  const handleTrashDrop = (iconId) => {
     const icon = icons.find((i) => i.id === iconId);
-    if (!icon) return;
+    if (!icon) return
+
     const fullPath = `/Users/yashodhar/Desktop/${icon.name}`;
     deleteNodeAtPath(fullPath);
   };
-
   return (
     <>
       <TopBar currentTopComponent={currentTopComponent} />
@@ -331,6 +328,7 @@ const Desktop = () => {
                 {icon && (
                   <>
                     <img
+                      loading='lazy'
                       src={icon.src}
                       alt={`${icon.name} Icon`}
                       className={`h-16 w-16 ${draggedId === icon.id ? 'opacity-50' : 'opacity-100'}`}
@@ -361,6 +359,7 @@ const Desktop = () => {
                   index === pendingNewItemPosition && (
                     <div className="flex flex-col items-center justify-center p-2">
                       <img
+                        loading='lazy'
                         src={
                           pendingNewItem.icon ||
                           (pendingNewItem.type === 'folder'
@@ -403,10 +402,10 @@ const Desktop = () => {
       </div>
       <Taskbar
         setCurrentTopComponent={setCurrentTopComponent}
-        handleTrashDrop={handleTrashDrop}
+        onTrashDrop={handleTrashDrop}
       />
     </>
   );
 };
 
-export default Desktop;
+export default memo(Desktop);

@@ -250,7 +250,7 @@ const TopBar = ({ currentTopComponent }) => {
     }}>
 
       <div className="left-content flex items-center gap-x-5">
-        <img src={topIcon} alt="" className='h-5' />
+        <img loading='lazy' src={topIcon} alt="" className='h-5' />
         <p className='font-semibold'>{currentTopComponent || "X Tiger"} </p>
         <div className="flex items-center gap-x-2">
           <p className={`${currentMenuOpen === 'file' ? 'text-white' : ''} font-medium`}
@@ -293,11 +293,11 @@ const TopBar = ({ currentTopComponent }) => {
       <div className="right-content flex items-center gap-x-5">
         <div className="flex items-center gap-x-5">
 
-          <img src={battery} alt="" className='h-5' />
+          <img loading='lazy' src={battery} alt="" className='h-5' />
           <p>{date}</p>
           <div className='w-8 flex justify-center' onClick={activateSpotlightSearch} ref={triggerRef}>
 
-            <img src={spotlight} alt="" className='h-5' />
+            <img loading='lazy' src={spotlight} alt="" className='h-5' />
           </div>
         </div>
       </div>
@@ -319,7 +319,7 @@ const TopBar = ({ currentTopComponent }) => {
             <div key={index} className="flex items-center gap-x-2 hover:bg-[#2A68C8] hover:text-white cursor-pointer"
               style={{ padding: '0px 16px' }}
             >
-              {menuItem.icon && <img src={menuItem.icon} alt="" className="h-4" />}
+              {menuItem.icon && <img loading='lazy' src={menuItem.icon} alt="" className="h-4" />}
               <p>{menuItem.label}</p>
             </div>
           ))}
@@ -355,7 +355,7 @@ const TopBar = ({ currentTopComponent }) => {
                 }`}
             >
               <div className="flex items-center gap-x-0.5">
-                <img src={item.icon} alt="" className="h-8" />
+                <img loading='lazy' src={item.icon} alt="" className="h-8" />
                 {item.name}
               </div>
               <p className={`text-gray-600 text-sm ${index === selectedIndex ? 'text-white' : ''}`}>{item.fullPath ? item.fullPath.substring(0, item.fullPath.lastIndexOf('/')) : ''}</p>
@@ -368,4 +368,4 @@ const TopBar = ({ currentTopComponent }) => {
   )
 }
 
-export default TopBar
+export default React.memo(TopBar);

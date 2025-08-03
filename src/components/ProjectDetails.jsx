@@ -62,4 +62,4 @@ const ProjectDetails = ({ overview, features, challenges, outcome, teamwork }) =
   );
 };
 
-export default ProjectDetails;
+export default React.memo(ProjectDetails);

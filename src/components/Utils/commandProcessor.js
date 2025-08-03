@@ -93,7 +93,28 @@ function createCommandProcessor(fileSystemRef, updateFileSystem, currentPath, up
         switch (command) {
             case 'pwd':
                 return currentPath.join('/');
+            case 'man': {
+                return `Available Commands:
 
+pwd                 Print current working directory
+ls                  List directory contents
+cd <dir>            Change directory
+cat <file>          Display file content
+write <file> <text> Overwrite/create file with text
+append <file> <text> Append text to a file
+mkdir <dir>         Create a new directory
+touch <file.ext>    Create a new empty file
+rm <file>           Remove a file
+rmdir <dir>         Remove an empty directory
+cp <src> <dest>     Copy file to destination
+mv <src> <dest>     Move/Rename file or move into directory
+echo <text>         Print text to output
+tree                Show folder structure
+clear               Clear terminal
+exit                Exit terminal
+
+Type "man" to show this help message.`;
+            }
             case 'exit':
                 return '__EXIT__';
 

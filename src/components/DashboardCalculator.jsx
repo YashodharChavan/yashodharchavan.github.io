@@ -155,4 +155,4 @@ const DashboardCalculator = () => {
     );
 };
 
-export default DashboardCalculator;
+export default React.memo(DashboardCalculator);

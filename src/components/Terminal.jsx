@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, memo } from 'react';
 import SimpleFrame from './SimpleFrame';
 import '../index.css';
 import { createCommandProcessor } from './Utils/commandProcessor';
@@ -6,7 +6,7 @@ import { useFileSystem } from '../context/FileSystemContext';
 
 const Terminal = () => {
   const [history, setHistory] = useState([
-    { type: 'text', content: 'Last login: Thu Jun 5 on ttys000' }
+    { type: 'text', content: 'Last login: Thu Jun 5 on ttys000 (type man command for more details)' }
   ]);
   const [input, setInput] = useState('');
   const terminalRef = useRef(null);
@@ -109,4 +109,4 @@ const Terminal = () => {
   );
 };
 
-export default Terminal;
+export default memo(Terminal);

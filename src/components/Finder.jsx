@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef, memo } from 'react';
 import SimpleFrame from './SimpleFrame';
 import texture from '../assets/texture.avif';
 import menu from '../assets/menu.svg';
@@ -254,10 +254,10 @@ const Finder = ({ optionalPath = null }) => {
               style={{ background: 'linear-gradient(to bottom, #f2f2f2 0%, #d9d9d9 100%)' }}
             >
               <button className="h-full text-sm w-9 bg-transparent text-inherit">
-                <img src={menu} className="w-2/5" draggable={false} style={{ margin: 'auto auto' }} />
+                <img loading='lazy' src={menu} className="w-2/5" draggable={false} style={{ margin: 'auto auto' }} />
               </button>
               <button className="h-full w-9 bg-transparent border-l border-[#666666] text-inherit">
-                <img src={bars} className="w-2/5" draggable={false} style={{ margin: 'auto auto' }} />
+                <img loading='lazy' src={bars} className="w-2/5" draggable={false} style={{ margin: 'auto auto' }} />
               </button>
             </div>
 
@@ -273,7 +273,7 @@ const Finder = ({ optionalPath = null }) => {
                 }}
               >
                 <button className="h-full text-sm w-9 bg-transparent text-inherit">
-                  <img
+                  <img loading='lazy'
                     src={settings}
                     className="w-2/5"
                     draggable={false}
@@ -297,7 +297,7 @@ const Finder = ({ optionalPath = null }) => {
                       onClick={menuItem.action}
                     >
                       {menuItem.icon && (
-                        <img src={menuItem.icon} alt="" className="h-4" />
+                        <img loading='lazy' src={menuItem.icon} alt="" className="h-4" />
                       )}
                       <p>{menuItem.label}</p>
                     </div>
@@ -357,7 +357,7 @@ const Finder = ({ optionalPath = null }) => {
                     setFileSystemPath(newPath);
                   }}
                 >
-                  <img src={element.icon} alt="" className="h-8 w-8" />
+                  <img loading='lazy' src={element.icon} alt="" className="h-8 w-8" />
                   <p className="text-sm">{element.label}</p>
                   {index === 2 && <hr />}
                 </div>
@@ -403,4 +403,4 @@ const Finder = ({ optionalPath = null }) => {
   );
 };
 
-export default Finder;
+export default memo(Finder);

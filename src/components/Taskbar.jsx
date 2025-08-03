@@ -18,7 +18,7 @@ import fullTrashBin from '../assets/folders/FullTrashIcon.avif'
 import { useWindowManager } from '../context/WindowManagerContext';
 import { useFileSystem } from '../context/FileSystemContext';
 
-const Taskbar = ({ setCurrentTopComponent, handleTrashDrop }) => {
+const Taskbar = ({ setCurrentTopComponent, onTrashDrop }) => {
   const { windows, restoreWindow, openWindow } = useWindowManager();
   const [isTrashFull, setIsTrashFull] = React.useState(false);
   const { deleteNodeAtPath } = useFileSystem();
@@ -37,7 +37,6 @@ const Taskbar = ({ setCurrentTopComponent, handleTrashDrop }) => {
     { id: "terminal", src: terminal, name: "Terminal" },
     { id: "calculator", src: calculator, name: "Calculator" },
     { id: "trash", src: isTrashFull ? fullTrashBin : trashBin, name: "Trash", isTrash: true }
-
   ];
 
 
@@ -70,13 +69,13 @@ const Taskbar = ({ setCurrentTopComponent, handleTrashDrop }) => {
 
                 const fullPath = e.dataTransfer.getData('fullPath');
                 const iconId = e.dataTransfer.getData('text/plain');
-                const fullResolvedPath = `${fullPath}/${iconId}`.replace(/\/+/g, '/');
-                console.log(fullPath, iconId, fullResolvedPath)
+                const fullResolvedPath = `${fullPath.replace(/\/?$/, '/')}${iconId}`;
                 if (fullResolvedPath) {
+                  console.log('fullPath:', fullResolvedPath); // verify this
                   deleteNodeAtPath(fullResolvedPath);
                   setIsTrashFull(true);
-                } else if (iconId && handleTrashDrop) {
-                  handleTrashDrop(e, iconId);
+                } else if (iconId && onTrashDrop) {
+                  onTrashDrop(iconId);
                   setIsTrashFull(true);
                 }
               }
@@ -84,6 +83,7 @@ const Taskbar = ({ setCurrentTopComponent, handleTrashDrop }) => {
 
           >
             <img
+              loading='lazy'
               className="h-4/5 select-none"
               draggable={false}
               src={src}
@@ -110,4 +110,4 @@ const Taskbar = ({ setCurrentTopComponent, handleTrashDrop }) => {
   );
 };
 
-export default Taskbar;
+export default React.memo(Taskbar);

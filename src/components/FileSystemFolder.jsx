@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef, memo } from 'react';
 import { rootFileOptions, applicationIcons } from './Utils/fileSystem';
 import { useWindowManager } from '../context/WindowManagerContext';
 import { useFileSystem } from '../context/FileSystemContext';
@@ -117,7 +117,9 @@ const FileSystemFolder = ({ node, path, setFileSystemPath }) => {
               }
             }}
           >
+
             <img
+              loading="lazy"
               src={icon}
               onDragStart={(e) => handleDragStart(e, name)}
               draggable
@@ -131,7 +133,8 @@ const FileSystemFolder = ({ node, path, setFileSystemPath }) => {
 
       {pendingNewItem && pendingNewItem.path === path && (
         <div className="flex flex-col items-center justify-center p-2">
-          <img
+          <img  
+            loading='lazy'
             src={
               rootFileOptions.find(opt => opt.label === pendingNewItem.type)?.icon
               ?? (pendingNewItem.type === 'folder'
@@ -159,4 +162,4 @@ const FileSystemFolder = ({ node, path, setFileSystemPath }) => {
   );
 };
 
-export default FileSystemFolder;
+export default memo(FileSystemFolder);

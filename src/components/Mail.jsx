@@ -152,7 +152,7 @@ const Mail = () => {
             <div className="top-mail-bar h-fit flex select-none items-center gap-x-2 justify-end border-b border-gray-400" style={{ padding: "4px 12px", backgroundImage: "linear-gradient(rgb(204, 204, 204), rgb(213 213 213))" }}>
                 <div className="address-button">
                     <button onClick={handleBackButton}>
-                        <img src={back} alt="" />
+                        <img loading='lazy' src={back} alt="" />
                     </button>
                     back
                 </div>
@@ -162,14 +162,14 @@ const Mail = () => {
 
                 <div className="address-button disabled">
                     <button>
-                        <img src={notAllowed} alt="" />
+                        <img loading='lazy' src={notAllowed} alt="" />
                     </button>
                     <p>delete</p>
                 </div>
 
                 <div className="address-button disabled">
                     <button>
-                        <img src={paperShredder} alt="" />
+                        <img loading='lazy' src={paperShredder} alt="" />
                     </button>
                     <p>junk</p>
                 </div>
@@ -177,14 +177,14 @@ const Mail = () => {
                 <div className="address-button"></div>
                 <div className="address-button">
                     <button onClick={showNotification}>
-                        <img src={paperPencil} alt="New" />
+                        <img loading='lazy' src={paperPencil} alt="New" />
                     </button>
                     <p>New</p>
                 </div>
 
                 <div className="address-button">
                     <button >
-                        <img src={emailEnvelop} alt="" />
+                        <img loading='lazy' src={emailEnvelop} alt="" />
                     </button>
                     <p>Get Mail</p>
                 </div>
@@ -207,11 +207,11 @@ const Mail = () => {
             <div className="main-mail-content flex h-full w-full select-none" style={{ height: "calc(100% - 62px)" }}>
                 <div className="hamburger w-36 h-full bg-[#dae0eb] flex flex-col gap-y-2 border-r border-gray-400">
                     <div className="mail-option h-11 flex items-center gap-x-2 hover:bg-[#A2B2CA]" style={{ padding: "4px" }} onClick={() => setActivePage('inbox')}>
-                        <img src={inbox} alt="" className='h-6' />
+                        <img loading='lazy' src={inbox} alt="" className='h-6' />
                         <p>Inbox</p>
                     </div>
                     <div className="mail-option h-11 flex items-center gap-x-2 hover:bg-[#A2B2CA]" style={{ padding: "4px" }} onClick={() => setActivePage('sent')}>
-                        <img src={paperPlane} alt="" className='h-6' />
+                        <img loading='lazy' src={paperPlane} alt="" className='h-6' />
                         <p>Sent</p>
                     </div>
 
@@ -254,4 +254,4 @@ const Mail = () => {
     )
 }
 
-export default Mail
+export default React.memo(Mail);

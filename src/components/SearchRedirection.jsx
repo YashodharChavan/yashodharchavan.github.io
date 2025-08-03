@@ -17,6 +17,7 @@ const SearchRedirection = ({ searchString, disablePointerEvents }) => {
 
   return (
     <iframe
+      loading='lazy'
       ref={iframeRef}
       src={searchUrl}
       title="Google Search"
@@ -25,4 +26,4 @@ const SearchRedirection = ({ searchString, disablePointerEvents }) => {
   );
 };
 
-export default SearchRedirection;
+export default React.memo(SearchRedirection);

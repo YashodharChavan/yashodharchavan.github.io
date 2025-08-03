@@ -6,7 +6,7 @@ import github from '../assets/icons/github.svg'
 import art1 from '../assets/icons/art1.avif'
 import art2 from '../assets/icons/art2.avif'
 import art3 from '../assets/icons/art3.avif'
-import React, { useRef } from 'react';
+import React, { useRef, memo } from 'react';
 
 
 const About = () => {
@@ -49,13 +49,13 @@ const About = () => {
                     </div>
                 </div>
                 <div className="absolute bg-[#8493FF] h-4 w-4 right-[20%] top-[20%] blur-lg glow-one"></div>
-                <img
+                <img loading="lazy"
                     src={art2}
                     alt=""
                     draggable="false"
                     className="h-20 select-none w-fit absolute top-[10%] left-[5%] float-animation"
                 />
-                <img
+                <img loading="lazy"
                     src={art3}
                     alt=""
                     draggable="false"
@@ -163,7 +163,7 @@ const About = () => {
                             target="_blank"
                             rel="noopener noreferrer"
                         >
-                            <img src={github} alt="" className="w-4 h-4" />
+                            <img loading="lazy" src={github} alt="" className="w-4 h-4" />
                             <p>Visit</p>
                         </a>
                     </div>
@@ -178,7 +178,7 @@ const About = () => {
                             rel="noopener noreferrer"
                         >
 
-                            <img src={linkedin} alt="" className="w-4 h-4 sm:w-5 sm:h-5" />
+                            <img loading="lazy" src={linkedin} alt="" className="w-4 h-4 sm:w-5 sm:h-5" />
                             <p>Visit</p>
                         </a>
                     </div>
@@ -192,13 +192,14 @@ const About = () => {
                             target="_blank"
                             rel="noopener noreferrer"
                         >
-                            <img src={email} alt="" className="w-4 h-4 sm:w-5 sm:h-5" />
+                            <img loading="lazy" src={email} alt="" className="w-4 h-4 sm:w-5 sm:h-5" />
                             <p>Mail me</p>
                         </a>
                     </div>
                 </div>
                 <div className="bg-[#9244AB] h-4 w-4 rounded-full blur-md top-[30%] right-[30%] purple-glow absolute"></div>
                 <img
+                    loading="lazy"
                     src={art1}
                     alt=""
                     className="h-14 w-fit absolute top-[10%] left-[15%] float-animation"
@@ -208,4 +209,4 @@ const About = () => {
     );
 };
 
-export default About;
+export default memo(About);

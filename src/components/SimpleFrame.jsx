@@ -288,10 +288,10 @@ const SimpleFrame = ({ title, children, hasDrawer, id, icon, height, width, minW
       </div>
 
       <div className="corner h-4 w-4 bg-gray absolute right-0 bottom-0">
-        <img src={cornerStone} className="h-full" />
+        <img loading='lazy' src={cornerStone} className="h-full" />
       </div>
     </div>
   );
 };
 
-export default SimpleFrame;
+export default React.memo(SimpleFrame);

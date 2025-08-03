@@ -106,4 +106,4 @@ const TextEdit = ({ title = "Untitled.txt", optionalText = "", optionalPath = nu
 };
 
 
-export default TextEdit;
+export default React.memo(TextEdit);

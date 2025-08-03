@@ -34,4 +34,4 @@ const MenuContext = ({ position, source, currentPath, onAddItem = null }) => {
   )
 }
 
-export default MenuContext
+export default React.memo(MenuContext);

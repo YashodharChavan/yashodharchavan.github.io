@@ -80,7 +80,7 @@ const Safari = () => {
             boxShadow: "inset -0.2px 0.4px 3px 0px #505050"
           }}
         >
-          <img src={ReloadIcon} alt="" className="h-4" />
+          <img loading='lazy' src={ReloadIcon} alt="" className="h-4" />
         </button>
 
         <input
@@ -112,4 +112,4 @@ const Safari = () => {
   );
 };
 
-export default Safari;
+export default React.memo(Safari);

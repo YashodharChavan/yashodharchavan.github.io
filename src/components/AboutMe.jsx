@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react'
+import React, { useState, useRef, useEffect, memo } from 'react'
 import SimpleFrame from './SimpleFrame'
 import './component.css'
 import About from './About'
@@ -122,4 +122,4 @@ const AboutMe = () => {
     )
 }
 
-export default AboutMe
+export default memo(AboutMe);

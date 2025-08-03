@@ -66,7 +66,7 @@ const Xcode = () => {
         .then(res => res.blob())
         .then(blob => {
           const imageUrl = URL.createObjectURL(blob);
-          setFileContent(`<img src="${imageUrl}" alt="Image file" />`);
+          setFileContent(`<img loading='lazy' src="${imageUrl}" alt="Image file" />`);
           setCurrentFileName(currentFileURL.split('/').pop());
           setImageURL(imageUrl);
         });
@@ -155,7 +155,7 @@ const Xcode = () => {
           }
 
 
-          {(imageURL && !isSVG) && <img draggable={false} src={imageURL} alt="Image file" style={{ maxWidth: "100%", maxHeight: "100%", margin: 'auto auto' }} />}
+          {(imageURL && !isSVG) && <img loading='lazy' draggable={false} src={imageURL} alt="Image file" style={{ maxWidth: "100%", maxHeight: "100%", margin: 'auto auto' }} />}
           {isSVG && (
             <div
               className="svg-container"
@@ -171,4 +171,4 @@ const Xcode = () => {
   )
 }
 
-export default Xcode
+export default React.memo(Xcode);

@@ -104,4 +104,4 @@ const Dictionary = () => {
     );
 };
 
-export default Dictionary;
+export default React.memo(Dictionary);

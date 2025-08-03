@@ -16,11 +16,11 @@ const RedirectComponent = ({ name, url }) => {
             target='_blank'
         >
             <div className="flex gap-x-1 items-center">
-                <img src={genericDocument} alt="" className='h-7 w-fit' />
+                <img loading='lazy' src={genericDocument} alt="" className='h-7 w-fit' />
                 <p className="text-sm">{name}</p>
             </div>
 
-            <img src={redirect} alt="" />
+            <img loading='lazy' src={redirect} alt="" />
         </a>
     )
 }
@@ -61,12 +61,14 @@ const Education = () => {
                 </div>
                 <div className="absolute bg-[#8493FF] h-4 w-4 right-[20%] top-[20%] blur-lg glow-one"></div>
                 <img
+                    loading='lazy'
                     src={art4}
                     alt=""
                     draggable="false"
                     className="h-28 select-none w-fit absolute top-[10%] left-[5%] float-animation"
                 />
                 <img
+                    loading='lazy'
                     src={education}
                     alt=""
                     draggable="false"
@@ -130,6 +132,7 @@ const Education = () => {
 
             <table className="w-[90%] relative" style={{ "margin": "0px auto 32px auto" }}>
                 <img
+                    loading='lazy'
                     src={art5}
                     alt=""
                     draggable="false"
@@ -209,4 +212,4 @@ const Education = () => {
     )
 }
 
-export default Education
+export default React.memo(Education);

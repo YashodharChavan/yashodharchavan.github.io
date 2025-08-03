@@ -51,15 +51,15 @@ const Yashodhar = ({ highlightMatch, searchString, showPadding }) => {
 
       <div className="w-full flex justify-evenly h-9 items-center">
         <a href="https://github.com/yashodharchavan" target="_blank">
-          <img src={github} className='h-7' />
+          <img loading='lazy' src={github} className='h-7' />
         </a>
 
         <a href="https://linkedin.com/in/yashodhar-chavan" target="_blank">
-          <img src={linkedin} className='h-7' />
+          <img loading='lazy' src={linkedin} className='h-7' />
         </a>
       </div>
     </div>
   );
 };
 
-export default Yashodhar;
+export default React.memo(Yashodhar);

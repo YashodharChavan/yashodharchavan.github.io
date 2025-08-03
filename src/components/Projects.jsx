@@ -318,8 +318,8 @@ const Projects = () => {
                                 <p className="text-sm sm:text-base" style={{ padding: "4px 12px" }}>Explore</p>
                             </div>
                             <div className="absolute bg-[#8493FF] h-4 w-4 right-[20%] top-[20%] blur-lg glow-one"></div>
-                            <img src={art9} alt="" draggable="false" className="h-24 select-none w-fit absolute top-[70%] right-[5%] float-animation-slow" />
-                            <img src={art10} alt="" draggable="false" className="h-24 select-none w-fit absolute top-[10%] left-[5%] float-animation" />
+                            <img loading='lazy' src={art9} alt="" draggable="false" className="h-24 select-none w-fit absolute top-[70%] right-[5%] float-animation-slow" />
+                            <img loading='lazy' src={art10} alt="" draggable="false" className="h-24 select-none w-fit absolute top-[10%] left-[5%] float-animation" />
                         </div>
                     </div>
 
@@ -352,7 +352,7 @@ const Projects = () => {
                                         boxShadow: isHovered ? "0px 0px 10px 0px #484848" : "0 1px 3px 0 rgba(0,0,0,0.08)",
                                     }}
                                 >
-                                    <img src={project.image} className="h-fit w-full" />
+                                    <img loading='lazy' src={project.image} className="h-fit w-full" />
 
                                     <h1 className="font-medium text-xl text-center">{project.title}</h1>
                                     <div className="flex gap-x-1 flex-wrap justify-center gap-y-1">
@@ -378,7 +378,7 @@ const Projects = () => {
                         className="border border-[#7F8A9A] w-14 h-7 rounded-3xl cursor-pointer flex justify-center items-center"
                         style={{ background: "linear-gradient(to bottom, #C5CDD9 0%, #AAB5C7 50%, #BFC7D5 100%)" }}
                     >
-                        <img src={back} alt="" className="h-4/5" />
+                        <img loading='lazy' src={back} alt="" className="h-4/5" />
                     </button>
 
                     <div className="flex items-center justify-between">
@@ -390,12 +390,12 @@ const Projects = () => {
                             className="bg-[#e1e1e1] border border-[#565656] rounded-full flex items-center justify-between gap-x-2"
                             style={{ padding: "4px 8px" }}
                         >
-                            <img src={github} className="h-6 w-fit" />
+                            <img loading='lazy' src={github} className="h-6 w-fit" />
                             <span style={{ fontFamily: 'outfit' }}>Visit</span>
                         </a>
                     </div>
                     <p className='text-lg'>{selectedProject.description}</p>
-                    <img src={selectedProject.image} className="w-full max-w-3xl rounded-lg" />
+                    <img loading='lazy' src={selectedProject.image} className="w-full max-w-3xl rounded-lg" />
                     <div className="flex flex-wrap gap-2">
                         {selectedProject.tools.map((tool, i) => (
                             <div key={i} className="border-2 rounded-full" style={{ padding: "2px 6px", borderColor: "#9999ff", fontFamily: 'outfit' }}>{tool}</div>
@@ -414,4 +414,4 @@ const Projects = () => {
     );
 };
 
-export default Projects;
+export default React.memo(Projects);
