@@ -13,6 +13,7 @@ const AboutMe = () => {
     const startWidth = useRef(0);
     const COLLAPSE_THRESHOLD = 100;
     const [currentPage, setCurrentPage] = useState("about me");
+    const contentRef = React.useRef(null);
 
     const startResizing = (e) => {
         isResizing.current = true;
@@ -42,6 +43,11 @@ const AboutMe = () => {
     };
 
     useEffect(() => {
+        if (contentRef.current) {
+            contentRef.current.scrollTop = 0;
+        }
+    }, [currentPage]);
+    useEffect(() => {
         window.addEventListener('mousemove', handleMouseMove);
         window.addEventListener('mouseup', stopResizing);
         return () => {
@@ -67,7 +73,7 @@ const AboutMe = () => {
             <div className="xcode flex w-full h-full">
 
 
-                <div className="sidebar h-full overflow-x-hidden whitespace-nowrap select-none text-ellipsis gap-y-1 flex flex-col overflow-y-scroll scrollbar-hide" style={{ width: sidebarWidth }}>
+                <div className="sidebar h-full overflow-x-hidden whitespace-nowrap select-none text-ellipsis gap-y-1 flex flex-col overflow-y-scroll scrollbar-hide" style={{ width: sidebarWidth }} >
 
                     <div className="mail-option h-11 flex items-center gap-x-2 hover:bg-[#A2B2CA]" style={{ padding: "4px" }}
                         onClick={() => setCurrentPage("about me")}
@@ -103,18 +109,18 @@ const AboutMe = () => {
                 <div className="w-1.5 h-full bg-[#D8D8D8] cursor-col-resize flex justify-center items-center"
                     onMouseDown={startResizing}
                 ></div>
-                <div className="bg-[#ECF2F9] w-full h-full overflow-y-scroll">
-                    
+                <div className="bg-[#ECF2F9] w-full h-full overflow-y-scroll" ref={contentRef}>
+
                     {currentPage === 'about me' && <About />}
                     {currentPage === 'education' && <Education />}
                     {currentPage === 'skills' && <Skills />}
                     {currentPage === 'projects' && <Projects />}
                     {currentPage === 'resume' && <Resume />}
 
-                    {currentPage !== 'resume' && 
-                    <div className="bg-[#1d1d1d] h-12 w-full flex items-center">
-                        <p className="text-center text-white" style={{ margin: "auto" }}>Made with ❤️ from Yashodhar</p>
-                    </div>}
+                    {currentPage !== 'resume' &&
+                        <div className="bg-[#1d1d1d] h-12 w-full flex items-center">
+                            <p className="text-center text-white" style={{ margin: "auto" }}>Made with ❤️ from Yashodhar</p>
+                        </div>}
                 </div>
 
             </div>

@@ -95,7 +95,7 @@ const Terminal = () => {
     >
       <div
         ref={terminalRef}
-        className="terminal p-2 max-h-[186%] overflow-y-auto text-[13px] font-mono bg-white text-black break-words"
+        className="terminal p-2 h-full overflow-y-auto text-[13px] font-mono bg-white text-black break-words"
         onClick={() => inputRef.current.focus()}
         style={{ fontFamily: 'Monaco' }}
       >

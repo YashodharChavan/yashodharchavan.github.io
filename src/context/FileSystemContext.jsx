@@ -55,15 +55,6 @@ export const FileSystemProvider = ({ children }) => {
     // ✅ Update the state
     setFileSystem(newFileSystem);
   };
-  
-  const handleCreate = (type) => {
-    if (type === 'burn') {
-      setPendingNewItem({ type, path: currentPath, icon: burn });
-    }
-    else {
-      setPendingNewItem({ type, path: currentPath })
-    }
-  };
 
   function addItemAtPath(fileSystem, path, itemName, itemData = null) {
     if (!Array.isArray(path) || path.length === 0 || !itemName) {

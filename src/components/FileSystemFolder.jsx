@@ -34,7 +34,7 @@ const FileSystemFolder = ({ node, path, setFileSystemPath }) => {
   }, [pendingNewItem, path]);
 
   const handleNameSubmit = () => {
-    const name = newItemName.trim();
+    let name = newItemName.trim();
     if (!name) {
       setPendingNewItem(null);
       return;
@@ -42,18 +42,26 @@ const FileSystemFolder = ({ node, path, setFileSystemPath }) => {
 
     if (!pendingNewItem || !pendingNewItem.path) return;
 
-    if (node?.children?.[name]) {
-      alert("Item with this name already exists!");
-      setPendingNewItem(null); // ✅ Clear to prevent re-trigger
-      return;
-    }
-
     const type = pendingNewItem.type === 'folder' ? 'dir'
       : pendingNewItem.type === 'file' ? 'file'
         : pendingNewItem.type === 'burn' ? 'burn'
           : 'file';
 
+    // ✅ Add .txt if it's a file with no extension
+    if (type === 'file' && !name.includes('.')) {
+      name += '.txt';
+    }
+
     const pathArray = ['/', ...pendingNewItem.path.split('/').filter(Boolean)];
+
+    // ✅ Get the parent node to check for duplicates
+    const node = pathArray.reduce((acc, key) => acc?.children?.[key], fileSystem);
+
+    if (node?.children?.[name]) {
+      alert("Item with this name already exists!");
+      setPendingNewItem(null);
+      return;
+    }
 
     addItemAtPath(
       fileSystem,
@@ -65,8 +73,10 @@ const FileSystemFolder = ({ node, path, setFileSystemPath }) => {
         icon: getIconForItem(name, type)
       }
     );
+
     setPendingNewItem(null);
   };
+
 
 
   const getIconForItem = (name, type) => {
@@ -133,7 +143,7 @@ const FileSystemFolder = ({ node, path, setFileSystemPath }) => {
 
       {pendingNewItem && pendingNewItem.path === path && (
         <div className="flex flex-col items-center justify-center p-2">
-          <img  
+          <img
             loading='lazy'
             src={
               rootFileOptions.find(opt => opt.label === pendingNewItem.type)?.icon

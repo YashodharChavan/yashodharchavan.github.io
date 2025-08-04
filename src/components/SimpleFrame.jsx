@@ -229,7 +229,7 @@ const SimpleFrame = ({ title, children, hasDrawer, id, icon, height, width, minW
 
     <div
       ref={frameRef}
-      className="simple-frame absolute bg-white rounded-md shadow-[0px_0px_20px_black]"
+      className="simple-frame absolute bg-white rounded-md shadow-[0px_0px_20px_black] overflow-hidden"
       onContextMenu={(e) => e.preventDefault()}
       style={{
 
@@ -244,7 +244,7 @@ const SimpleFrame = ({ title, children, hasDrawer, id, icon, height, width, minW
       <div className="resize-handle bottom-right" onMouseDown={(e) => startResizing(e, 'bottom-right')} />
 
       {/* Edge resizers */}
-      <div className="resize-handle top" onMouseDown={(e) => startResizing(e, 'top')} />
+      {/* <div className="resize-handle top" onMouseDown={(e) => startResizing(e, 'top')} /> */}
       <div className="resize-handle bottom" onMouseDown={(e) => startResizing(e, 'bottom')} />
       <div className="resize-handle left" onMouseDown={(e) => startResizing(e, 'left')} />
       <div className="resize-handle right" onMouseDown={(e) => startResizing(e, 'right')} />

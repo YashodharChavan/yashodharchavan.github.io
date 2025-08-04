@@ -46,15 +46,20 @@ const Desktop = () => {
   }, [fileSystem]);
 
   const handleNameSubmit = () => {
-
-    console.log('reaching here')
-    const name = newItemName.trim();
+    let name = newItemName.trim();
     if (!name) {
       setPendingNewItem(null);
       return;
     }
 
     const node = fileSystem['/']?.children?.Users?.children?.yashodhar?.children?.Desktop;
+    const isFile = pendingNewItem.type === 'file';
+
+    // ✅ Add .txt extension if it's a file and doesn't have one
+    if (isFile && !name.includes('.')) {
+      name += '.txt';
+    }
+
     if (!node || node.children[name]) {
       alert("Item with this name already exists!");
       setPendingNewItem(null);
@@ -76,9 +81,11 @@ const Desktop = () => {
         icon: rootFileOptions.find(opt => opt.label === type || opt.label === '.txt')?.icon,
       }
     );
+
     setPendingNewItem(null);
     setNewItemName('');
   };
+
 
   React.useEffect(() => {
     console.log(fileSystem)
@@ -151,29 +158,60 @@ const Desktop = () => {
     return txt;
   };
 
-  useEffect(() => {
-    let initialIcons = [];
-    if (Object.keys(desktopFileTree).length === 0) {
-      initialIcons = [];
-    } else {
-      initialIcons = Object.keys(desktopFileTree).map((key, index) => {
-        const node = desktopFileTree[key];
-        return {
-          id: String(index),
-          name: key,
-          type: node.type,
-          src: getIconForNode(key, node.type),
-        };
-      });
-    }
+  // useEffect(() => {
+  //   let initialIcons = [];
+  //   if (Object.keys(desktopFileTree).length === 0) {
+  //     initialIcons = [];
+  //   } else {
+  //     initialIcons = Object.keys(desktopFileTree).map((key, index) => {
+  //       const node = desktopFileTree[key];
+  //       return {
+  //         id: String(index),
+  //         name: key,
+  //         type: node.type,
+  //         src: getIconForNode(key, node.type),
+  //       };
+  //     });
+  //   }
 
-    const initialPositions = {};
-    initialIcons.forEach((icon, index) => {
-      initialPositions[icon.id] = index;
+  //   const initialPositions = {};
+  //   initialIcons.forEach((icon, index) => {
+  //     initialPositions[icon.id] = index;
+  //   });
+
+  //   setIcons(initialIcons);
+  //   setPositions(initialPositions);
+  // }, [JSON.stringify(desktopFileTree)]);
+  useEffect(() => {
+    const newIcons = Object.keys(desktopFileTree).map((key) => {
+      const node = desktopFileTree[key];
+      return {
+        id: key, // stable id
+        name: key,
+        type: node.type,
+        src: getIconForNode(key, node.type),
+      };
     });
 
-    setIcons(initialIcons);
-    setPositions(initialPositions);
+    // Preserve positions of existing icons
+    setPositions((prevPositions) => {
+      const updated = { ...prevPositions };
+      const usedPositions = new Set(Object.values(updated));
+      let nextAvailable = 0;
+
+      for (const icon of newIcons) {
+        if (!(icon.id in updated)) {
+          // Find the next available grid position
+          while (usedPositions.has(nextAvailable)) nextAvailable++;
+          updated[icon.id] = nextAvailable;
+          usedPositions.add(nextAvailable);
+        }
+      }
+
+      return updated;
+    });
+
+    setIcons(newIcons);
   }, [JSON.stringify(desktopFileTree)]);
 
   const { openWindows, openWindow, optionalText, optionalTitle, optionalPath, optionalTextEditPath } = useWindowManager();
