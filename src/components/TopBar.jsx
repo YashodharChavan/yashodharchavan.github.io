@@ -122,7 +122,8 @@ const TopBar = ({ currentTopComponent }) => {
         name,
         fullPath,
         icon,
-        type: child.type
+        type: child.type,
+        href: child.href || null, // Add href if available
       });
 
       if (child.type === 'dir') {
@@ -202,12 +203,16 @@ const TopBar = ({ currentTopComponent }) => {
       if (e.key === 'Enter' && selectedIndex >= 0) {
         e.preventDefault();
         const selectedItem = results[selectedIndex];
-
+        console.log(selectedItem)
         if (selectedItem.type === 'file' || selectedItem.type === 'dir') {
           // Open with Finder or TextEdit depending on type
           if (selectedItem.type === 'dir') {
             openWindow('finder', "", "", "", "", selectedItem.fullPath);
-          } else {
+          }
+          else if(selectedItem.name.includes('.pdf')) {
+            openWindow('safari', '', '', '', selectedItem.name, selectedItem.href);
+          }
+          else {
             // console.log(selectedItem.fullPath)
             openWindow('textedit', "", "", "", selectedItem.name, selectedItem.fullPath);
           }

@@ -1,4 +1,87 @@
+import quotesy from 'quotesy';
+import * as cowsay from "cowsay";
+
 function createCommandProcessor(fileSystemRef, updateFileSystem, currentPath, updateCurrentPath) {
+    function generateMonthCalendar(month, year) {
+        const days = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
+        const firstDay = new Date(year, month, 1).getDay();
+        const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+        let output = `     ${new Date(year, month).toLocaleString('default', { month: 'long' })} ${year}\n`;
+        output += days.join(' ') + '\n';
+
+        let line = '   '.repeat(firstDay);
+        for (let i = 1; i <= daysInMonth; i++) {
+            line += i.toString().padStart(2, ' ') + ' ';
+            if ((firstDay + i) % 7 === 0 || i === daysInMonth) {
+                output += line.trimEnd() + '\n';
+                line = '';
+            }
+        }
+
+        return output.trimEnd();
+    }
+
+    function generateYearCalendar2x6(year) {
+        const monthLines = [];
+
+        // Generate each month's calendar as an array of lines
+        for (let month = 0; month < 12; month++) {
+            monthLines.push(generateMonthCalendar(month, year).split('\n'));
+        }
+
+        // Prepare the output in 2x6 grid
+        let output = '';
+        for (let row = 0; row < 6; row++) {
+            const left = monthLines[row];
+            const right = monthLines[row + 6];
+
+            const maxLines = Math.max(left.length, right.length);
+
+            for (let line = 0; line < maxLines; line++) {
+                const leftLine = left[line] || '';
+                const rightLine = right[line] || '';
+                const paddedLeft = leftLine.padEnd(20, ' ');
+                output += paddedLeft + '  ' + rightLine + '\n';
+            }
+
+            output += '\n';
+        }
+
+        return output.trim();
+    }
+
+
+    function generateYearCalendar(year) {
+        let output = `                                 ${year}\n`;
+        for (let quarter = 0; quarter < 12; quarter += 3) {
+            const quarters = [0, 1, 2].map(i => generateMonthLines(quarter + i, year));
+            for (let i = 0; i < quarters[0].length; i++) {
+                output += quarters.map(month => month[i] || ' '.repeat(20)).join('   ') + '\n';
+            }
+            output += '\n';
+        }
+        return output.trimEnd();
+    }
+
+    function generateMonthLines(month, year) {
+        const monthName = new Date(year, month).toLocaleString('default', { month: 'long' });
+        const header = monthName.padStart(Math.floor((20 + monthName.length) / 2), ' ');
+        const days = 'Su Mo Tu We Th Fr Sa';
+        const firstDay = new Date(year, month, 1).getDay();
+        const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+        let lines = [header, days];
+        let line = '   '.repeat(firstDay);
+        for (let i = 1; i <= daysInMonth; i++) {
+            line += i.toString().padStart(2, ' ') + ' ';
+            if ((firstDay + i) % 7 === 0 || i === daysInMonth) {
+                lines.push(line.trimEnd());
+                line = '';
+            }
+        }
+        return lines;
+    }
 
     function getCurrentDir() {
         let dir = fileSystemRef['/'];
@@ -93,8 +176,16 @@ function createCommandProcessor(fileSystemRef, updateFileSystem, currentPath, up
         switch (command) {
             case 'pwd':
                 return currentPath.join('/');
+
+            case 'date': {
+                const now = new Date();
+
+                // Format: Mon Aug 04 2025 14:32:00
+                const formatted = now.toDateString() + ' ' + now.toLocaleTimeString();
+                return formatted;
+            }
             case 'man': {
-    return `Available Commands:
+                return `Available Commands:
 
 pwd                 Print current working directory
 ls [pattern]        List directory contents (supports wildcards, e.g., *.txt)
@@ -110,14 +201,57 @@ cp <src> <dest>     Copy file to destination (supports wildcards)
 mv <src> <dest>     Move/Rename file or move into directory (supports wildcards)
 echo <text>         Print text to output
 tree                Show folder structure
+date                Show current system date and time
 clear               Clear terminal
 exit                Exit terminal
 
 Type "man" to show this help message.`;
-}
+            }
 
             case 'exit':
                 return '__EXIT__';
+
+            case 'fortune': {
+                const { text, author } = quotesy.random();
+                return `"${text}" \n- ${author}`;
+            }
+            case 'cowsay': {
+                const message = args.join(" ");
+                if (!message) return "Usage: cowsay [message]";
+                return cowsay.say({ text: message });
+            }
+            
+            case 'cal': {
+                const now = new Date();
+                let month = now.getMonth();
+                let year = now.getFullYear();
+
+                if (args.length === 1 && args[0] === '-y') {
+                    return generateYearCalendar2x6(year);
+                }
+
+                if (args.length === 1) {
+                    const parsedYear = parseInt(args[0]);
+                    if (!isNaN(parsedYear)) {
+                        return generateYearCalendar2x6(parsedYear);
+                    }
+                }
+
+                if (args.length === 2) {
+                    const parsedMonth = parseInt(args[0]);
+                    const parsedYear = parseInt(args[1]);
+                    if (!isNaN(parsedMonth) && !isNaN(parsedYear)) {
+                        month = parsedMonth - 1;
+                        year = parsedYear;
+                    }
+                }
+
+                return generateMonthCalendar(month, year);
+            }
+
+
+
+
 
             case 'ls': {
                 const dir = getCurrentDir();

@@ -71,7 +71,12 @@ const fileSystem = {
             children: {
               Documents: {
                 type: 'dir', children: {
-                  Academics: { type: 'dir', children: {} },
+                  Academics: { type: 'dir', children: {
+                    '10th result.pdf': {type: 'file', href: 'https://yashodharchavan.github.io/books/Academics/10th%20result.pdf'},
+                    '1st semester result.pdf': {type: 'file', href: 'https://yashodharchavan.github.io/books/Academics/1st%20semester%20result.pdf'},
+                    '2nd semester result.pdf': {type: 'file', href: 'https://yashodharchavan.github.io/books/Academics/2nd%20semester%20result.pdf'},
+                    '3rd semester result.pdf': {type: 'file', href: 'https://yashodharchavan.github.io/books/Academics/3rd%20semester%20result.pdf'},
+                  } },
                   Certificates: {
                     type: 'dir', children: {
                       'Chakravyuh Hackathon.pdf': {type:  'file', href: 'https://yashodharchavan.github.io/books/Academics/chakravyuh%201.0.pdf'},
