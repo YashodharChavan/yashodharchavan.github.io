@@ -4,6 +4,10 @@ import cornerStone from '../assets/cornerStone.svg';
 import { useWindowManager } from '../context/WindowManagerContext';
 
 const SimpleFrame = ({ title, children, hasDrawer, id, icon, height, width, minWidth, minHeight, showDimensions, optionalBackground, isResizable = true, hasPadding = true, setOverflowY = true, onResizing = () => { }, exitFlag = false, setIsSidebarOpen = null, isSidebarOpen = null }) => {
+
+
+
+  const [isAtFront, setIsAtFront] = useState(false);
   const frameRef = useRef(null);
   const containerBounds = useRef(null);
   const [position, setPosition] = useState({ x: 100, y: 60 });
@@ -18,6 +22,7 @@ const SimpleFrame = ({ title, children, hasDrawer, id, icon, height, width, minW
 
 
   const isMin = windows.find(w => w.id === id)?.minimized;
+  const { focusedWindowId, setFocusedWindowId } = useWindowManager();
 
 
 
@@ -151,7 +156,6 @@ const SimpleFrame = ({ title, children, hasDrawer, id, icon, height, width, minW
     setIsDragging(true);
   };
   const handleTerminalClose = () => {
-    setIsVisible(false);
     if (frameRef.current) {
       frameRef.current.style.display = 'none';
     }
