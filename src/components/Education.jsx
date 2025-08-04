@@ -3,27 +3,10 @@ import art4 from '../assets/icons/art4.avif'
 import art5 from '../assets/icons/art5.avif'
 import genericDocument from '../assets/folders/GenericDocumentIcon.avif'
 import redirect from '../assets/icons/redirect.svg'
+import { useWindowManager } from '../context/WindowManagerContext.jsx';
 
 import React, { useRef } from 'react';
-
-const RedirectComponent = ({ name, url }) => {
-
-    return (
-        <a
-            className='bg-white hover:bg-[#A2B2CA] w-[90%] h-4/5 rounded-2xl flex justify-between items-center'
-            href={url}
-            style={{ padding: "4px 12px" }}
-            target='_blank'
-        >
-            <div className="flex gap-x-1 items-center">
-                <img loading='lazy' src={genericDocument} alt="" className='h-7 w-fit' />
-                <p className="text-sm">{name}</p>
-            </div>
-
-            <img loading='lazy' src={redirect} alt="" />
-        </a>
-    )
-}
+import { academicResults } from './Utils/fileSystem'
 
 const CompletionBar = ({ percentage }) => {
     return (
@@ -39,10 +22,42 @@ const CompletionBar = ({ percentage }) => {
 
 const Education = () => {
     const academicsRef = useRef(null);
-
+    const { openWindow } = useWindowManager();
+    const [academicResultId, setAcademicResultId] = React.useState(null);
     const handleScrollToAcademics = () => {
         academicsRef.current?.scrollIntoView({ behavior: 'smooth' });
     };
+
+
+    const RedirectComponent = ({ name }) => {
+        console.log(name)
+        return (
+            <div
+                onClick={() => handleAcademicResultClick(name)}
+                className='bg-white hover:bg-[#A2B2CA] w-[90%] h-4/5 rounded-2xl flex justify-between items-center'
+                style={{ padding: "4px 12px" }}
+                target='_blank'
+            >
+                <div className="flex gap-x-1 items-center">
+                    <img loading='lazy' src={genericDocument} alt="" className='h-7 w-fit' />
+                    <p className="text-sm">{name}</p>
+                </div>
+
+                <img loading='lazy' src={redirect} alt="" />
+            </div>
+        )
+    }
+
+
+
+    const handleAcademicResultClick = (id) => {
+        setAcademicResultId(id.trim().toLowerCase());
+        const result = academicResults.find(res => res.id === id.trim().toLowerCase());
+        if (result) {
+            openWindow('safari', '', '', '', result.id, result.href);
+        }
+    }
+
     return (
         <div className="min-h-screen w-full bg-[#ECF2F9]">
             <div className="topbar font-bold text-lg sm:text-xl" style={{ padding: "12px 24px" }}>Yashodhar</div>
@@ -95,33 +110,33 @@ const Education = () => {
                     <td className="border border-gray-300" style={{ padding: "8px 16px" }}>10th</td>
                     <td className="border border-gray-300" style={{ padding: "8px 16px" }}>95%</td>
                     <td className="border border-gray-300" style={{ padding: "8px 16px" }}>
-                        <RedirectComponent name="10th Result" url="https://google.com" />
+                        <RedirectComponent name="10th Result" />
                     </td>
                 </tr>
                 <tr className="bg-white">
                     <td className="border border-gray-300" style={{ padding: "8px 16px" }}>year</td>
                     <td className="border border-gray-300" style={{ padding: "8px 16px" }}>1st Semester</td>
-                    <td className="border border-gray-300" style={{ padding: "8px 16px" }}>87%</td>
-                    <td className="border border-gray-300" style={{ padding: "8px 16px" }}><RedirectComponent name="1st Semester Result" url="https://drive.google.com/file/d/1Z9Tt6XHf4Hk6Kd2rTt1t2t2t2t2t2t2t/view?usp=sharing" /></td>
+                    <td className="border border-gray-300" style={{ padding: "8px 16px" }}>87.18%</td>
+                    <td className="border border-gray-300" style={{ padding: "8px 16px" }}><RedirectComponent name="1st Semester Result" /></td>
                 </tr>
 
                 <tr className="bg-white">
                     <td className="border border-gray-300" style={{ padding: "8px 16px" }}>year</td>
                     <td className="border border-gray-300" style={{ padding: "8px 16px" }}>2nd semester</td>
-                    <td className="border border-gray-300" style={{ padding: "8px 16px" }}>88%</td>
-                    <td className="border border-gray-300" style={{ padding: "8px 16px" }}><RedirectComponent name="2nd Semester Result" url="https://drive.google.com/file/d/1Z9Tt6XHf4Hk6Kd2rTt1t2t2t2t2t2t2t/view?usp=sharing" /></td>
+                    <td className="border border-gray-300" style={{ padding: "8px 16px" }}>87.65%</td>
+                    <td className="border border-gray-300" style={{ padding: "8px 16px" }}><RedirectComponent name="2nd Semester Result" /></td>
                 </tr>
                 <tr className="bg-white">
                     <td className="border border-gray-300" style={{ padding: "8px 16px" }}>year</td>
                     <td className="border border-gray-300" style={{ padding: "8px 16px" }}>3rd semester</td>
-                    <td className="border border-gray-300" style={{ padding: "8px 16px" }}>89.89%</td>
-                    <td className="border border-gray-300" style={{ padding: "8px 16px" }}><RedirectComponent name="3rd Semester Result" url="https://drive.google.com/file/d/1Z9Tt6XHf4Hk6Kd2rTt1t2t2t2t2t2t2t/view?usp=sharing" /></td>
+                    <td className="border border-gray-300" style={{ padding: "8px 16px" }}>89.88%</td>
+                    <td className="border border-gray-300" style={{ padding: "8px 16px" }}><RedirectComponent name="3rd Semester Result" /></td>
                 </tr>
                 <tr className="bg-white">
                     <td className="border border-gray-300" style={{ padding: "8px 16px" }}>year</td>
                     <td className="border border-gray-300" style={{ padding: "8px 16px" }}>4th semester</td>
                     <td className="border border-gray-300" style={{ padding: "8px 16px" }}>91.65%</td>
-                    <td className="border border-gray-300" style={{ padding: "8px 16px" }}><RedirectComponent name="4th Semester Result" url="https://drive.google.com/file/d/1Z9Tt6XHf4Hk6Kd2rTt1t2t2t2t2t2t2t/view?usp=sharing" /></td>
+                    <td className="border border-gray-300" style={{ padding: "8px 16px" }}><RedirectComponent name="4th Semester Result" /></td>
                 </tr>
             </table>
             <hr className="gradient-hr" />

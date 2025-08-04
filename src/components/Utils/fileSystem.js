@@ -74,6 +74,12 @@ const fileSystem = {
                   Academics: { type: 'dir', children: {} },
                   Certificates: {
                     type: 'dir', children: {
+                      'Chakravyuh Hackathon.pdf': {type:  'file', href: 'https://yashodharchavan.github.io/books/Academics/chakravyuh%201.0.pdf'},
+                      'ETSEF Coding Competition.pdf': {type:  'file', href: 'https://yashodharchavan.github.io/books/Academics/etsef%20coding%20competition.pdf'},
+                      'ETSEF Coding Competition.pdf': {type:  'file', href: 'https://yashodharchavan.github.io/books/Academics/quiz%20and%20coding.pdf'},
+                      'Quiz and Coding.pdf': {type:  'file', href: 'https://yashodharchavan.github.io/books/Academics/quiz%20and%20coding.pdf'},
+                      'Tech Master 2K25.pdf': {type:  'file', href: 'https://yashodharchavan.github.io/books/Academics/tech%20master.pdf'},
+                      'Technowave.pdf': {type:  'file', href: 'https://yashodharchavan.github.io/books/Academics/technowave.pdf'},
                       'Programming in C.pdf': { type: 'file', href: 'https://yashodharchavan.github.io/certificates/Programming%20in%20C.pdf' },
                       'Introduction to Python.pdf': { type: 'file', href: 'https://yashodharchavan.github.io/certificates/Introduction%20to%20Python.pdf' },
                       'Programming Using C++.pdf': { type: 'file', href: 'https://yashodharchavan.github.io/certificates/Programming%20Using%20C++.pdf' },
@@ -224,6 +230,14 @@ const rootFileOptions = [
   { label: "burn", icon: burn },
 ]
 
+const academicResults = [
+  {id: '10th result', href:"https://yashodharchavan.github.io/books/Academics/10th%20result.pdf"},
+  {id: '1st semester result', href:"https://yashodharchavan.github.io/books/Academics/1st%20semester%20result.pdf"},
+  {id: '2nd semester result', href:"https://yashodharchavan.github.io/books/Academics/2nd%20semester%20result.pdf"},
+  {id: '3rd semester result', href:"https://yashodharchavan.github.io/books/Academics/3rd%20semester%20result.pdf"},
+  {id: '4th semester result', href:"https://yashodharchavan.github.io/books/Academics/3rd%20semester%20result.pdf"},
+]
 
 
-export { fileSystem, rootFileOptions, applicationIcons }
+
+export { fileSystem, rootFileOptions, applicationIcons, academicResults }

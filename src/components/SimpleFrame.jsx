@@ -4,10 +4,6 @@ import cornerStone from '../assets/cornerStone.svg';
 import { useWindowManager } from '../context/WindowManagerContext';
 
 const SimpleFrame = ({ title, children, hasDrawer, id, icon, height, width, minWidth, minHeight, showDimensions, optionalBackground, isResizable = true, hasPadding = true, setOverflowY = true, onResizing = () => { }, exitFlag = false, setIsSidebarOpen = null, isSidebarOpen = null }) => {
-
-
-
-  const [isAtFront, setIsAtFront] = useState(false);
   const frameRef = useRef(null);
   const containerBounds = useRef(null);
   const [position, setPosition] = useState({ x: 100, y: 60 });
@@ -18,16 +14,13 @@ const SimpleFrame = ({ title, children, hasDrawer, id, icon, height, width, minW
   const resizeRef = useRef({ type: null, startX: 0, startY: 0, startW: 0, startH: 0, startLeft: 0, startTop: 0 });
   const [isResizing, setIsResizing] = useState(false);
   const [isMaximized, setIsMaximized] = useState(false);
-  const { registerWindow, minimizeWindow, restoreWindow, windows, closeWindow, getZIndex } = useWindowManager();
+  const { registerWindow, minimizeWindow, restoreWindow, windows, closeWindow, getZIndex, bringToFront } = useWindowManager();
 
 
   const isMin = windows.find(w => w.id === id)?.minimized;
-  const [isVisible, setIsVisible] = useState(!isMin);
-  const { focusedWindowId, setFocusedWindowId } = useWindowManager();
 
-  const isFocused = focusedWindowId === id;
 
- 
+
   useEffect(() => {
     registerWindow(id, title, icon);
   }, [id, title, icon, registerWindow]);
@@ -206,28 +199,10 @@ const SimpleFrame = ({ title, children, hasDrawer, id, icon, height, width, minW
     }
   }, [size]);
 
-  const handleAtFront = () => {
-    console.log('hello')
-    setIsAtFront(true);
-    if (!frameRef.current) return;
-
-    if (isAtFront) {
-      frameRef.current.style.Zindex = "20"
-    }
-    else {
-      frameRef.current.style.Zindex = "10"
-    }
-
-  }
-
-
-  const handleFocus = () => {
-    setFocusedWindowId(id);
-  };
-
   return (
 
     <div
+      onMouseDown={() => bringToFront(id)}
       ref={frameRef}
       className="simple-frame absolute bg-white rounded-md shadow-[0px_0px_20px_black] overflow-hidden"
       onContextMenu={(e) => e.preventDefault()}
@@ -237,10 +212,9 @@ const SimpleFrame = ({ title, children, hasDrawer, id, icon, height, width, minW
         left: position.x, top: position.y, width: size.width,
         height: size.height, display: isMin ? 'none' : 'block',
       }}
-      onClick={handleFocus} onMouseDown={handleFocus}
     >
       {/* Corner resizer */}
-      
+
       <div className="resize-handle bottom-right" onMouseDown={(e) => startResizing(e, 'bottom-right')} />
 
       {/* Edge resizers */}
