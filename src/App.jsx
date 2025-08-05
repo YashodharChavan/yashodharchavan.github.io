@@ -23,9 +23,9 @@ const App = () => {
       document.removeEventListener("click", handleClick);
     };
 
-    document.addEventListener("click", handleClick);
+    // document.addEventListener("click", handleClick);
 
-    return () => document.removeEventListener("click", handleClick);
+    // return () => document.removeEventListener("click", handleClick);
   }, []);
   // Setup resize listener once
   useEffect(() => {
@@ -46,8 +46,8 @@ const App = () => {
       margin: "0 auto",
       height: `${height}px`
     }}>
-      {showBootScreen ? <BootScreen /> : <Desktop />}
-      {/* <Desktop /> */}
+      {/* {showBootScreen ? <BootScreen /> : <Desktop />} */}
+      <Desktop />
     </div>
   );
 };
