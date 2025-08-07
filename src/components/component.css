@@ -26,6 +26,22 @@
   font-style: normal;
 }
 
+/* Add subtle texture to the track */
+::-webkit-scrollbar-track {
+  background-image: linear-gradient(to right, #e5e5e5, #e8e8e8 2px, #e5e5e5 2px);
+  background-size: 4px 1px;
+  background-repeat: repeat-y;
+}
+
+/* Add "puffy" effect to the thumb */
+::-webkit-scrollbar-thumb {
+  border-top: 1px solid #5a8bd8;
+  border-bottom: 1px solid #1a3a7e;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.3),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.1);
+}
+
 /* REACT CONTEXIFY CSS */
 /* Stronger selectors to override default styles */
 .custom-context-menu .react-contexify__item {
@@ -57,7 +73,14 @@ section>div>div {
   cursor: url('../../public/cursors/Link Select.cur'), pointer;
 }
 
+.shadow-spotlight {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(0, 0, 0, 0.05);
+}
 
+/* For smooth transitions */
+.search-dropdown {
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
 
 .css-1f1pi2l-MuiButtonBase-root-MuiAccordionSummary-root:hover:not(.Mui-disabled) {
   cursor: url('../../public/cursors/Link Select.cur'), pointer;
@@ -204,7 +227,8 @@ textarea {
 
 .simple-frame,
 .top-finder-bar,
-.left-finder-side .buttons button, .cursor-auto {
+.left-finder-side .buttons button,
+.cursor-auto {
   cursor: url('../../public/cursors/Normal Select.cur'), auto;
 }
 

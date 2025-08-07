@@ -5,7 +5,7 @@ import About from './About'
 import Education from './Education'
 import Skills from './Skills'
 import Projects from './Projects'
-
+import Resume from './Resume'
 const AboutMe = () => {
     const [sidebarWidth, setSidebarWidth] = useState(150);
     const isResizing = useRef(false);
@@ -45,6 +45,12 @@ const AboutMe = () => {
     useEffect(() => {
         if (contentRef.current) {
             contentRef.current.scrollTop = 0;
+        }
+        if(currentPage === 'resume') {
+            contentRef.current.style.overflowY = 'hidden';
+        }
+        else {
+            contentRef.current.style.overflowY = 'scroll';
         }
     }, [currentPage]);
     useEffect(() => {

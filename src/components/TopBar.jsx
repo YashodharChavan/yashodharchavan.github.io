@@ -27,7 +27,7 @@ import zip from '../assets/folders/ZIP.avif'
 import md from '../assets/folders/ClippingText.avif'
 import { fileSystem } from './Utils/fileSystem'
 import { topMenuData } from './Utils/menuConfig'
-
+import { getIconForItem } from './Utils/fileSystemUtils'
 
 const TopBar = ({ currentTopComponent }) => {
   const [date, setDate] = React.useState("");
@@ -40,7 +40,7 @@ const TopBar = ({ currentTopComponent }) => {
   const triggerRef = React.useRef(null);
   const { openWindow } = useWindowManager()
   const allFilesAndFolders = collectFilesAndFolders();
-
+  const resultsContainerRef = React.useRef(null);
   const appList = [
     { name: "Terminal", icon: terminal },
     { name: "Finder", icon: finder },
@@ -103,18 +103,13 @@ const TopBar = ({ currentTopComponent }) => {
 
     };
   }, []);
-  const handleMenuClick = (menuName) => {
-    const rect = menuRefs[menuName]?.current?.getBoundingClientRect();
-    setCurrentMenuOpen(menuName);
-  };
-
 
   function collectFilesAndFolders(node = fileSystem['/'], path = '/') {
     const items = [];
 
     for (const [name, child] of Object.entries(node.children || {})) {
       const fullPath = path === '/' ? `/${name}` : `${path}/${name}`;
-      const icon = getIconForFile(name, child.type);
+      const icon = getIconForItem(name, child.type);
 
       if (name.split('.').pop().toLowerCase() === 'app') continue; // Skip .app files
 
@@ -133,33 +128,6 @@ const TopBar = ({ currentTopComponent }) => {
 
     return items;
   }
-
-  function getIconForFile(name, type) {
-    if (type === 'dir') return genericFolderIcon;
-
-    const ext = name.split('.').pop().toLowerCase();
-
-    // Match by extension
-    if (ext === 'txt') return txt;
-    if (ext === 'pdf') return pdf;
-    if (ext === 'zip') return zip;
-    if (ext === 'html' || ext === 'css' || ext === 'js') return html;
-    if (ext === 'md') return md;
-    if (['avif', 'avif', 'avif', 'gif', 'svg'].includes(ext)) return imageIcon;
-
-    // Match by exact filename (no extension)
-    // const knownBinaries = ['ls', 'cp', 'mv', 'rm', 'echo', 'cat', 'sh'];
-    // if (knownBinaries.includes(name)) return binaryIcon;
-
-    // Default
-    return txt;
-  }
-
-
-
-
-
-
 
   const activateSpotlightSearch = () => {
     setIsSpotlightActive(!isSpotlightActive)
@@ -183,8 +151,26 @@ const TopBar = ({ currentTopComponent }) => {
   };
 
 
+  const scrollToItem = (index) => {
+    if (resultsContainerRef.current && results.length > 0) {
+      const container = resultsContainerRef.current;
+      const items = container.querySelectorAll('li');
+      if (items[index]) {
+        // Calculate positions
+        const itemTop = items[index].offsetTop;
+        const itemBottom = itemTop + items[index].offsetHeight;
+        const containerTop = container.scrollTop;
+        const containerBottom = containerTop + container.clientHeight;
 
-
+        // Scroll if item is out of view
+        if (itemTop < containerTop) {
+          container.scrollTop = itemTop;
+        } else if (itemBottom > containerBottom) {
+          container.scrollTop = itemBottom - container.clientHeight;
+        }
+      }
+    }
+  };
 
   useEffect(() => {
     const handleKeyDown = (e) => {
@@ -193,11 +179,13 @@ const TopBar = ({ currentTopComponent }) => {
       if (e.key === 'ArrowDown') {
         e.preventDefault();
         setSelectedIndex(prev => (prev + 1) % results.length);
+        scrollToItem(selectedIndex + 1);
       }
 
       if (e.key === 'ArrowUp') {
         e.preventDefault();
         setSelectedIndex(prev => (prev - 1 + results.length) % results.length);
+        scrollToItem(selectedIndex - 1);
       }
 
       if (e.key === 'Enter' && selectedIndex >= 0) {
@@ -209,7 +197,7 @@ const TopBar = ({ currentTopComponent }) => {
           if (selectedItem.type === 'dir') {
             openWindow('finder', "", "", "", "", selectedItem.fullPath);
           }
-          else if(selectedItem.name.includes('.pdf')) {
+          else if (selectedItem.name.includes('.pdf')) {
             openWindow('safari', '', '', '', selectedItem.name, selectedItem.href);
           }
           else {
@@ -349,7 +337,7 @@ const TopBar = ({ currentTopComponent }) => {
           style={{ padding: "0px 8px" }} autoFocus={true} onChange={(e) => handleChange(e.target.value)} />
       </div>}
 
-      {(searchString && isSpotlightActive) && <div className="absolute top-14 w-96 right-44 h-fit max-h-[500px] overflow-y-scroll overflow-x-hidden z-10 bg-[#E7EDF2]"
+      {(searchString && isSpotlightActive) && <div className="absolute top-14 w-96 right-44 h-fit max-h-[500px] overflow-y-scroll overflow-x-hidden z-10 bg-[#E7EDF2]" ref={resultsContainerRef}
         style={{ boxShadow: "0px 7px 16px 0px #00000099" }}>
         <ul>
 
@@ -358,12 +346,16 @@ const TopBar = ({ currentTopComponent }) => {
               key={index}
               className={`px-2 py-1 cursor-pointer flex items-center gap-x-2 ${index === selectedIndex ? 'bg-[#2A68C8] text-white' : ''
                 }`}
+              style={{ padding: "4px" }}
             >
               <div className="flex items-center gap-x-0.5">
                 <img loading='lazy' src={item.icon} alt="" className="h-8" />
-                {item.name}
+                <div className="flex flex-col">
+
+                  {item.name}
+                  <p className={`text-gray-600 text-sm ${index === selectedIndex ? 'text-white' : ''}`}>{item.fullPath ? item.fullPath.substring(0, item.fullPath.lastIndexOf('/')) : ''}</p>
+                </div>
               </div>
-              <p className={`text-gray-600 text-sm ${index === selectedIndex ? 'text-white' : ''}`}>{item.fullPath ? item.fullPath.substring(0, item.fullPath.lastIndexOf('/')) : ''}</p>
             </li>
           ))}
         </ul>

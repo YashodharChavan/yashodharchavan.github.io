@@ -53,6 +53,7 @@ export const WindowManagerProvider = ({ children }) => {
     }
 
     if (id === 'safari') {
+      console.log(parameterTitle, parameterPath)
       setOptionalUrl(parameterPath);
     }
 

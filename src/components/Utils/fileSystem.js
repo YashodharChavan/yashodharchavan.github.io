@@ -71,20 +71,22 @@ const fileSystem = {
             children: {
               Documents: {
                 type: 'dir', children: {
-                  Academics: { type: 'dir', children: {
-                    '10th result.pdf': {type: 'file', href: 'https://yashodharchavan.github.io/books/Academics/10th%20result.pdf'},
-                    '1st semester result.pdf': {type: 'file', href: 'https://yashodharchavan.github.io/books/Academics/1st%20semester%20result.pdf'},
-                    '2nd semester result.pdf': {type: 'file', href: 'https://yashodharchavan.github.io/books/Academics/2nd%20semester%20result.pdf'},
-                    '3rd semester result.pdf': {type: 'file', href: 'https://yashodharchavan.github.io/books/Academics/3rd%20semester%20result.pdf'},
-                  } },
+                  Academics: {
+                    type: 'dir', children: {
+                      '10th result.pdf': { type: 'file', href: 'https://yashodharchavan.github.io/books/Academics/10th%20result.pdf' },
+                      '1st semester result.pdf': { type: 'file', href: 'https://yashodharchavan.github.io/books/Academics/1st%20semester%20result.pdf' },
+                      '2nd semester result.pdf': { type: 'file', href: 'https://yashodharchavan.github.io/books/Academics/2nd%20semester%20result.pdf' },
+                      '3rd semester result.pdf': { type: 'file', href: 'https://yashodharchavan.github.io/books/Academics/3rd%20semester%20result.pdf' },
+                    }
+                  },
                   Certificates: {
                     type: 'dir', children: {
-                      'Chakravyuh Hackathon.pdf': {type:  'file', href: 'https://yashodharchavan.github.io/books/Academics/chakravyuh%201.0.pdf'},
-                      'ETSEF Coding Competition.pdf': {type:  'file', href: 'https://yashodharchavan.github.io/books/Academics/etsef%20coding%20competition.pdf'},
-                      'ETSEF Coding Competition.pdf': {type:  'file', href: 'https://yashodharchavan.github.io/books/Academics/quiz%20and%20coding.pdf'},
-                      'Quiz and Coding.pdf': {type:  'file', href: 'https://yashodharchavan.github.io/books/Academics/quiz%20and%20coding.pdf'},
-                      'Tech Master 2K25.pdf': {type:  'file', href: 'https://yashodharchavan.github.io/books/Academics/tech%20master.pdf'},
-                      'Technowave.pdf': {type:  'file', href: 'https://yashodharchavan.github.io/books/Academics/technowave.pdf'},
+                      'Chakravyuh Hackathon.pdf': { type: 'file', href: 'https://yashodharchavan.github.io/books/Academics/chakravyuh%201.0.pdf' },
+                      'ETSEF Coding Competition.pdf': { type: 'file', href: 'https://yashodharchavan.github.io/books/Academics/etsef%20coding%20competition.pdf' },
+                      'ETSEF Coding Competition.pdf': { type: 'file', href: 'https://yashodharchavan.github.io/books/Academics/quiz%20and%20coding.pdf' },
+                      'Quiz and Coding.pdf': { type: 'file', href: 'https://yashodharchavan.github.io/books/Academics/quiz%20and%20coding.pdf' },
+                      'Tech Master 2K25.pdf': { type: 'file', href: 'https://yashodharchavan.github.io/books/Academics/tech%20master.pdf' },
+                      'Technowave.pdf': { type: 'file', href: 'https://yashodharchavan.github.io/books/Academics/technowave.pdf' },
                       'Programming in C.pdf': { type: 'file', href: 'https://yashodharchavan.github.io/certificates/Programming%20in%20C.pdf' },
                       'Introduction to Python.pdf': { type: 'file', href: 'https://yashodharchavan.github.io/certificates/Introduction%20to%20Python.pdf' },
                       'Programming Using C++.pdf': { type: 'file', href: 'https://yashodharchavan.github.io/certificates/Programming%20Using%20C++.pdf' },
@@ -119,7 +121,7 @@ const fileSystem = {
                       },
                     }
                   },
-                  'Resume.pdf': { type: 'file', href: 'https://docs.google.com/document/d/1Sa169BawHnjk_CpzQYoSpnZi2HY1esQ0tCGA5tCWTMM/edit?usp=sharing' },
+                  'Resume.pdf': { type: 'file', href: 'https://yashodharchavan.github.io/books/Resume.pdf' },
 
                 }
               },
@@ -131,7 +133,43 @@ const fileSystem = {
               'file.txt': { type: 'file', content: 'Hello World' },
               Desktop: {
                 type: 'dir', children: {
-                  'about.md': { type: 'file', content: 'This is a markdown file.' },
+                  'Credits.txt': {
+                    type: 'file', content: `This project would not have been possible without the inspiration, help, and resources provided by amazing people and platforms. I want to give them their well-deserved credit here:
+
+Inspirations:
+Dustin Brett (https://github.com/dustinbrett): The first spark of inspiration came from Dustin's projects. His work on web-based Windows 10 OS interfaces fascinated me and made me want to build something nostalgic myself.
+
+Vivek9Patel (https://github.com/vivek9patel): After seeing Dustin's work, I came across Vivek's portfolio website which further inspired me to explore creative web clones and desktop-like UIs.
+
+Gianluca Jahn (https://github.com/gianlucajahn): Another talented creator whose projects gave me perspective on how web-based macOS experiences can be built and designed.
+
+Idea Evolution:
+Initially, I thought of recreating an early DOS-based macOS for fun.
+
+ChatGPT suggested aiming for something nostalgic like Mac OS X Tiger, and that hit the right nerve. I decided to proceed with that.
+
+Throughout the project, AI (especially ChatGPT) guided me with ideas, problem-solving, and learning new things.
+
+I also used Grok when stuck at tricky spots. Both AI systems deserve a thank-you for being my 24x7 mentor.
+
+While I took help of AI-generated code snippets, I made sure to understand, adapt, and improve the systems myself. Some pieces remained black-boxes, but as the old dev rule says: "If it works, don't touch it."
+
+Assets & Resources:
+flaticon.com — for icons and graphics.
+
+Internet Archive — sourced original ICNS files, converted them to ICO using Python, and finally to AVIF format.
+
+reddit.com — for visual design inspiration.
+
+freepik.com — used images for the desktop background.
+
+youtube.com — for various tutorials and learning resources.
+
+I'm thankful to everyone who contributed directly or indirectly to this learning journey.
+This project was not just about coding, but about understanding how systems work, improving incrementally, and having fun while building something nostalgic.
+` },
+                  'Resume.pdf': { type: 'file', href: 'https://yashodharchavan.github.io/books/Resume.pdf' },
+                  'User Guild.txt': { type: 'file', content: ''} 
                 }
               }
             }
@@ -236,11 +274,11 @@ const rootFileOptions = [
 ]
 
 const academicResults = [
-  {id: '10th result', href:"https://yashodharchavan.github.io/books/Academics/10th%20result.pdf"},
-  {id: '1st semester result', href:"https://yashodharchavan.github.io/books/Academics/1st%20semester%20result.pdf"},
-  {id: '2nd semester result', href:"https://yashodharchavan.github.io/books/Academics/2nd%20semester%20result.pdf"},
-  {id: '3rd semester result', href:"https://yashodharchavan.github.io/books/Academics/3rd%20semester%20result.pdf"},
-  {id: '4th semester result', href:"https://yashodharchavan.github.io/books/Academics/3rd%20semester%20result.pdf"},
+  { id: '10th result', href: "https://yashodharchavan.github.io/books/Academics/10th%20result.pdf" },
+  { id: '1st semester result', href: "https://yashodharchavan.github.io/books/Academics/1st%20semester%20result.pdf" },
+  { id: '2nd semester result', href: "https://yashodharchavan.github.io/books/Academics/2nd%20semester%20result.pdf" },
+  { id: '3rd semester result', href: "https://yashodharchavan.github.io/books/Academics/3rd%20semester%20result.pdf" },
+  { id: '4th semester result', href: "https://yashodharchavan.github.io/books/Academics/3rd%20semester%20result.pdf" },
 ]
 
 

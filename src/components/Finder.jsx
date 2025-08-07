@@ -15,14 +15,107 @@ import Music from '../assets/folders/ToolBarMusicFolderIcon.avif';
 import Pictures from '../assets/folders/ToolbarPicturesFolderIcon.avif';
 import FileSystemFolder from './FileSystemFolder.jsx';
 import { useFileSystem } from '../context/FileSystemContext.jsx';
-import { getNodeAtPath } from './Utils/fileSystemUtils';
+import { getNodeAtPath, getIconForItem } from './Utils/fileSystemUtils';
 import settings from '../assets/icons/settings.svg';
+import { useWindowManager } from '../context/WindowManagerContext.jsx';
 // import { finderMenu } from './Utils/menuConfig.js';
 import MenuContext from './MenuContext.jsx';
 import burn from '../assets/folders/burnableFolder.avif'
+import './component.css'
+
+const SearchResultsDropdown = ({ results, onItemClick, onClose, selectedIndex, setSelectedIndex }) => {
+
+  const dropdownRef = useRef(null);
+  // Handle keyboard navigation
+  // In SearchResultsDropdown component
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        setSelectedIndex(prev => (prev + 1) % results.length);
+      } else if (e.key === 'ArrowUp') {
+        e.preventDefault();
+        setSelectedIndex(prev => (prev - 1 + results.length) % results.length);
+      } else if (e.key === 'Enter') {
+        e.preventDefault();
+        if (results[selectedIndex]) {
+          onItemClick(results[selectedIndex]);
+        }
+      } else if (e.key === 'Escape') {
+        e.preventDefault();
+        onClose();
+        // Return focus to the input after closing
+        searchInputRef.current?.focus();
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [results, selectedIndex, onItemClick, onClose]);
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
+        onClose();
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [onClose]);
+
+
+  return (
+    <div
+      ref={dropdownRef}
+      className="absolute z-50 mt-2 w-96 bg-white rounded-lg shadow-xl border border-gray-300 overflow-hidden"
+      style={{
+        maxHeight: '270px',
+        maxWidth: '244px',
+        overflowY: 'auto',
+        boxShadow: '0 4px 12px rgba(0,0,0,0.15)'
+      }}
+    >
+      {results.length > 0 ? (
+        <ul>
+          {results.map((result, index) => (
+            <li
+              key={`${result.path}-${index}`}
+              className={`flex items-center px-4 py-3 cursor-pointer ${index === selectedIndex ? 'bg-blue-100' : 'hover:bg-gray-100'}`}
+              onClick={() => onItemClick(result)}
+            >
+              <div className="flex-shrink-0 mr-3">
+                <img
+                  src={getIconForItem(result.name, result.type)}
+                  alt={result.name}
+                  className="w-8 h-8"
+                />
+              </div>
+              <div className="flex-grow">
+                <div className="font-medium text-gray-900">{result.name}</div>
+                <div className="text-xs text-gray-500 truncate">
+                  {result.path.replace(/^\/Users\/[^/]+/, '~')}
+                </div>
+              </div>
+              {result.type === 'file' && (
+                <div className="text-xs text-gray-400 ml-2">
+                  {result.name.split('.').pop().toUpperCase()}
+                </div>
+              )}
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <div className="px-4 py-3 text-gray-500">No results found</div>
+      )}
+    </div>
+  );
+};
+
 
 const Finder = ({ optionalPath = null }) => {
-
+  const { openWindow } = useWindowManager();
   const { fileSystem, setPendingNewItem, currentPath } = useFileSystem();
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [sidebarWidth, setSidebarWidth] = useState(150);
@@ -36,7 +129,70 @@ const Finder = ({ optionalPath = null }) => {
   const [position, setPosition] = useState({ left: null, top: null })
   const [fileSystemItems, setFileSystemItems] = useState([]);
   const dropdownRef = useRef(null);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [searchResults, setSearchResults] = useState([]);
+  const [isSearching, setIsSearching] = useState(false);
+  const [isSearchActive, setIsSearchActive] = useState(false);
+  const searchInputRef = useRef(null);
+  const [selectedIndex, setSelectedIndex] = useState(0);
 
+  // Function to search within current directory and its children
+  const searchInDirectory = (query, node, currentPath) => {
+    if (!query) {
+      setSearchResults([]);
+      return;
+    }
+
+    const results = [];
+    const searchNode = node || getNodeAtPath(currentPath, fileSystem);
+
+    if (!searchNode) return [];
+
+    // Search in current directory's children
+    Object.entries(searchNode.children || {}).forEach(([name, child]) => {
+      if (name.toLowerCase().includes(query.toLowerCase())) {
+        results.push({
+          name,
+          type: child.type,
+          href: child.href || null,
+          path: currentPath === '/' ? `/${name}` : `${currentPath}/${name}`
+        });
+      }
+
+      // If it's a directory, search recursively
+      if (child.type === 'dir' || child.type === 'burn') {
+        const childPath = currentPath === '/' ? `/${name}` : `${currentPath}/${name}`;
+        const childResults = searchInDirectory(query, child, childPath);
+        results.push(...childResults);
+      }
+    });
+
+    return results;
+  };
+
+  const handleSearch = (e) => {
+    const query = e.target.value;
+    setSearchQuery(query);
+
+    if (query) {
+      setIsSearchActive(true); // Ensure dropdown stays open when typing
+      const results = searchInDirectory(query, null, fileSystemPath);
+      setSearchResults(results.map(result => ({
+        ...result,
+        fullPath: result.path
+      })));
+    } else {
+      setSearchResults([]);
+    }
+  };
+  useEffect(() => {
+    // When component unmounts or search becomes inactive
+    if (!isSearchActive) {
+      setSearchQuery('');
+      setSearchResults([]);
+      setSelectedIndex(0);
+    }
+  }, [isSearchActive]);
 
   const finderMenu = [
     {
@@ -44,7 +200,7 @@ const Finder = ({ optionalPath = null }) => {
       action: () =>
         setPendingNewItem({
           type: "folder",
-          path: fileSystemPath, 
+          path: fileSystemPath,
         }),
     },
     {
@@ -309,13 +465,55 @@ const Finder = ({ optionalPath = null }) => {
 
           </div>
 
-          <div className="right-finder-side">
+          <div className="relative right-finder-side">
             <input
+              ref={searchInputRef}
               type="text"
-              placeholder="search"
-              className="bg-white border border-gray-400 rounded-2xl w-60 shadow-[inset_0px_2px_1px_0px_#cfcfcf] focus:outline-none"
-              style={{ padding: '0px 12px' }}
+              placeholder="Search"
+              className="bg-white border border-gray-400 rounded-2xl w-60 shadow-[inset_0px_2px_1px_0px_#cfcfcf] focus:outline-none pl-8 pr-4 py-1"
+              value={searchQuery}
+              style={{ padding: "0px 8px" }}
+              onChange={handleSearch}
+              onFocus={() => {
+                setIsSearchActive(true);
+                if (searchQuery) {
+                  const results = searchInDirectory(searchQuery, null, fileSystemPath);
+                  setSearchResults(results.map(result => ({
+                    ...result,
+                    fullPath: result.path
+                  })));
+                }
+              }}
             />
+
+            {
+              isSearchActive && searchQuery && (
+                <SearchResultsDropdown
+                  selectedIndex={selectedIndex}
+                  setSelectedIndex={setSelectedIndex}
+                  results={searchResults}
+                  onItemClick={(result) => {
+                    if (result.type === 'dir' || result.type === 'burn') {
+                      setFileSystemPath(result.path);
+                    }
+                    else if (result.type === 'file') {
+                      // Check if file is PDF (using proper property access)
+                      if (result.name.toLowerCase().endsWith('.pdf')) {
+                        openWindow('safari', '', '', '', result.name, result.href);
+                      } else {
+                        openWindow('textedit', '', '', result.content, result.name);
+                      }
+                    }
+                    else if (result.type === 'app') {
+                      openWindow(result.name.split('.')[0].toLowerCase());
+                    }
+                    setSearchQuery('');
+                    setIsSearchActive(false);
+                  }}
+                  onClose={() => setIsSearchActive(false)}
+                />
+              )
+            }
           </div>
         </div>
       )}
@@ -394,9 +592,11 @@ const Finder = ({ optionalPath = null }) => {
               setFileSystemPath={setFileSystemPath}
 
             />
+
           ) : (
             <div className="p-4 text-gray-500">Directory not found</div>
           )}
+
         </div>
       </div>
     </SimpleFrame>
