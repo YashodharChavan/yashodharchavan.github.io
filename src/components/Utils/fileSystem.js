@@ -134,42 +134,134 @@ const fileSystem = {
               Desktop: {
                 type: 'dir', children: {
                   'Credits.txt': {
-                    type: 'file', content: `This project would not have been possible without the inspiration, help, and resources provided by amazing people and platforms. I want to give them their well-deserved credit here:
+                    type: 'file', content: `
+Hey 👋
 
-Inspirations:
-Dustin Brett (https://github.com/dustinbrett): The first spark of inspiration came from Dustin's projects. His work on web-based Windows 10 OS interfaces fascinated me and made me want to build something nostalgic myself.
+This project wouldn't have been possible without some amazing people and platforms. Here's a small thank-you to everyone who inspired and helped along the way.
 
-Vivek9Patel (https://github.com/vivek9patel): After seeing Dustin's work, I came across Vivek's portfolio website which further inspired me to explore creative web clones and desktop-like UIs.
+🌟 Inspirations:
 
-Gianluca Jahn (https://github.com/gianlucajahn): Another talented creator whose projects gave me perspective on how web-based macOS experiences can be built and designed.
+Dustin Brett
+https://github.com/dustinbrett
+→ The very first spark! Dustin's projects on web-based Windows 10 OS blew my mind and made me want to build something nostalgic.
 
-Idea Evolution:
-Initially, I thought of recreating an early DOS-based macOS for fun.
+Vivek9Patel
+https://github.com/vivek9patel
+→ After discovering Dustin, I stumbled upon Vivek's portfolio — a super creative take on web-based Ubuntu desktop UIs that pushed me further.
 
-ChatGPT suggested aiming for something nostalgic like Mac OS X Tiger, and that hit the right nerve. I decided to proceed with that.
+Gianluca Jahn
+https://github.com/gianlucajahn
+→ Gianluca's macOS-style web apps gave me the design direction I was looking for. Big respect to his craft.
 
-Throughout the project, AI (especially ChatGPT) guided me with ideas, problem-solving, and learning new things.
 
-I also used Grok when stuck at tricky spots. Both AI systems deserve a thank-you for being my 24x7 mentor.
+🧠 Idea Evolution:
 
-While I took help of AI-generated code snippets, I made sure to understand, adapt, and improve the systems myself. Some pieces remained black-boxes, but as the old dev rule says: "If it works, don't touch it."
+Originally, I thought about making a DOS-style macOS — just for fun.
 
-Assets & Resources:
-flaticon.com — for icons and graphics.
+Then ChatGPT casually said: “Why not go for Mac OS X Tiger?”  
+...And boom, it clicked.
 
-Internet Archive — sourced original ICNS files, converted them to ICO using Python, and finally to AVIF format.
+From that moment on, AI tools like ChatGPT (and sometimes Grok) became my late-night pair programmers — helping me figure out bugs, brainstorm features, or just stay sane.
 
-reddit.com — for visual design inspiration.
+Of course, not everything generated was perfect. Some code was a mystery box — but as any dev will tell you:
+"If it works, don't touch it."
 
-freepik.com — used images for the desktop background.
 
-youtube.com — for various tutorials and learning resources.
+🧰 Assets & Resources:
 
-I'm thankful to everyone who contributed directly or indirectly to this learning journey.
-This project was not just about coding, but about understanding how systems work, improving incrementally, and having fun while building something nostalgic.
+flaticon.com — Used for most of the file and folder icons.
+
+Internet Archive — Where I found original ICNS files. I wrote a Python script to convert them into AVIF.
+
+reddit.com — For visual UI inspiration and old screenshots.
+
+freepik.com — Provided wallpaper images and UI graphics.
+
+youtube.com — Tutorials and deep dives to learn from.
+
+
+❤️ Final Note:
+
+This project isn't just a bunch of code.
+It's a journey of learning, struggling, growing, and nerding out over nostalgic design.
+
+Thanks to everyone who played a part — directly or indirectly.
+
+— Yashodhar Chavan
+
 ` },
                   'Resume.pdf': { type: 'file', href: 'https://yashodharchavan.github.io/books/Resume.pdf' },
-                  'User Guild.txt': { type: 'file', content: ''} 
+                  'User Guide.txt': {
+                    type: 'file', content: `
+Hey there 👋,
+
+Welcome to my macOS X Tiger recreation — a tribute to the golden days of computing, rebuilt lovingly in your browser!
+
+This isn't just a UI demo — it's a fully working system, complete with Finder, Terminal, Safari, XCode, and more. You're free to explore, break, and play with everything here.
+
+Here's a quick guide to help you get around:
+
+🖥️ Desktop
+- Right-click to add a new folder, file, or burn folder.
+- Files you create here stay right on your Desktop.
+- Drag files to Trash to delete them.
+
+📁 Finder
+- Use the sidebar to browse through folders like \`Desktop\`, \`Documents\`, \`Public\`, and more.
+- Use the search bar to find files (yes, it's scoped to your current path like real Spotlight!).
+- Click the gear icon (top right) or right-click anywhere to create folders/files.
+- Drag files to Trash to delete them.
+
+🗃️ Trash
+- Drop any unwanted file here. It vanishes instantly — no going back (just like the real Tiger days).
+
+📬 Mail
+- I wrote you a little email in the Inbox — check it out 🙂
+- As well as I am waiting for you to send some 😅
+
+🌐 Safari
+- You can search the web or type full URLs.
+- Some sites might not load (iframes are picky), but Google works great for queries.
+- There’s also a reload button in case things go wild.
+
+📖 Dictionary
+- Type a word to get its meaning, pronunciation, and example usage.
+- Only dictionary supported, no thesaurus — I'm working on it 🛠️
+
+📇 Contacts
+- Contains my contact info and Apple's — yep, even added my GitHub and LinkedIn!
+
+🧠 About Me
+- A mini app showing my skills, education, projects, and resume. If you're curious who made this — it's all in there.
+
+🖋️ TextEdit
+- Click any \`.txt\` file to open and edit.
+- Changes are saved when you close the window — just like the real deal.
+
+💻 Terminal (My Favorite!)
+- Supports commands like: \`ls\`, \`cd\`, \`touch\`, \`rm\`, \`mkdir\`, \`rmdir\`, \`cat\`, \`echo\`, \`clear\`, \`pwd\`, \`tree\`, and more.
+- Create files here and they'll instantly appear in Finder or Desktop.
+- Try something fun like: \`cowsay Hello!\` or \`fortune\`
+
+🛠️ XCode
+- Browse the actual source code of this entire OS right from within the OS itself.
+- Read-only for now. Explore how the magic was built.
+
+⌨️ Bonus Tip
+- Press \`Ctrl + Space\` to launch the Spotlight-style search from anywhere.
+
+—
+
+That's it!
+This was made with passion, nostalgia, AI help (yes, I admit it ❤️), and a ton of caffeine ☕.
+
+If you enjoyed exploring this — let me know!
+And if you're a recruiter or dev — I'd love to chat.
+
+Have fun & thanks for visiting 🧡
+
+— Yashodhar Chavan
+`},
                 }
               }
             }
