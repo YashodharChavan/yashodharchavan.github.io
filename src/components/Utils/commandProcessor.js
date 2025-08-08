@@ -390,10 +390,15 @@ mv <src> <dest>     Move/Rename file or move into directory (supports wildcards)
 echo <text>         Print text to output
 tree                Show folder structure
 date                Show current system date and time
+fortune             Random quote
+cowsay <msg>        ASCII cow message
+cal [-y | m y]      Show calendar
+head [-n num] <file> First 10/num lines (wildcards)
+tail [-n num] <file> Last 10/num lines (wildcards)
+wc <file>           Line/word/char count (wildcards)
+man                Show this help
 clear               Clear terminal
-exit                Exit terminal
-
-Type "man" to show this help message.`;
+exit                Exit terminal`
             }
 
             case 'exit':
@@ -401,7 +406,7 @@ Type "man" to show this help message.`;
 
             case 'fortune': {
                 const { text, author } = quotesy.random();
-                return `"${text}" \n- ${author}`;
+                return `"${text}" \n - ${author} `;
             }
             case 'cowsay': {
                 const message = args.join(" ");
@@ -468,7 +473,7 @@ Type "man" to show this help message.`;
                     updateCurrentPath(newPath);
                     return '';
                 }
-                return `cd: no such directory: ${target}`;
+                return `cd: no such directory: ${target} `;
             }
 
             case 'cat': {
@@ -614,7 +619,7 @@ Type "man" to show this help message.`;
                     if (isEmpty || force) {
                         delete dir.children[name];
                     } else {
-                        errors.push(`rmdir: failed to remove '${name}': Directory not empty (use -f to force)`);
+                        errors.push(`rmdir: failed to remove '${name}': Directory not empty(use - f to force)`);
                     }
                 });
 
@@ -736,7 +741,7 @@ Type "man" to show this help message.`;
 
 
             default:
-                return `Command not found: ${command}`;
+                return `Command not found: ${command} `;
         }
     }
 
