@@ -16,14 +16,14 @@ const Terminal = () => {
   const { fileSystem, updateFileSystem, currentPath, updateCurrentPath } = useFileSystem();
   const { runCommand, getPromptPath, getSuggestions } = createCommandProcessor(fileSystem, updateFileSystem, currentPath, updateCurrentPath);
 
-  const handleCommand = (command) => {
+  const handleCommand = async (command) => {
     const newHistory = [...history];
     newHistory.push({
       type: 'command',
       content: `${getPromptPath()}# ${command}`
     });
 
-    const output = runCommand(command);
+    const output = await runCommand(command);
     if (output) {
       newHistory.push({ type: 'output', content: output });
     }

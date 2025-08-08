@@ -1,6 +1,7 @@
 import quotesy from 'quotesy';
 import * as cowsay from "cowsay";
 
+
 function createCommandProcessor(fileSystemRef, updateFileSystem, currentPath, updateCurrentPath) {
     function generateMonthCalendar(month, year) {
         const days = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
@@ -177,6 +178,193 @@ function createCommandProcessor(fileSystemRef, updateFileSystem, currentPath, up
             case 'pwd':
                 return currentPath.join('/');
 
+            case 'whoami':
+                return 'yashodhar';
+
+            case 'head': {
+                let numLines = 10; // Default number of lines
+                let pattern;
+                let argIndex = 0;
+
+                // Check for -n option
+                if (args[0] === '-n' && args.length >= 2) {
+                    const parsedNum = parseInt(args[1]);
+                    if (isNaN(parsedNum) || parsedNum < 0) {
+                        return 'head: invalid number of lines: ' + args[1];
+                    }
+                    numLines = parsedNum;
+                    argIndex = 2;
+                }
+                pattern = args[argIndex];
+
+                if (!pattern) return 'head: missing operand';
+
+                const dir = getCurrentDir();
+                const children = dir.children || {};
+
+                // Handle wildcard pattern
+                const isWildcard = pattern.includes('*');
+                const regex = isWildcard
+                    ? new RegExp('^' + pattern.replace(/\./g, '\\.').replace(/\*/g, '.*') + '$')
+                    : null;
+
+                const matchedFiles = isWildcard
+                    ? Object.keys(children).filter(name => regex.test(name) && children[name].type === 'file')
+                    : [pattern];
+
+                if (matchedFiles.length === 0) {
+                    return `head: cannot open '${pattern}' for reading: No such file or directory`;
+                }
+
+                let output = '';
+                matchedFiles.forEach((fileName, index) => {
+                    const file = children[fileName];
+                    if (!file) {
+                        output += `head: cannot open '${fileName}' for reading: No such file or directory\n`;
+                        return;
+                    }
+                    if (file.type !== 'file') {
+                        output += `head: ${fileName}: Is a directory\n`;
+                        return;
+                    }
+
+                    // Add filename header if multiple files match
+                    if (matchedFiles.length > 1) {
+                        output += `${index > 0 ? '\n' : ''}==> ${fileName} <==\n`;
+                    }
+
+                    // Split content into lines and take first N (or fewer)
+                    const lines = (file.content || '').split('\n');
+                    const headLines = lines.slice(0, numLines).join('\n');
+                    output += headLines + (lines.length > 0 ? '\n' : '');
+                });
+
+                return output.trimEnd();
+            }
+
+            case 'tail': {
+                let numLines = 10; // Default number of lines
+                let pattern;
+                let argIndex = 0;
+
+                // Check for -n option
+                if (args[0] === '-n' && args.length >= 2) {
+                    const parsedNum = parseInt(args[1]);
+                    if (isNaN(parsedNum) || parsedNum < 0) {
+                        return 'tail: invalid number of lines: ' + args[1];
+                    }
+                    numLines = parsedNum;
+                    argIndex = 2;
+                }
+                pattern = args[argIndex];
+
+                if (!pattern) return 'tail: missing operand';
+
+                const dir = getCurrentDir();
+                const children = dir.children || {};
+
+                // Handle wildcard pattern
+                const isWildcard = pattern.includes('*');
+                const regex = isWildcard
+                    ? new RegExp('^' + pattern.replace(/\./g, '\\.').replace(/\*/g, '.*') + '$')
+                    : null;
+
+                const matchedFiles = isWildcard
+                    ? Object.keys(children).filter(name => regex.test(name) && children[name].type === 'file')
+                    : [pattern];
+
+                if (matchedFiles.length === 0) {
+                    return `tail: cannot open '${pattern}' for reading: No such file or directory`;
+                }
+
+                let output = '';
+                matchedFiles.forEach((fileName, index) => {
+                    const file = children[fileName];
+                    if (!file) {
+                        output += `tail: cannot open '${fileName}' for reading: No such file or directory\n`;
+                        return;
+                    }
+                    if (file.type !== 'file') {
+                        output += `tail: ${fileName}: Is a directory\n`;
+                        return;
+                    }
+
+                    // Add filename header if multiple files match
+                    if (matchedFiles.length > 1) {
+                        output += `${index > 0 ? '\n' : ''}==> ${fileName} <==\n`;
+                    }
+
+                    // Split content into lines, filter out trailing empty lines
+                    const lines = (file.content || '').split('\n').filter(line => line !== '');
+                    const tailLines = lines.slice(-numLines).join('\n');
+                    output += tailLines + (lines.length > 0 ? '\n' : '');
+                });
+
+                return output.trimEnd();
+            }
+
+
+            case 'wc': {
+                const pattern = args[0];
+                if (!pattern) return 'wc: missing operand';
+
+                const dir = getCurrentDir();
+                const children = dir.children || {};
+
+                // Handle wildcard pattern
+                const isWildcard = pattern.includes('*');
+                const regex = isWildcard
+                    ? new RegExp('^' + pattern.replace(/\./g, '\\.').replace(/\*/g, '.*') + '$')
+                    : null;
+
+                const matchedFiles = isWildcard
+                    ? Object.keys(children).filter(name => regex.test(name) && children[name].type === 'file')
+                    : [pattern];
+
+                if (matchedFiles.length === 0) {
+                    return `wc: ${pattern}: No such file or directory`;
+                }
+
+                let output = '';
+                let totalLines = 0, totalWords = 0, totalChars = 0;
+
+                matchedFiles.forEach((fileName, index) => {
+                    const file = children[fileName];
+                    if (!file) {
+                        output += `wc: ${fileName}: No such file or directory\n`;
+                        return;
+                    }
+                    if (file.type !== 'file') {
+                        output += `wc: ${fileName}: Is a directory\n`;
+                        return;
+                    }
+
+                    // Add filename header if multiple files match
+                    if (matchedFiles.length > 1) {
+                        output += `${index > 0 ? '\n' : ''}==> ${fileName} <==\n`;
+                    }
+
+                    // Calculate counts
+                    const content = file.content || '';
+                    const lines = content.split('\n').filter(line => line !== '').length;
+                    const words = content.split(/\s+/).filter(word => word !== '').length;
+                    const chars = content.length;
+                    output += `${lines.toString().padStart(8)} ${words.toString().padStart(8)} ${chars.toString().padStart(8)} ${fileName}\n`;
+
+                    // Accumulate totals
+                    totalLines += lines;
+                    totalWords += words;
+                    totalChars += chars;
+                });
+
+                // Add total if multiple files
+                if (matchedFiles.length > 1) {
+                    output += `${totalLines.toString().padStart(8)} ${totalWords.toString().padStart(8)} ${totalChars.toString().padStart(8)} total\n`;
+                }
+
+                return output.trimEnd();
+            }
+
             case 'date': {
                 const now = new Date();
 
@@ -220,7 +408,7 @@ Type "man" to show this help message.`;
                 if (!message) return "Usage: cowsay [message]";
                 return cowsay.say({ text: message });
             }
-            
+
             case 'cal': {
                 const now = new Date();
                 let month = now.getMonth();

@@ -134,8 +134,7 @@ const fileSystem = {
               Desktop: {
                 type: 'dir', children: {
                   'Credits.txt': {
-                    type: 'file', content: `
-Hey 👋
+                    type: 'file', content: `Hey 👋
 
 This project wouldn't have been possible without some amazing people and platforms. Here's a small thank-you to everyone who inspired and helped along the way.
 
@@ -191,9 +190,8 @@ Thanks to everyone who played a part — directly or indirectly.
 
 ` },
                   'Resume.pdf': { type: 'file', href: 'https://yashodharchavan.github.io/books/Resume.pdf' },
-                  'User Guide.txt': {
-                    type: 'file', content: `
-Hey there 👋,
+                  'User_Guide.txt': {
+                    type: 'file', content: `Hey there 👋,
 
 Welcome to my macOS X Tiger recreation — a tribute to the golden days of computing, rebuilt lovingly in your browser!
 
