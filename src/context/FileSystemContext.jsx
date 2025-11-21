@@ -7,6 +7,11 @@ export const FileSystemProvider = ({ children }) => {
   const [fileSystem, setFileSystem] = useState(initialFileSystem);
   const [currentPath, setCurrentPath] = useState(['/', 'Users', 'yashodhar']);
   const [pendingNewItem, setPendingNewItem] = useState(null);  // 👈 NEW
+  const [contextMenu, setContextMenu] = useState({
+    source: null,
+    position: { left: null, top: null },
+    path: null
+  })
 
   const updateFileSystem = (updatedFS) => {
     setFileSystem({ ...updatedFS });
@@ -90,6 +95,8 @@ export const FileSystemProvider = ({ children }) => {
       pendingNewItem,
       setPendingNewItem,
       addItemAtPath,
+      contextMenu,
+      setContextMenu
     }}>
       {children}
     </FileSystemContext.Provider>

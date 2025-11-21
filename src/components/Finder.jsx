@@ -245,6 +245,7 @@ const Finder = ({ optionalPath = null }) => {
       type: type, // 'file', 'folder', or 'burn-folder'
       isEditing: true,
       path: fileSystemPath,
+      source: 'finder',
     };
     setFileSystemItems((prev) => [...prev, newItem]);
   };

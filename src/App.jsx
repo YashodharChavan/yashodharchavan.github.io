@@ -28,6 +28,8 @@ const App = () => {
     return () => document.removeEventListener("click", handleClick);
   }, []);
   // Setup resize listener once
+  
+  
   useEffect(() => {
     const handleResize = () => setHeight(window.innerHeight);
     window.addEventListener("resize", handleResize);

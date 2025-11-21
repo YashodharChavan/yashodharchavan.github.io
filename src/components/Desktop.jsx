@@ -98,9 +98,12 @@ const Desktop = () => {
       type, // 'file', 'folder', or 'burn-folder'
       isEditing: true,
       path: '/Users/yashodhar/Desktop',
+      source: 'desktop'
     };
     setPendingNewItem(newItem);
   };
+
+
   useEffect(() => {
     const handleClick = () => {
       setContextMenuPosition({ left: null, top: null });
@@ -415,9 +418,18 @@ const Desktop = () => {
                         onChange={(e) => setNewItemName(e.target.value)}
                         onBlur={handleNameSubmit}
                         onKeyDown={(e) => {
-                          if (e.key === 'Enter') handleNameSubmit();
-                          if (e.key === 'Escape') setPendingNewItem(null);
+                          if (e.key === 'Enter') {
+                            e.stopPropagation();
+                            handleNameSubmit();
+                          }
+
+                          if (e.key === 'Escape') {
+                            e.preventDefault();
+                            e.stopPropagation();   // 🔥 THIS STOPS YOUR WINDOW FROM SHRINKING
+                            setPendingNewItem(null);
+                          }
                         }}
+
                         className="text-sm text-center mt-1 border rounded-4xl px-1 text-white outline-none w-11/12"
                         autoFocus
                       />

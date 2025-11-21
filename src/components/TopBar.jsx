@@ -76,6 +76,7 @@ const TopBar = ({ currentTopComponent }) => {
   useEffect(() => {
     const handleKeyDown = (e) => {
       if (e.key === 'Escape') {
+        e.preventDefault();
         setIsSpotlightActive(false);
       }
       if ((e.metaKey || e.ctrlKey) && e.code === 'Space') {
@@ -238,7 +239,7 @@ const TopBar = ({ currentTopComponent }) => {
     return () => clearInterval(interval); // Cleanup
   }, []);
   return (
-    <div className='w-full h-6 flex items-center select-none justify-between padding-top shadow-md rounded-tl-md rounded-tr-md' style={{
+    <div className='w-full h-6 flex relative items-center select-none justify-between padding-top shadow-md rounded-tl-md rounded-tr-md' style={{
       background: 'linear-gradient(to bottom, #FDFDFD 0%, #FDFDFD 25%, #F2F2F2 25%, #F2F2F2 75%, #FDFDFD 75%, #FDFDFD 100%)'
     }}>
 
@@ -323,7 +324,7 @@ const TopBar = ({ currentTopComponent }) => {
 
 
 
-      {isSpotlightActive && <div className="bg-red-400 h-8 w-96 z-10 right-44 top-6 absolute flex items-center justify-end gap-x-3"
+      {isSpotlightActive && <div className="bg-red-400 h-8 w-96 z-10 right-0 top-6 absolute flex items-center justify-end gap-x-3"
         style={{
           background: "linear-gradient(rgb(38, 129, 234) 30%, rgb(2, 84, 205) 70%)",
           boxShadow: "0px 7px 16px 0px #00000099",

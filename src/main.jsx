@@ -7,7 +7,7 @@ import { WindowManagerProvider } from './context/WindowManagerContext';
 import { FileSystemProvider } from './context/FileSystemContext';
 
 createRoot(document.getElementById('root')).render(
-
+  
     <WindowManagerProvider>
       <FileSystemProvider>
         <App />
