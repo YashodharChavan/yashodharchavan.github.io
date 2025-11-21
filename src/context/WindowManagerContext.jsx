@@ -39,6 +39,7 @@ export const WindowManagerProvider = ({ children }) => {
 
   // Open window and register if needed
   const openWindow = (id, title, icon, parameterText, parameterTitle, parameterPath) => {
+    id = id.split('-')[0]; // Handle cases like 'textedit-untitled'
     registerWindow(id, title, icon);
     bringToFront(id);  // <-- 🔥 Make sure it's always 
 
