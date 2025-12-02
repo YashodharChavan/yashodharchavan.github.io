@@ -90,11 +90,13 @@ const TopBar = ({ currentTopComponent }) => {
         spotlightRef.current &&
         !spotlightRef.current.contains(e.target) &&
         triggerRef.current &&
-        !triggerRef.current.contains(e.target)
+        !triggerRef.current.contains(e.target) &&
+        (!resultsContainerRef.current || !resultsContainerRef.current.contains(e.target)) // Add this line
       ) {
         setIsSpotlightActive(false);
       }
     };
+
     window.addEventListener('keydown', handleKeyDown);
     window.addEventListener('click', handleClickOutside);
 
@@ -171,6 +173,28 @@ const TopBar = ({ currentTopComponent }) => {
         }
       }
     }
+  };
+
+  const handleItemSelection = (index) => {
+    const selectedItem = results[index];
+    console.log(selectedItem); // Keep this if you want the log for debugging
+
+    if (selectedItem.type === 'file' || selectedItem.type === 'dir') {
+      // Open with Finder or TextEdit depending on type
+      if (selectedItem.type === 'dir') {
+        openWindow('finder', "", "", "", "", selectedItem.fullPath);
+      } else if (selectedItem.name.includes('.pdf')) {
+        openWindow('safari', '', '', '', selectedItem.name, selectedItem.href);
+      } else {
+        openWindow('textedit', "", "", "", selectedItem.name, selectedItem.fullPath);
+      }
+    } else {
+      openWindow(selectedItem.name.replaceAll(' ', '').toLowerCase());
+    }
+
+    setIsSpotlightActive(false);
+    setSearchString('');
+    setSelectedIndex(-1); // Reset selection for consistency
   };
 
   useEffect(() => {
@@ -348,6 +372,7 @@ const TopBar = ({ currentTopComponent }) => {
               className={`px-2 py-1 cursor-pointer flex items-center gap-x-2 ${index === selectedIndex ? 'bg-[#2A68C8] text-white' : ''
                 }`}
               style={{ padding: "4px" }}
+              onClick={() => handleItemSelection(index)}
             >
               <div className="flex items-center gap-x-0.5">
                 <img loading='lazy' src={item.icon} alt="" className="h-8" />
