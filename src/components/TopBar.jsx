@@ -38,6 +38,7 @@ const TopBar = ({ currentTopComponent }) => {
   const [currentMenuOpen, setCurrentMenuOpen] = React.useState('')
   const spotlightRef = React.useRef(null);
   const triggerRef = React.useRef(null);
+  const topBarRef = React.useRef(null);
   const { openWindow } = useWindowManager()
   const allFilesAndFolders = collectFilesAndFolders();
   const resultsContainerRef = React.useRef(null);
@@ -64,14 +65,27 @@ const TopBar = ({ currentTopComponent }) => {
     help: React.useRef(null),
   };
 
-  const menuPosition = {
+  const fallbackMenuPosition = {
     file: { x: 315, y: 24 },
     edit: { x: 357, y: 24 },
     view: { x: 401, y: 24 },
     go: { x: 451, y: 24 },
     window: { x: 488, y: 24 },
     help: { x: 561, y: 24 },
-  }
+  };
+
+  const getMenuPosition = (key) => {
+    const buttonRef = menuRefs[key];
+    if (!buttonRef?.current || !topBarRef.current) {
+      return fallbackMenuPosition[key] || { x: 0, y: 24 };
+    }
+    const rect = buttonRef.current.getBoundingClientRect();
+    const topBarRect = topBarRef.current.getBoundingClientRect();
+    return {
+      x: Math.round(rect.left - topBarRect.left),
+      y: Math.round(rect.bottom - topBarRect.top),
+    };
+  };
 
   useEffect(() => {
     const handleKeyDown = (e) => {
@@ -263,7 +277,7 @@ const TopBar = ({ currentTopComponent }) => {
     return () => clearInterval(interval); // Cleanup
   }, []);
   return (
-    <div className='w-full h-6 flex relative items-center select-none justify-between padding-top shadow-md rounded-tl-md rounded-tr-md' style={{
+    <div ref={topBarRef} className='w-full h-6 flex relative items-center select-none justify-between padding-top shadow-md rounded-tl-md rounded-tr-md' style={{
       background: 'linear-gradient(to bottom, #FDFDFD 0%, #FDFDFD 25%, #F2F2F2 25%, #F2F2F2 75%, #FDFDFD 75%, #FDFDFD 100%)'
     }}>
 
@@ -271,37 +285,37 @@ const TopBar = ({ currentTopComponent }) => {
         <img loading='lazy' src={topIcon} alt="" className='h-5' />
         <p className='font-semibold'>{currentTopComponent || "X Tiger"} </p>
         <div className="flex items-center gap-x-2">
-          <p className={`${currentMenuOpen === 'file' ? 'text-white' : ''} font-medium`}
+          <p ref={menuRefs.file} className={`${currentMenuOpen === 'file' ? 'text-white' : ''} font-medium`}
             style={{ background: currentMenuOpen === 'file' ? 'linear-gradient(rgb(38, 129, 234) 30%, rgb(2, 84, 205) 70%)' : '', padding: '0px 4px' }}
             onMouseEnter={(e) => setCurrentMenuOpen('file')}
             onMouseLeave={(e) => setCurrentMenuOpen(null)}
           >File</p>
 
-          <p className={`${currentMenuOpen === 'edit' ? 'text-white' : ''}`}
+          <p ref={menuRefs.edit} className={`${currentMenuOpen === 'edit' ? 'text-white' : ''}`}
             style={{ background: currentMenuOpen === 'edit' ? 'linear-gradient(rgb(38, 129, 234) 30%, rgb(2, 84, 205) 70%)' : '', padding: '0px 4px' }}
             onMouseEnter={(e) => setCurrentMenuOpen('edit')}
             onMouseLeave={(e) => setCurrentMenuOpen(null)}
           >Edit</p>
 
-          <p className={`${currentMenuOpen === 'view' ? 'text-white' : ''}`}
+          <p ref={menuRefs.view} className={`${currentMenuOpen === 'view' ? 'text-white' : ''}`}
             style={{ background: currentMenuOpen === 'view' ? 'linear-gradient(rgb(38, 129, 234) 30%, rgb(2, 84, 205) 70%)' : '', padding: '0px 4px' }}
             onMouseEnter={(e) => setCurrentMenuOpen('view')}
             onMouseLeave={(e) => setCurrentMenuOpen(null)}
           >View</p>
 
-          <p className={`${currentMenuOpen === 'go' ? 'text-white' : ''}`}
+          <p ref={menuRefs.go} className={`${currentMenuOpen === 'go' ? 'text-white' : ''}`}
             style={{ background: currentMenuOpen === 'go' ? 'linear-gradient(rgb(38, 129, 234) 30%, rgb(2, 84, 205) 70%)' : '', padding: '0px 4px' }}
             onMouseEnter={(e) => setCurrentMenuOpen('go')}
             onMouseLeave={(e) => setCurrentMenuOpen(null)}
           >Go</p>
 
-          <p className={`${currentMenuOpen === 'window' ? 'text-white' : ''}`}
+          <p ref={menuRefs.window} className={`${currentMenuOpen === 'window' ? 'text-white' : ''}`}
             style={{ background: currentMenuOpen === 'window' ? 'linear-gradient(rgb(38, 129, 234) 30%, rgb(2, 84, 205) 70%)' : '', padding: '0px 4px' }}
             onMouseEnter={(e) => setCurrentMenuOpen('window')}
             onMouseLeave={(e) => setCurrentMenuOpen(null)}
           >Window</p>
 
-          <p className={`${currentMenuOpen === 'help' ? 'text-white' : ''}`}
+          <p ref={menuRefs.help} className={`${currentMenuOpen === 'help' ? 'text-white' : ''}`}
             style={{ background: currentMenuOpen === 'help' ? 'linear-gradient(rgb(38, 129, 234) 30%, rgb(2, 84, 205) 70%)' : '', padding: '0px 4px' }}
             onMouseEnter={(e) => setCurrentMenuOpen('help')}
             onMouseLeave={(e) => setCurrentMenuOpen(null)}
@@ -325,8 +339,8 @@ const TopBar = ({ currentTopComponent }) => {
         <div
           className="absolute bg-white shadow-md p-2"
           style={{
-            top: `${menuPosition[currentMenuOpen].y}px`,
-            left: `${menuPosition[currentMenuOpen].x}px`,
+            top: `${getMenuPosition(currentMenuOpen).y}px`,
+            left: `${getMenuPosition(currentMenuOpen).x}px`,
             zIndex: 1000,
             boxShadow: 'rgb(118, 118, 118) -1px 1px 6px 0px'
           }}
