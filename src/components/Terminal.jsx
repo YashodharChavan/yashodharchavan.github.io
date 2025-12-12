@@ -1,227 +1,206 @@
-import React, { useState, useRef, useEffect, memo } from 'react';
-import SimpleFrame from './SimpleFrame';
-import '../index.css';
-import { createCommandProcessor } from './Utils/commandProcessor';
-import { useFileSystem } from '../context/FileSystemContext';
+import React, { useState, useRef, useEffect, memo } from "react";
+import SimpleFrame from "./SimpleFrame";
+import "../index.css";
+import { createCommandProcessor } from "./Utils/commandProcessor";
+import { useFileSystem } from "../context/FileSystemContext";
+import NanoEditor from "./NanoEditor";
 
 const Terminal = () => {
   const [history, setHistory] = useState([
-    { type: 'text', content: 'Last login: Thu Jun 5 on ttys000 (type man command for more details)' }
+    { type: "text", content: "Last login: Thu Jun 5 on ttys000 (type man command for more details)" }
   ]);
-  const [input, setInput] = useState('');
-  const terminalRef = useRef(null);
+  
+
+  const [input, setInput] = useState("");
+  
   const inputRef = useRef(null);
-  const [exitFlag, setExitFlag] = useState(false);
+  const terminalRef = useRef(null);
+
+  const [nano, setNano] = useState(null); // { filename, content }
+
   const [commandHistory, setCommandHistory] = useState([]);
   const [historyIndex, setHistoryIndex] = useState(-1);
 
-  const { fileSystem, updateFileSystem, currentPath, updateCurrentPath } = useFileSystem();
-  const { runCommand, getPromptPath, getSuggestions } = createCommandProcessor(fileSystem, updateFileSystem, currentPath, updateCurrentPath);
+  const { fileSystem, updateFileSystem, currentPath, updateCurrentPath } =
+    useFileSystem();
 
+  const { runCommand, getPromptPath, getSuggestions } =
+    createCommandProcessor(fileSystem, updateFileSystem, currentPath, updateCurrentPath);
+
+  /* ------------------- RUN COMMAND ------------------- */
   const handleCommand = async (command) => {
     const trimmed = command.trim();
-
-    if (trimmed.length > 0) {
-      setCommandHistory(prev => [...prev, trimmed]);
-    }
-
+    if (trimmed.length) setCommandHistory((prev) => [...prev, trimmed]);
     setHistoryIndex(-1);
 
-    const newHistory = [...history];
-    newHistory.push({
-      type: 'command',
+    const newHistory = [...history, {
+      type: "command",
       content: `${getPromptPath()}# ${command}`
-    });
+    }];
 
     const output = await runCommand(command);
 
-    // Handle special flags
-    if (output === "__CLEAR__") {
-      setHistory([]);
-      setInput('');
-      return;
-    }
-    if (output === "__EXIT__") {
-      setExitFlag(true);
+    // NANO MODE
+    if (output?.__NANO__) {
+      setNano({
+        filename: output.__NANO__.filename,
+        content: output.__NANO__.content
+      });
+      setInput("");
       return;
     }
 
-    // IMPORTANT FIX:
-    // Always print a new line, even if output is empty.
     if (output !== null) {
       newHistory.push({
         type: "output",
-        content: output === "" ? " " : output  // <-- key fix
+        content: output === "" ? " " : output
       });
     }
 
     setHistory(newHistory);
-    setInput('');
+    setInput("");
   };
 
-
-
+  /* ------------------- TERMINAL KEYS ------------------- */
   const handleKeyDown = (e) => {
+    if (e.key === "Enter") return handleCommand(input);
 
-    // ENTER → Run command
-    if (e.key === "Enter") {
-      handleCommand(input);
-      return;
-    }
-
-    // CTRL + C → Cancel current input, do NOT store in history
-    if (e.key === "c" && e.ctrlKey) {
+    if (e.ctrlKey && e.key === "c") {
       e.preventDefault();
-
-      setHistory(prev => [
+      setHistory((prev) => [
         ...prev,
         { type: "command", content: `${getPromptPath()}# ${input}` },
         { type: "output", content: "^C" }
       ]);
-
       setInput("");
       setHistoryIndex(-1);
       return;
     }
 
-    // UP ARROW → Previous command
+    // History navigation
     if (e.key === "ArrowUp") {
       e.preventDefault();
-
       if (commandHistory.length === 0) return;
 
-      let newIndex = historyIndex;
-      if (newIndex === -1) {
-        // first time pressing up, start at last command
-        newIndex = commandHistory.length - 1;
-      } else if (newIndex > 0) {
-        newIndex--;
-      }
+      let idx = historyIndex === -1 ? commandHistory.length - 1 : historyIndex - 1;
+      if (idx < 0) idx = 0;
 
-      setHistoryIndex(newIndex);
-      setInput(commandHistory[newIndex]);
+      setHistoryIndex(idx);
+      setInput(commandHistory[idx]);
       return;
     }
 
-    // DOWN ARROW → Next command OR blank
     if (e.key === "ArrowDown") {
       e.preventDefault();
+      if (historyIndex === -1) return;
 
-      if (commandHistory.length === 0) return;
-
-      if (historyIndex === -1) return; // nothing to scroll
-
-      let newIndex = historyIndex + 1;
-
-      if (newIndex >= commandHistory.length) {
-        // reached the end → blank input
+      const idx = historyIndex + 1;
+      if (idx >= commandHistory.length) {
         setHistoryIndex(-1);
-        setInput('');
+        setInput("");
         return;
       }
 
-      setHistoryIndex(newIndex);
-      setInput(commandHistory[newIndex]);
+      setHistoryIndex(idx);
+      setInput(commandHistory[idx]);
       return;
     }
 
-    // TAB → Autocomplete (your existing logic)
+    // TAB → autocomplete OR space
     if (e.key === "Tab") {
       e.preventDefault();
+      if (!input.trim()) {
+        setInput(" ");
+        return;
+      }
 
       const [cmd, ...args] = input.trim().split(/\s+/);
-      const currentArg = args.length > 0 ? args[args.length - 1] : '';
-
+      const currentArg = args[args.length - 1] || "";
       const suggestions = getSuggestions(cmd, currentArg);
-
-      if (suggestions.length === 0) return;
 
       if (suggestions.length === 1) {
         const { name, isDir, prefix } = suggestions[0];
-
-        const completed =
-          (prefix ? prefix + "/" : "") +
-          name +
-          (isDir ? "/" : "");
-
+        const completed = (prefix ? prefix + "/" : "") + name + (isDir ? "/" : "");
         const newArgs = [...args.slice(0, -1), completed];
-        const newInput = [cmd, ...newArgs].join(" ");
-
-        setInput(newInput);
+        setInput([cmd, ...newArgs].join(" "));
         return;
       }
 
-      // Multiple matches → show in terminal
-      setHistory(prev => [
-        ...prev,
-        { type: "output", content: suggestions.map(s => s.name).join("  ") }
-      ]);
+      if (suggestions.length > 1) {
+        setHistory((prev) => [
+          ...prev,
+          { type: "output", content: suggestions.map((s) => s.name).join("  ") }
+        ]);
+      }
+
+      return;
     }
-
-
   };
 
-
-
-
+  /* ------------------- AUTO SCROLL ------------------- */
   useEffect(() => {
-    const scrollToBottom = () => {
-      if (terminalRef.current) {
-        terminalRef.current.scrollTo({
-          top: terminalRef.current.scrollHeight,
-          behavior: 'smooth', // or 'auto' for instant
-        });
-      }
-    };
-
-    // Use a slight delay to ensure layout is committed
-    const raf = requestAnimationFrame(scrollToBottom);
-
-    return () => cancelAnimationFrame(raf);
+    terminalRef.current?.scrollTo({ top: terminalRef.current.scrollHeight });
   }, [history]);
-  useEffect(() => {
-    inputRef.current.focus();
-  }, []);
 
+  /* Focus input */
+  useEffect(() => inputRef.current?.focus(), []);
+
+  /* ------------------- RENDER ------------------- */
   return (
     <SimpleFrame
-      title="Terminal — Bash — "
+      title="Terminal — Bash —"
       id="terminal"
       icon="Terminal"
-      minimized={window.minimized}
       height="300"
       width="500"
       minHeight="300"
       minWidth="400"
-      showDimensions={true}
       isResizable={true}
-      exitFlag={exitFlag}
     >
-      <div
-        ref={terminalRef}
-        className="terminal p-2 h-full overflow-y-auto text-[13px] font-mono bg-white text-black break-words"
-        onClick={() => inputRef.current.focus()}
-        style={{ fontFamily: 'Monaco' }}
-      >
-        {history.map((entry, idx) => (
-          <div key={idx} className="mb-[2px] whitespace-pre-wrap break-words">
-            {entry.content}
+      {nano ? (
+        <NanoEditor
+          filename={nano.filename}
+          initialContent={nano.content}
+          onSave={(newText) => {
+            let dir = fileSystem["/"];
+            for (let i = 1; i < currentPath.length; i++) {
+              dir = dir.children[currentPath[i]];
+            }
+            dir.children[nano.filename] = { type: "file", content: newText };
+            updateFileSystem({ ...fileSystem });
+
+            setHistory((prev) => [
+              ...prev,
+              { type: "output", content: `[ Wrote ${newText.split("\n").length} lines ]` }
+            ]);
+          }}
+          onExit={() => setNano(null)}
+        />
+      ) : (
+        <div
+          ref={terminalRef}
+          className="terminal p-2 h-full overflow-y-auto font-mono text-black bg-white text-[13px]"
+          onClick={() => inputRef.current.focus()}
+        >
+          {history.map((entry, idx) => (
+            <div key={idx} className="mb-[2px] whitespace-pre-wrap">
+              {entry.content}
+            </div>
+          ))}
+
+          <div className="flex">
+            <span className="mr-1">{`${getPromptPath()}#`}</span>
+            <input
+              ref={inputRef}
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              onKeyDown={handleKeyDown}
+              spellCheck={false}
+              className="bg-transparent flex-grow outline-none"
+            />
           </div>
-        ))}
-        <div className="flex flex-wrap break-words">
-          <span className="mr-1">{`${getPromptPath()}#`}</span>
-          <input
-            ref={inputRef}
-            type="text"
-            value={input}
-            spellCheck={false}
-            onChange={(e) => setInput(e.target.value)}
-            onKeyDown={handleKeyDown}
-            className="flex-grow outline-none bg-transparent"
-            style={{ padding: "0px 8px" }}
-          />
         </div>
-      </div>
+      )}
     </SimpleFrame>
   );
 };

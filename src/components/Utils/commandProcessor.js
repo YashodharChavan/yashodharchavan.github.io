@@ -787,6 +787,18 @@ exit                Exit terminal`
                 return errors.join("\n") || null;
             }
 
+            case "nano": {
+                const filename = args[0];
+                if (!filename) return "nano: missing filename";
+
+                const dir = getCurrentDir();
+                const file = dir.children[filename];
+
+                // Open existing or create blank
+                const content = file?.content || "";
+
+                return { __NANO__: { filename, content } };
+            }
 
 
             case "mv": {
