@@ -70,7 +70,7 @@ const AboutMe = () => {
             width="800"
             height="500"
             minHeight="450"
-            minWidth="700"
+            minWidth="755"
             isResizable={true}
             hasPadding={false}
             hasDrawer={false}

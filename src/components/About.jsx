@@ -7,7 +7,7 @@ import art1 from '../assets/icons/art1.avif'
 import art2 from '../assets/icons/art2.avif'
 import art3 from '../assets/icons/art3.avif'
 import React, { useRef, memo } from 'react';
-
+import leetcode from '../assets/icons/leetcode.svg'
 
 const About = () => {
     const journeyRef = useRef(null);
@@ -18,7 +18,7 @@ const About = () => {
 
     return (
         <>
-            
+
             <div className="topbar font-bold text-lg sm:text-xl" style={{ padding: "12px 24px" }}>Yashodhar</div>
             <hr className="gradient-hr" />
             <div className="landing-container w-full relative bg-[#ECF2F9] background-inset" style={{ padding: "64px 24px" }}>
@@ -152,10 +152,10 @@ const About = () => {
                 <h1 className="text-3xl font-bold text-center underline decoration-wavy decoration-red-500" style={{ padding: "12px 0px" }}>
                     Contact Me
                 </h1>
-                <div className="contact-list w-full h-fit grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8" style={{ padding: "18px" }}>
+                <div className="contact-list w-full h-fit grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8" style={{ padding: "18px" }}>
                     <div className="github flex items-center flex-col gap-y-3 text-center">
                         <p className="text-2xl font-bold">Github</p>
-                        <p className="text-md font-bold text-gray-500">yashodharchavan</p>
+                        {/* <p className="text-md font-bold text-gray-500">yashodharchavan</p> */}
                         <a
                             className="flex items-center gap-x-2 select-none rounded-full w-fit text-white font-semibold cursor-pointer gradient-button transition-transform duration-300"
                             style={{ padding: "4px 8px" }}
@@ -169,7 +169,7 @@ const About = () => {
                     </div>
                     <div className="linkedin flex items-center flex-col gap-y-3 text-center">
                         <p className="text-2xl font-bold">LinkedIn</p>
-                        <p className="text-md font-bold text-gray-500">Yashodhar Chavan</p>
+                        {/* <p className="text-md font-bold text-gray-500">Yashodhar Chavan</p> */}
                         <a
                             className="flex items-center gap-x-2 select-none rounded-full w-fit text-white font-semibold cursor-pointer gradient-button transition-transform duration-300"
                             style={{ padding: "4px 8px" }}
@@ -184,7 +184,7 @@ const About = () => {
                     </div>
                     <div className="email flex items-center flex-col gap-y-3 text-center">
                         <p className="text-2xl font-bold">Mail</p>
-                        <p className="text-md font-bold text-gray-500 break-words">yashodharvchavan@gmail.com</p>
+                        {/* <p className="text-md font-bold text-gray-500 break-words">yashodharvchavan@gmail.com</p> */}
                         <a
                             className="flex items-center gap-x-2 select-none rounded-full w-fit text-white font-semibold cursor-pointer gradient-button transition-transform duration-300"
                             style={{ padding: "4px 8px" }}
@@ -194,6 +194,20 @@ const About = () => {
                         >
                             <img loading="lazy" src={email} alt="" className="w-4 h-4 sm:w-5 sm:h-5" />
                             <p>Mail me</p>
+                        </a>
+                    </div>
+                    <div className="leetcode flex items-center flex-col gap-y-3 text-center">
+                        <p className="text-2xl font-bold">LeetCode</p>
+                        {/* <p className="text-md font-bold text-gray-500">yashodhar_chavan</p> */}
+                        <a
+                            className="flex items-center gap-x-2 select-none rounded-full w-fit text-white font-semibold cursor-pointer gradient-button transition-transform duration-300"
+                            style={{ padding: "4px 8px" }}
+                            href="https://leetcode.com/u/YashodharChavan/"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >
+                            <img loading="lazy" src={leetcode} alt="" className="w-4 h-4 sm:w-5 sm:h-5" />
+                            <p>Visit</p>
                         </a>
                     </div>
                 </div>
