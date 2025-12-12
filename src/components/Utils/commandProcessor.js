@@ -3,6 +3,8 @@ import * as cowsay from "cowsay";
 
 
 function createCommandProcessor(fileSystemRef, updateFileSystem, currentPath, updateCurrentPath) {
+    const normalizeName = (name) => name.replace(/\/+$/, "");
+
     function generateMonthCalendar(month, year) {
         const days = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
         const firstDay = new Date(year, month, 1).getDay();
@@ -120,9 +122,35 @@ function createCommandProcessor(fileSystemRef, updateFileSystem, currentPath, up
     function getSuggestions(command, partial) {
         if (!partial) return [];
 
-        const dir = getCurrentDir();
-        return Object.keys(dir.children).filter(name => name.startsWith(partial));
+        const parts = partial.split('/');
+        const lastPart = parts.pop();       // the part being typed
+        const pathPart = parts.join('/');   // folders before it
+
+        // Resolve base directory
+        let baseDir;
+        if (pathPart === '' || pathPart === '.') {
+            baseDir = getCurrentDir();
+        } else {
+            const resolvedPath = resolvePath(pathPart);
+            if (!resolvedPath) return [];
+            baseDir = fileSystemRef['/'];
+            for (let i = 1; i < resolvedPath.length; i++) {
+                baseDir = baseDir.children[resolvedPath[i]];
+            }
+        }
+
+        const children = baseDir.children || {};
+
+        return Object.keys(children)
+            .filter(name => name.startsWith(lastPart))
+            .map(name => ({
+                name,
+                isDir: children[name].type === "dir" || children[name].type === "burn",
+                prefix: pathPart // Used later to reconstruct full path!
+            }));
     }
+
+
 
     function resolvePath(target) {
         if (!target || target === '~') {
@@ -176,7 +204,8 @@ function createCommandProcessor(fileSystemRef, updateFileSystem, currentPath, up
 
         switch (command) {
             case 'pwd':
-                return currentPath.join('/');
+                return '/' + currentPath.slice(1).join('/');
+
 
             case 'whoami':
                 return 'yashodhar';
@@ -449,42 +478,68 @@ exit                Exit terminal`
             case 'ls': {
                 const dir = getCurrentDir();
                 const children = dir.children || {};
+                const names = Object.keys(children).sort();
 
-                const pattern = args[0]; // like *.txt or file*
+                const pattern = args[0];
 
-                if (pattern && pattern.includes('*')) {
-                    const regexPattern = '^' + pattern.replace(/\./g, '\\.').replace(/\*/g, '.*') + '$';
-                    const regex = new RegExp(regexPattern);
-
-                    const matched = Object.keys(children).filter(name => regex.test(name));
-                    // return matched.join('  ') || `ls: no matches found for '${pattern}'`;
-                    return ''
+                // If no pattern → list everything
+                if (!pattern) {
+                    return names.join('  ');
                 }
 
-                // No wildcard → list everything
-                return Object.keys(children).join('  ');
+                // Wildcard support: *.txt, f*, data??.log
+                if (pattern.includes('*')) {
+
+                    // Convert wildcard to regex: "*.txt" → /^.*\.txt$/ 
+                    const regexPattern = '^' + pattern
+                        .replace(/\./g, '\\.')
+                        .replace(/\*/g, '.*') + '$';
+
+                    const regex = new RegExp(regexPattern);
+
+                    const matched = names.filter(name => regex.test(name));
+
+                    if (matched.length === 0) {
+                        return `ls: no matches found: ${pattern}`;
+                    }
+
+                    return matched.join('  ');
+                }
+
+                // No wildcard → literal lookup
+                return children[pattern] ? pattern : `ls: cannot access '${pattern}': No such file or directory`;
             }
+
 
 
             case 'cd': {
-                const target = args[0];
+                let target = args[0] || '';
+                target = normalizeName(target);
+
                 const newPath = resolvePath(target);
                 if (newPath) {
                     updateCurrentPath(newPath);
-                    return '';
+                    return null;
                 }
-                return `cd: no such directory: ${target} `;
+                return `cd: no such directory: ${target}`;
             }
 
+
             case 'cat': {
-                const fileName = args[0];
+                let fileName = args[0];
                 if (!fileName) return 'cat: missing operand';
+
+                fileName = normalizeName(fileName);
+
                 const dir = getCurrentDir();
                 const file = dir.children[fileName];
+
                 if (!file) return `cat: ${fileName}: No such file or directory`;
                 if (file.type !== 'file') return `cat: ${fileName}: Is a directory`;
+
                 return file.content;
             }
+
 
             case 'write': {
                 const fileName = args[0];
@@ -495,7 +550,7 @@ exit                Exit terminal`
                 dir.children[fileName] = { type: 'file', content: content };
                 updateFileSystem({ ...fileSystemRef });
                 console.log(dir.children[fileName])
-                return '';
+                return null;
             }
 
             case 'append': {
@@ -512,69 +567,77 @@ exit                Exit terminal`
                     return `append: ${fileName} is a directory`;
                 }
                 updateFileSystem({ ...fileSystemRef });
-                return '';
+                return null;
             }
 
             case 'mkdir': {
-                const name = args[0];
+                let name = args[0];
                 if (!name) return 'mkdir: missing operand';
+
+                name = normalizeName(name);
+
                 const dir = getCurrentDir();
                 if (dir.children[name]) return 'mkdir: directory already exists';
+
                 dir.children[name] = { type: 'dir', children: {} };
                 updateFileSystem({ ...fileSystemRef });
-                return '';
+                return null;
             }
+
 
             case 'echo':
                 return args.join(' ');
 
             case 'touch': {
-                const fileName = args[0];
+                let fileName = args[0];
                 if (!fileName) return 'touch: missing operand';
+
+                fileName = normalizeName(fileName);
+
                 const dir = getCurrentDir();
                 if (dir.children[fileName]) return 'touch: file already exists';
                 if (!fileName.includes('.')) return 'touch: cannot create directories';
+
                 dir.children[fileName] = { type: 'file', content: '' };
                 updateFileSystem({ ...fileSystemRef });
-                return '';
+                return null;
             }
 
+
             case 'rm': {
-                const fileName = args[0];
+                let fileName = args[0];
                 if (!fileName) return 'rm: missing operand';
+
+                fileName = normalizeName(fileName);
 
                 const dir = getCurrentDir();
                 const children = dir.children || {};
 
-                // If fileName contains wildcard (*), treat as pattern
+                // wildcard mode
                 if (fileName.includes('*')) {
-                    // Convert wildcard pattern to regex
                     const regexPattern = '^' + fileName.replace(/\./g, '\\.').replace(/\*/g, '.*') + '$';
                     const regex = new RegExp(regexPattern);
 
-                    const matchingFiles = Object.keys(children).filter(
-                        name => regex.test(name) && children[name].type !== 'dir' && children[name].type !== 'burn'
+                    const matches = Object.keys(children).filter(
+                        name => regex.test(name) && children[name].type === 'file'
                     );
 
-                    if (matchingFiles.length === 0) {
-                        return `rm: cannot remove '${fileName}': No matching files`;
-                    }
+                    if (matches.length === 0) return `rm: cannot remove '${fileName}': No matching files`;
 
-                    matchingFiles.forEach(name => delete children[name]);
+                    matches.forEach(name => delete children[name]);
                     updateFileSystem({ ...fileSystemRef });
-                    return '';
+                    return null;
                 }
 
-                // No wildcard, proceed as usual
+                // literal mode
                 if (!children[fileName]) return `rm: cannot remove '${fileName}': No such file or directory`;
-                if (children[fileName].type === 'dir' || children[fileName].type === 'burn') {
-                    return `${fileName} is a directory`;
-                }
+                if (children[fileName].type !== 'file') return `${fileName} is a directory`;
 
                 delete children[fileName];
                 updateFileSystem({ ...fileSystemRef });
-                return '';
+                return null;
             }
+
 
 
             case 'rmdir': {
@@ -588,15 +651,17 @@ exit                Exit terminal`
                     return true;
                 });
 
-                const pattern = filteredArgs[0];
+                let pattern = filteredArgs[0];
                 if (!pattern) return 'rmdir: missing operand';
+
+                pattern = normalizeName(pattern);
 
                 const dir = getCurrentDir();
                 const children = dir.children || {};
 
-                // Wildcard support
                 const escapeRegex = s =>
                     s.replace(/[-[\]/{}()+?.\\^$|]/g, '\\$&').replace(/\*/g, '.*');
+
                 const isWildcard = pattern.includes('*');
                 const regex = isWildcard ? new RegExp('^' + escapeRegex(pattern) + '$') : null;
 
@@ -606,9 +671,8 @@ exit                Exit terminal`
                     return match && (node.type === 'dir' || node.type === 'burn');
                 });
 
-                if (targets.length === 0) {
+                if (targets.length === 0)
                     return `rmdir: failed to remove '${pattern}': No matching directories`;
-                }
 
                 const errors = [];
 
@@ -617,14 +681,13 @@ exit                Exit terminal`
                     const isEmpty = !node.children || Object.keys(node.children).length === 0;
 
                     if (isEmpty || force) {
-                        delete dir.children[name];
+                        delete children[name];
                     } else {
-                        errors.push(`rmdir: failed to remove '${name}': Directory not empty(use - f to force)`);
+                        errors.push(`rmdir: failed to remove '${name}': Directory not empty (use -f to force)`);
                     }
                 });
 
                 updateFileSystem({ ...fileSystemRef });
-
                 return errors.join('\n') || '';
             }
 
@@ -639,62 +702,123 @@ exit                Exit terminal`
                 return '.\n' + printTree(dir);
             }
 
-            case 'cp': {
-                const [src, dest] = args;
-                if (!src || !dest) return 'cp: missing file operand';
+            case "cp": {
+                const [srcPattern, destArg] = args;
+                if (!srcPattern || !destArg) return "cp: missing file operand";
 
-                const dir = getCurrentDir();
-                const children = dir.children || {};
+                const cwd = getCurrentDir();
+                const children = cwd.children || {};
 
-                // Handle wildcard pattern
-                const isWildcard = src.includes('*');
+                // Wildcard handling
+                const isWildcard = srcPattern.includes("*");
                 const regex = isWildcard
-                    ? new RegExp('^' + src.replace(/\./g, '\\.').replace(/\*/g, '.*') + '$')
+                    ? new RegExp("^" + srcPattern.replace(/\./g, "\\.").replace(/\*/g, ".*") + "$")
                     : null;
 
-                const matches = isWildcard
-                    ? Object.entries(children).filter(([name, node]) => regex.test(name) && node.type === 'file')
-                    : [[src, children[src]]];
+                const matched = isWildcard
+                    ? Object.keys(children).filter(n => regex.test(n) && children[n].type === "file")
+                    : [srcPattern];
 
-                if (matches.length === 0 || matches.some(([_, node]) => !node)) {
-                    return `cp: cannot stat '${src}': No such file or directory`;
+                if (matched.length === 0)
+                    return `cp: cannot stat '${srcPattern}': No such file or directory`;
+
+                // Resolve destination path
+                const destResolved = resolvePath(destArg);
+
+                let destParent = null;
+                let destName = null;
+                let destNode = null;
+                let destExists = false;
+
+                if (destResolved) {
+                    // Full path (folder or file)
+                    destParent = fileSystemRef["/"];
+                    for (let i = 1; i < destResolved.length - 1; i++) {
+                        destParent = destParent.children[destResolved[i]];
+                    }
+                    destName = destResolved[destResolved.length - 1];
+                    destNode = destParent.children[destName];
+                    destExists = !!destNode;
+                } else {
+                    // Destination is relative to current directory
+                    destParent = cwd;
+                    destName = destArg;
+                    destNode = cwd.children[destName];
+                    destExists = !!destNode;
                 }
 
-                // Check if destination is a folder
-                const destNode = children[dest];
-                const isDestFolder = destNode?.type === 'dir' || destNode?.type === 'burn';
+                const errors = [];
 
-                for (const [name, node] of matches) {
-                    if (!node || node.type !== 'file') {
-                        return `cp: -r not specified; omitting directory '${name}'`;
+                for (const name of matched) {
+                    const node = children[name];
+                    if (!node || node.type !== "file") {
+                        errors.push(`cp: cannot stat '${name}'`);
+                        continue;
                     }
 
-                    if (isDestFolder) {
-                        destNode.children[name] = { ...node };
-                    } else {
-                        // If not wildcard, and dest is a file name, rename
-                        const targetName = isWildcard ? name : dest;
-                        children[targetName] = { ...node };
+                    // --- Case 1: Destination is existing folder ---
+                    if (destExists && (destNode.type === "dir" || destNode.type === "burn")) {
+                        const newName = name; // same file name inside folder
+
+                        // Deep copy the file
+                        destNode.children[newName] = {
+                            type: "file",
+                            content: node.content
+                        };
+
+                        continue;
                     }
+
+                    // --- Case 2: Multiple sources but dest is NOT a folder → error ---
+                    if (matched.length > 1 && !destExists) {
+                        errors.push(`cp: target '${destArg}' is not a directory`);
+                        continue;
+                    }
+
+                    // --- Case 3: Single source and dest does not exist → rename copy ---
+                    destParent.children[destName] = {
+                        type: "file",
+                        content: node.content
+                    };
                 }
 
                 updateFileSystem({ ...fileSystemRef });
-                return '';
+
+                return errors.join("\n") || null;
             }
 
 
-            case 'mv': {
-                const [srcPattern, dest] = args;
-                if (!srcPattern || !dest) return 'mv: missing file operand';
+
+            case "mv": {
+                const [srcPattern, destArg] = args;
+                if (!srcPattern || !destArg) return "mv: missing file operand";
 
                 const dir = getCurrentDir();
                 const children = dir.children || {};
 
-                const escapeRegex = s =>
-                    s.replace(/[-[\]/{}()+?.\\^$|]/g, '\\$&').replace(/\*/g, '.*');
+                // --- Resolve destination path ---
+                const destPath = resolvePath(destArg);
+                let destParent = null;
+                let destName = null;
 
-                const isWildcard = srcPattern.includes('*');
-                const regex = isWildcard ? new RegExp('^' + escapeRegex(srcPattern) + '$') : null;
+                if (destPath) {
+                    // Destination is a full path
+                    destParent = fileSystemRef["/"];
+                    for (let i = 1; i < destPath.length - 1; i++) {
+                        destParent = destParent.children[destPath[i]];
+                    }
+                    destName = destPath[destPath.length - 1];
+                } else {
+                    // Destination is NOT a path → treat literally
+                    destParent = dir;
+                    destName = destArg;
+                }
+
+                const escapeRegex = s =>
+                    s.replace(/[-[\]/{}()+?.\\^$|]/g, "\\$&").replace(/\*/g, ".*");
+
+                const isWildcard = srcPattern.includes("*");
+                const regex = isWildcard ? new RegExp("^" + escapeRegex(srcPattern) + "$") : null;
 
                 const matchedFiles = isWildcard
                     ? Object.keys(children).filter(name => regex.test(name))
@@ -704,40 +828,49 @@ exit                Exit terminal`
                     return `mv: cannot stat '${srcPattern}': No such file or directory`;
                 }
 
-                const destNode = children[dest];
-                const isDestDir = destNode && (destNode.type === 'dir' || destNode.type === 'burn');
                 const errors = [];
 
-                matchedFiles.forEach(name => {
+                for (const name of matchedFiles) {
                     const fileNode = children[name];
                     if (!fileNode) {
                         errors.push(`mv: cannot stat '${name}': No such file or directory`);
-                        return;
+                        continue;
                     }
 
-                    if (isDestDir) {
-                        if (destNode.children[name]) {
-                            errors.push(`mv: cannot move '${name}': destination '${dest}/${name}' already exists`);
-                            return;
+                    // Case 1: Destination is a directory
+                    if (destParent.children && destParent.children[destName]
+                        && (destParent.children[destName].type === "dir" ||
+                            destParent.children[destName].type === "burn")) {
+
+                        const destFolder = destParent.children[destName];
+
+                        if (destFolder.children[name]) {
+                            errors.push(`mv: cannot move '${name}': destination '${destName}/${name}' already exists`);
+                            continue;
                         }
-                        destNode.children[name] = fileNode;
-                    } else {
-                        // If only one match and dest is not a dir, treat as rename
-                        if (matchedFiles.length === 1) {
-                            children[dest] = fileNode;
-                        } else {
-                            errors.push(`mv: target '${dest}' is not a directory`);
-                            return;
-                        }
+
+                        destFolder.children[name] = fileNode;
+                        delete children[name];
+                        continue;
                     }
 
-                    delete children[name];
-                });
+                    // Case 2: Single file rename
+                    if (matchedFiles.length === 1) {
+                        destParent.children[destName] = fileNode;
+                        delete children[name];
+                        continue;
+                    }
+
+                    // Case 3: Multiple source files but dest is not folder
+                    errors.push(`mv: target '${destArg}' is not a directory`);
+                }
 
                 updateFileSystem({ ...fileSystemRef });
 
-                return errors.join('\n') || '';
+                return errors.join("\n") || null;
             }
+
+
 
 
             default:

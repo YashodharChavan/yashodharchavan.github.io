@@ -12,11 +12,21 @@ const Terminal = () => {
   const terminalRef = useRef(null);
   const inputRef = useRef(null);
   const [exitFlag, setExitFlag] = useState(false);
+  const [commandHistory, setCommandHistory] = useState([]);
+  const [historyIndex, setHistoryIndex] = useState(-1);
 
   const { fileSystem, updateFileSystem, currentPath, updateCurrentPath } = useFileSystem();
   const { runCommand, getPromptPath, getSuggestions } = createCommandProcessor(fileSystem, updateFileSystem, currentPath, updateCurrentPath);
 
   const handleCommand = async (command) => {
+    const trimmed = command.trim();
+
+    if (trimmed.length > 0) {
+      setCommandHistory(prev => [...prev, trimmed]);
+    }
+
+    setHistoryIndex(-1);
+
     const newHistory = [...history];
     newHistory.push({
       type: 'command',
@@ -24,39 +34,133 @@ const Terminal = () => {
     });
 
     const output = await runCommand(command);
-    if (output) {
-      newHistory.push({ type: 'output', content: output });
-    }
-    if (output === '__CLEAR__') {
+
+    // Handle special flags
+    if (output === "__CLEAR__") {
       setHistory([]);
-    } else if (output === "__EXIT__") {
-      setExitFlag(true);
-    } else {
-      setHistory(newHistory);
+      setInput('');
+      return;
     }
+    if (output === "__EXIT__") {
+      setExitFlag(true);
+      return;
+    }
+
+    // IMPORTANT FIX:
+    // Always print a new line, even if output is empty.
+    if (output !== null) {
+      newHistory.push({
+        type: "output",
+        content: output === "" ? " " : output  // <-- key fix
+      });
+    }
+
+    setHistory(newHistory);
     setInput('');
   };
 
+
+
   const handleKeyDown = (e) => {
-    if (e.key === 'Enter') {
+
+    // ENTER → Run command
+    if (e.key === "Enter") {
       handleCommand(input);
-    } else if (e.key === 'Tab') {
+      return;
+    }
+
+    // CTRL + C → Cancel current input, do NOT store in history
+    if (e.key === "c" && e.ctrlKey) {
       e.preventDefault();
+
+      setHistory(prev => [
+        ...prev,
+        { type: "command", content: `${getPromptPath()}# ${input}` },
+        { type: "output", content: "^C" }
+      ]);
+
+      setInput("");
+      setHistoryIndex(-1);
+      return;
+    }
+
+    // UP ARROW → Previous command
+    if (e.key === "ArrowUp") {
+      e.preventDefault();
+
+      if (commandHistory.length === 0) return;
+
+      let newIndex = historyIndex;
+      if (newIndex === -1) {
+        // first time pressing up, start at last command
+        newIndex = commandHistory.length - 1;
+      } else if (newIndex > 0) {
+        newIndex--;
+      }
+
+      setHistoryIndex(newIndex);
+      setInput(commandHistory[newIndex]);
+      return;
+    }
+
+    // DOWN ARROW → Next command OR blank
+    if (e.key === "ArrowDown") {
+      e.preventDefault();
+
+      if (commandHistory.length === 0) return;
+
+      if (historyIndex === -1) return; // nothing to scroll
+
+      let newIndex = historyIndex + 1;
+
+      if (newIndex >= commandHistory.length) {
+        // reached the end → blank input
+        setHistoryIndex(-1);
+        setInput('');
+        return;
+      }
+
+      setHistoryIndex(newIndex);
+      setInput(commandHistory[newIndex]);
+      return;
+    }
+
+    // TAB → Autocomplete (your existing logic)
+    if (e.key === "Tab") {
+      e.preventDefault();
+
       const [cmd, ...args] = input.trim().split(/\s+/);
       const currentArg = args.length > 0 ? args[args.length - 1] : '';
+
       const suggestions = getSuggestions(cmd, currentArg);
 
+      if (suggestions.length === 0) return;
+
       if (suggestions.length === 1) {
-        const newInput = [cmd, ...args.slice(0, -1), suggestions[0]].join(' ');
-        setInput(newInput + ' ');
-      } else if (suggestions.length > 1) {
-        setHistory(prev => [
-          ...prev,
-          { prompt: getPromptPath(), command: input, output: suggestions.join('  ') }
-        ]);
+        const { name, isDir, prefix } = suggestions[0];
+
+        const completed =
+          (prefix ? prefix + "/" : "") +
+          name +
+          (isDir ? "/" : "");
+
+        const newArgs = [...args.slice(0, -1), completed];
+        const newInput = [cmd, ...newArgs].join(" ");
+
+        setInput(newInput);
+        return;
       }
+
+      // Multiple matches → show in terminal
+      setHistory(prev => [
+        ...prev,
+        { type: "output", content: suggestions.map(s => s.name).join("  ") }
+      ]);
     }
+
+
   };
+
 
 
 
