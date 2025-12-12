@@ -360,6 +360,7 @@ const rootFileOptions = [
   { label: ".js", icon: html },
   { label: ".jsx", icon: html },
   { label: ".avif", icon: ico },
+  { label: ".ico", icon: ico },
   { label: "burn", icon: burn },
 ]
 

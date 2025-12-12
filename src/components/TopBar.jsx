@@ -376,7 +376,7 @@ const TopBar = ({ currentTopComponent }) => {
           style={{ padding: "0px 8px" }} autoFocus={true} onChange={(e) => handleChange(e.target.value)} />
       </div>}
 
-      {(searchString && isSpotlightActive) && <div className="absolute top-14 w-96 right-44 h-fit max-h-[500px] overflow-y-scroll overflow-x-hidden z-10 bg-[#E7EDF2]" ref={resultsContainerRef}
+      {(searchString && isSpotlightActive) && <div className="absolute top-14 w-96 right-0 h-fit max-h-[500px] overflow-y-scroll overflow-x-hidden z-10 bg-[#E7EDF2]" ref={resultsContainerRef}
         style={{ boxShadow: "0px 7px 16px 0px #00000099" }}>
         <ul>
 

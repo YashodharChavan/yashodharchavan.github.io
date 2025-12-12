@@ -6,6 +6,7 @@ import Education from './Education'
 import Skills from './Skills'
 import Projects from './Projects'
 import Resume from './Resume'
+
 const AboutMe = () => {
     const [sidebarWidth, setSidebarWidth] = useState(150);
     const isResizing = useRef(false);

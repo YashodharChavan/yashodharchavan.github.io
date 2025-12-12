@@ -3,11 +3,12 @@ import Typed from 'typed.js';
 import { Typewriter } from 'react-simple-typewriter'
 import github from '../assets/github.svg'
 import linkedin from '../assets/linkedin.svg'
+import leetcode from '../assets/leetcode.svg'
+// import profileImage from '../assets/profileImage.avif'
+import profileImage from '../assets/secondaryProfile.png'
 
 
 const Yashodhar = ({ highlightMatch, searchString, showPadding }) => {
-
-
 
   return (
     <div className="logo-and-name relative h-full w-full overflow-hidden" style={{ padding: "12px" }}>
@@ -16,8 +17,9 @@ const Yashodhar = ({ highlightMatch, searchString, showPadding }) => {
       <div className="absolute bg-green-400 bg-opacity-30 w-28 h-28 rounded-full blur-2xl top-40 left-20"></div> */}
       <div className="heading-container flex gap-x-2 flex-col gap-y-0.5 justify-center items-center">
 
-        <div className="rounded-full bg-red-400 h-24 w-24">
+        <div className="rounded-full bg-red-400 h-[120px] w-[120px]">
           {/* image here */}
+          <img src={profileImage} className='h-full w-full' />
         </div>
         <br />
 
@@ -56,6 +58,10 @@ const Yashodhar = ({ highlightMatch, searchString, showPadding }) => {
 
         <a href="https://linkedin.com/in/yashodhar-chavan" target="_blank">
           <img loading='lazy' src={linkedin} className='h-7' />
+        </a>
+
+        <a href="https://leetcode.com/u/YashodharChavan/" target="_blank">
+          <img loading='lazy' src={leetcode} className='h-7' />
         </a>
       </div>
     </div>

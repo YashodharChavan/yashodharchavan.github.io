@@ -99,7 +99,7 @@ const getIconForItem = (name, type) => {
   const ext = name.includes('.') ? `.${name.split('.').pop()}` : '';
   const iconMap = {
     '.md': '.md', '.pdf': '.pdf', '.bin': '.bin',
-    '.zip': '.zip', '.html': '.html', '.avif': '.avif', '.css': '.css', '.js': '.js',
+    '.zip': '.zip', '.html': '.html', '.avif': '.avif', '.css': '.css', '.js': '.js', '.ico': '.ico'
   };
   if (iconMap[ext]) {
     return rootFileOptions.find(opt => opt.label === iconMap[ext])?.icon;

@@ -20,7 +20,7 @@ const MenuContext = ({ position, source, currentPath, onAddItem = null }) => {
   console.log(position, source)
 
   return (
-    <div className='flex flex-col bg-white shadow-2xs absolute z-50' style={{ left: source === 'finder' ? position.left / 1.5 : position.left, top: source === 'finder' ? position.top / 1.5 : position.top, boxShadow: "-1px 1px 6px 0px #767676" }}>
+    <div className='flex flex-col bg-white shadow-2xs absolute z-1000' style={{ left: source === 'finder' ? position.left / 1.5 : position.left, top: source === 'finder' ? position.top / 1.5 : position.top, boxShadow: "-1px 1px 6px 0px #767676" }}>
       <p className='hover:bg-[#2A68C8] hover:text-white cursor-pointer bg-white' style={{ padding: '0px 16px' }} onClick={(e) => handleCreate('folder')}>New Folder</p>
       <p className='hover:bg-[#2A68C8] hover:text-white cursor-pointer bg-white' style={{ padding: '0px 16px' }} onClick={(e) => handleCreate('burn')}>New Burn Folder</p>
       <p className='hover:bg-[#2A68C8] hover:text-white cursor-pointer bg-white' style={{ padding: '0px 16px' }} onClick={(e) => handleCreate('file')}>New File</p>

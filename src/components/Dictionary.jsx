@@ -76,7 +76,7 @@ const Dictionary = () => {
                         type="text"
                         placeholder="search"
                         className="bg-white outline rounded-2xl"
-                        style={{ padding: "0px 4px", boxShadow: "inset 1px 1px 3px 0px #C7C7C7" }}
+                        style={{ padding: "0px 8px", boxShadow: "inset 1px 1px 3px 0px #C7C7C7" }}
                         onChange={(e) => handleSearchChange(e.target.value)}
                     />
                 </div>
