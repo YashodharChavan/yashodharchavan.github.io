@@ -4,8 +4,8 @@ import { Typewriter } from 'react-simple-typewriter'
 import github from '../assets/github.svg'
 import linkedin from '../assets/linkedin.svg'
 import leetcode from '../assets/leetcode.svg'
-// import profileImage from '../assets/profileImage.avif'
-import profileImage from '../assets/secondaryProfile.png'
+import profileImage from '../assets/profileImage.avif'
+// import profileImage from '../assets/secondaryProfile.png'
 
 
 const Yashodhar = ({ highlightMatch, searchString, showPadding }) => {
