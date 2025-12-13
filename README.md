@@ -30,6 +30,7 @@ This repository is a complete, working recreation of **macOS X Tiger (10.4)**. I
   - [Xcode (Viewer)](#xcode-viewer)
   - [TextEdit](#textedit)
   - [Terminal](#terminal)
+  - [](#-4)
     - [Supported commands (with syntax)](#supported-commands-with-syntax)
   - [Calculator](#calculator)
   - [Bin / Trash](#bin--trash)
@@ -199,7 +200,10 @@ Includes:
 
 ## Terminal
 
-![Terminal](./screenshots/terminal.avif)
+![Terminal](./screenshots/terminal1.avif)
+--
+![Nano Command](./screenshots/nanoCommand.avif)
+
 A working, in-browser terminal simulation supporting wildcards, flags, and many utilities. The terminal interprets commands against the virtual file system.
 
 ### Supported commands (with syntax)
@@ -210,6 +214,7 @@ A working, in-browser terminal simulation supporting wildcards, flags, and many 
 | `ls`      | `ls [pattern]`         | List directory contents (supports wildcards, e.g., `*.txt`) | 
 | `cd`      | `cd <dir>`             | Change directory                                            | 
 | `cat`     | `cat <file>`           | Display file content                                        | 
+| `nano`    | `nano <file>`          | Open file in nano editor (create if not exists)                                        | 
 | `write`   | `write <file> <text>`  | Create/overwrite file with text                             | 
 | `append`  | `append <file> <text>` | Append text to a file                                       | 
 | `mkdir`   | `mkdir <dir>`          | Create a new directory                                      | 

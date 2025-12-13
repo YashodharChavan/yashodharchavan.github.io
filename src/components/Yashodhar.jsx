@@ -11,7 +11,7 @@ const Yashodhar = ({ highlightMatch, searchString, showPadding }) => {
     <div className="logo-and-name relative h-full w-full overflow-hidden" style={{ padding: "12px" }}>
       <div className="heading-container flex gap-x-2 flex-col gap-y-0.5 justify-center items-center">
 
-        <div className="rounded-full bg-red-400 h-[120px] w-[120px]">
+        <div className="rounded-full h-[120px] w-[120px]">
           {/* image here */}
           <img src={profileImage} className='h-full w-full' />
         </div>

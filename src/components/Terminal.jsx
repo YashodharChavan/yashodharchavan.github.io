@@ -4,15 +4,19 @@ import "../index.css";
 import { createCommandProcessor } from "./Utils/commandProcessor";
 import { useFileSystem } from "../context/FileSystemContext";
 import NanoEditor from "./NanoEditor";
+import './component.css';
+import { useWindowManager } from "../context/WindowManagerContext";
 
 const Terminal = () => {
   const [history, setHistory] = useState([
     { type: "text", content: "Last login: Thu Jun 5 on ttys000 (type man command for more details)" }
   ]);
-  
+  const { closeWindow } = useWindowManager();
+
+
 
   const [input, setInput] = useState("");
-  
+
   const inputRef = useRef(null);
   const terminalRef = useRef(null);
 
@@ -33,15 +37,28 @@ const Terminal = () => {
     if (trimmed.length) setCommandHistory((prev) => [...prev, trimmed]);
     setHistoryIndex(-1);
 
-    const newHistory = [...history, {
-      type: "command",
-      content: `${getPromptPath()}# ${command}`
-    }];
+    const newHistory = [
+      ...history,
+      { type: "command", content: `${getPromptPath()} % ${command}` }
+    ];
 
     const output = await runCommand(command);
 
+    // 🧹 CLEAR
+    if (output === "__CLEAR__") {
+      setHistory([]);
+      setInput("");
+      return;
+    }
+
+    if (output === "__EXIT__") {
+      closeWindow("terminal");
+      return;
+    }
+
     // NANO MODE
     if (output?.__NANO__) {
+      inputRef.current?.blur();
       setNano({
         filename: output.__NANO__.filename,
         content: output.__NANO__.content
@@ -61,6 +78,7 @@ const Terminal = () => {
     setInput("");
   };
 
+
   /* ------------------- TERMINAL KEYS ------------------- */
   const handleKeyDown = (e) => {
     if (e.key === "Enter") return handleCommand(input);
@@ -69,7 +87,7 @@ const Terminal = () => {
       e.preventDefault();
       setHistory((prev) => [
         ...prev,
-        { type: "command", content: `${getPromptPath()}# ${input}` },
+        { type: "command", content: `${getPromptPath()} % ${input}` },
         { type: "output", content: "^C" }
       ]);
       setInput("");
@@ -156,10 +174,17 @@ const Terminal = () => {
       minHeight="300"
       minWidth="400"
       isResizable={true}
+      showDimensions={true}
     >
       {nano ? (
         <NanoEditor
           filename={nano.filename}
+          onExit={() => {
+            setNano(null);
+            requestAnimationFrame(() => {
+              inputRef.current?.focus(); // restore terminal focus
+            });
+          }}
           initialContent={nano.content}
           onSave={(newText) => {
             let dir = fileSystem["/"];
@@ -174,7 +199,6 @@ const Terminal = () => {
               { type: "output", content: `[ Wrote ${newText.split("\n").length} lines ]` }
             ]);
           }}
-          onExit={() => setNano(null)}
         />
       ) : (
         <div
@@ -189,14 +213,14 @@ const Terminal = () => {
           ))}
 
           <div className="flex">
-            <span className="mr-1">{`${getPromptPath()}#`}</span>
+            <span style={{ marginRight: "8px" }}>{`${getPromptPath()} %`}</span>
             <input
               ref={inputRef}
               value={input}
               onChange={(e) => setInput(e.target.value)}
               onKeyDown={handleKeyDown}
               spellCheck={false}
-              className="bg-transparent flex-grow outline-none"
+              className="bg-transparent flex-grow outline-none cursor-text"
             />
           </div>
         </div>

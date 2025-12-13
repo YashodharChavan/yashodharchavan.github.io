@@ -78,6 +78,7 @@ export const WindowManagerProvider = ({ children }) => {
   };
 
   const closeWindow = (id) => {
+    id = id.split('-')[0];
     setOpenWindows(prev => {
       const copy = { ...prev };
       delete copy[id];

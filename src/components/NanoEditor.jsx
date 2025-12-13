@@ -3,7 +3,7 @@ import { useFileSystem } from "../context/FileSystemContext";
 
 export default function NanoEditor({ filename, initialContent, onExit }) {
   const [content, setContent] = useState(initialContent || "");
-  const [cursorPos, setCursorPos] = useState((initialContent || "").length);
+  const [cursorPos, setCursorPos] = useState(0);
 
   const [modified, setModified] = useState(false);
 
@@ -12,8 +12,15 @@ export default function NanoEditor({ filename, initialContent, onExit }) {
 
   const [status, setStatus] = useState("");
   const [ignoreFirstKey, setIgnoreFirstKey] = useState(true);
+  const [writeFilename, setWriteFilename] = useState(filename || "");
+  const [exitAfterSave, setExitAfterSave] = useState(false);
+  const [activeFilename, setActiveFilename] = useState(filename || "");
+
+
 
   const editorRef = useRef(null);
+  const caretRef = useRef(null);
+
 
   const { fileSystem, updateFileSystem, currentPath } = useFileSystem();
 
@@ -22,14 +29,28 @@ export default function NanoEditor({ filename, initialContent, onExit }) {
     if (editorRef.current) editorRef.current.focus();
   }, []);
 
+
+  /* ---------------------------- Scroll on move ---------------------------- */
+  useEffect(() => {
+    if (caretRef.current) {
+      caretRef.current.scrollIntoView({
+        block: "nearest",
+        inline: "nearest",
+      });
+    }
+  }, [cursorPos]);
+
+
   /* ---------------------------- Save File Logic --------------------------- */
-  const saveFile = () => {
+  const saveFile = (name) => {
+    if (!name) return;
+
     let dir = fileSystem["/"];
     for (let i = 1; i < currentPath.length; i++) {
       dir = dir.children[currentPath[i]];
     }
 
-    dir.children[filename] = {
+    dir.children[name] = {
       type: "file",
       content,
     };
@@ -42,6 +63,7 @@ export default function NanoEditor({ filename, initialContent, onExit }) {
 
     setTimeout(() => setStatus(""), 1500);
   };
+
 
   /* ------------------------------- KEY HANDLER ------------------------------- */
   const handleKeyDown = (e) => {
@@ -58,8 +80,9 @@ export default function NanoEditor({ filename, initialContent, onExit }) {
       if (e.key.toLowerCase() === "y") {
         // user wants to save → go to filename prompt
         setExitPrompt(false);
+        setExitAfterSave(true);
         setWritePrompt(true);
-        setStatus(`File Name to Write: ${filename}`);
+        setStatus(`File Name to Write: ${activeFilename}\n`);
         return;
       }
 
@@ -81,26 +104,57 @@ export default function NanoEditor({ filename, initialContent, onExit }) {
 
     /* -------------------- WRITE PROMPT HANDLING -------------------- */
     if (writePrompt) {
+      /* ENTER → save */
       if (e.key === "Enter") {
-        saveFile();
+        
+        setActiveFilename(writeFilename);
+        saveFile(writeFilename);
         setWritePrompt(false);
-        setStatus("");    // Remove the write prompt
-        return;           // ✔ Stay inside nano
+        setStatus("");
+        
+        if (exitAfterSave) {
+          setExitAfterSave(false);
+          onExit();          // ✅ EXIT nano
+        } else {
+          editorRef.current?.focus(); // Ctrl+O case
+        }
+
+        return;
       }
 
-      // editing filename (optional)
-      if (e.key.length === 1) {
-        filename += e.key;
-        setStatus(`File Name to Write: ${filename}`);
+
+      /* CTRL+C → cancel save */
+      if (e.ctrlKey && e.key.toLowerCase() === "c") {
+        setWritePrompt(false);
+        setExitAfterSave(false);
+        setStatus("");
+        editorRef.current?.focus();
+        return;
       }
 
+      /* BACKSPACE */
       if (e.key === "Backspace") {
-        filename = filename.slice(0, -1);
-        setStatus(`File Name to Write: ${filename}`);
+        setWriteFilename(prev => {
+          const next = prev.slice(0, -1);
+          setStatus(`File Name to Write: ${next}`);
+          return next;
+        });
+        return;
+      }
+
+      /* NORMAL CHAR */
+      if (e.key.length === 1) {
+        setWriteFilename(prev => {
+          const next = prev + e.key;
+          setStatus(`File Name to Write: ${next}`);
+          return next;
+        });
+        return;
       }
 
       return;
     }
+
 
     /* -------------------- CTRL + X (EXIT) -------------------- */
     if (e.ctrlKey && e.key.toLowerCase() === "x") {
@@ -121,9 +175,12 @@ export default function NanoEditor({ filename, initialContent, onExit }) {
     /* -------------------- CTRL + O (WRITE OUT) -------------------- */
     if (e.ctrlKey && e.key.toLowerCase() === "o") {
       setWritePrompt(true);
-      setStatus(`File Name to Write: ${filename}`);
+      
+      setWriteFilename(activeFilename);
+      setStatus(`File Name to Write: ${writeFilename || ""}`);
       return;
     }
+
 
     /* -------------------- TEXT INPUT -------------------- */
     if (e.key.length === 1) {
@@ -163,37 +220,57 @@ export default function NanoEditor({ filename, initialContent, onExit }) {
     /* -------------------- ARROWS -------------------- */
     const lines = content.split("\n");
 
+    // Line index (0-based)
     const currentLine = content.slice(0, cursorPos).split("\n").length - 1;
+
+    // Column index (0-based)
+    const lastNewlineIndex = content.lastIndexOf("\n", cursorPos - 1);
     const currentCol =
-      cursorPos - content.lastIndexOf("\n", cursorPos - 1) - 1;
+      lastNewlineIndex === -1
+        ? cursorPos
+        : cursorPos - lastNewlineIndex - 1;
 
-    if (e.key === "ArrowLeft" && cursorPos > 0) {
-      setCursorPos(cursorPos - 1);
+    /* ← Left */
+    if (e.key === "ArrowLeft") {
+      if (cursorPos > 0) setCursorPos(cursorPos - 1);
       return;
     }
 
-    if (e.key === "ArrowRight" && cursorPos < content.length) {
-      setCursorPos(cursorPos + 1);
+    /* → Right */
+    if (e.key === "ArrowRight") {
+      if (cursorPos < content.length) setCursorPos(cursorPos + 1);
       return;
     }
 
-    if (e.key === "ArrowUp" && currentLine > 0) {
-      const prevLen = lines[currentLine - 1].length;
-      const offset =
-        lines.slice(0, currentLine - 1).join("\n").length +
-        (currentLine > 1 ? currentLine - 1 : 0);
+    /* ↑ Up */
+    if (e.key === "ArrowUp") {
+      if (currentLine === 0) return;
 
-      setCursorPos(offset + Math.min(currentCol, prevLen));
+      const prevLineLength = lines[currentLine - 1].length;
+
+      // Absolute index of start of previous line
+      let offset = 0;
+      for (let i = 0; i < currentLine - 1; i++) {
+        offset += lines[i].length + 1; // +1 for '\n'
+      }
+
+      setCursorPos(offset + Math.min(currentCol, prevLineLength));
       return;
     }
 
-    if (e.key === "ArrowDown" && currentLine < lines.length - 1) {
-      const nextLen = lines[currentLine + 1].length;
-      const offset =
-        lines.slice(0, currentLine + 1).join("\n").length +
-        (currentLine >= 0 ? currentLine + 1 : 0);
+    /* ↓ Down */
+    if (e.key === "ArrowDown") {
+      if (currentLine >= lines.length - 1) return;
 
-      setCursorPos(offset + Math.min(currentCol, nextLen));
+      const nextLineLength = lines[currentLine + 1].length;
+
+      // Absolute index of start of next line
+      let offset = 0;
+      for (let i = 0; i <= currentLine; i++) {
+        offset += lines[i].length + 1;
+      }
+
+      setCursorPos(offset + Math.min(currentCol, nextLineLength));
       return;
     }
   };
@@ -206,40 +283,68 @@ export default function NanoEditor({ filename, initialContent, onExit }) {
     return (
       <>
         {before}
-        <span className="bg-black text-white animate-pulse">█</span>
+        <span
+          ref={caretRef}
+          className="nano-caret"
+        >
+          █
+        </span>
         {after}
       </>
     );
   };
 
+
   /* ---------------------------- UI ---------------------------- */
   return (
     <div
-      className="h-full flex flex-col bg-white text-black font-mono text-[13px]"
+      className="h-full flex flex-col bg-white text-black font-mono text-[13px] rounded-sm outline-black outline-2"
       tabIndex={0}
       onKeyDown={handleKeyDown}
       ref={editorRef}
     >
       {/* Header */}
-      <div className="px-2 py-1 bg-gray-200 border-b">
-        GNU nano — {filename}
+      <div className="bg-gray-200 outline outline-2 rounded-tl-sm rounded-tr-sm" style={{ padding: "0px 4px" }}>
+        GNU nano — {activeFilename}
       </div>
 
       {/* Main editor area */}
-      <div className="flex-1 overflow-auto p-2 whitespace-pre-wrap border-b">
+      <div className="flex-1 overflow-auto whitespace-pre-wrap border-b nano-editor"
+        style={{ padding: "0px 4px" }}
+      >
+
         {renderCursorText()}
       </div>
 
       {/* Status / prompt */}
       {status && (
         <div className="px-2 py-1 bg-yellow-100 border-y text-sm">
-          {status}
+          {/* {status} */}
+          {/* Status / prompt */}
+          {(status || writePrompt) && (
+            <div className="px-2 py-1 bg-yellow-100 border-y text-sm whitespace-pre-wrap">
+              {writePrompt ? (
+                <>
+                  File Name to Write: {writeFilename}
+                  {"\n"}^C Cancel
+                </>
+              ) : (
+                status
+              )}
+            </div>
+          )}
+
         </div>
       )}
 
       {/* Footer */}
-      <div className="px-2 py-1 bg-gray-200 text-xs border-t">
-        ^G Help   ^O Write Out   ^X Exit
+      <div className="bg-gray-200 text-xs border-t flex gap-3" style={{ padding: "0px 4px" }}>
+        <span>
+          ^O Write Out
+        </span>
+        <span>
+          ^X Exit
+        </span>
       </div>
     </div>
   );

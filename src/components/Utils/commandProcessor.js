@@ -95,8 +95,17 @@ function createCommandProcessor(fileSystemRef, updateFileSystem, currentPath, up
     }
 
     function getPromptPath() {
-        if (currentPath.join('/') === '/Users/yashodhar') return '~';
-        return currentPath.slice(1).join('/');
+        const fullPath = currentPath.slice(1).join('/');
+
+        if (fullPath === 'Users/yashodhar') {
+            return '~';
+        }
+
+        if (fullPath.startsWith('Users/yashodhar/')) {
+            return '~' + fullPath.substring('Users/yashodhar'.length);
+        }
+
+        return currentPath[currentPath.length - 1] || '/';
     }
 
     function printTree(node, prefix = '') {
@@ -408,6 +417,7 @@ pwd                 Print current working directory
 ls [pattern]        List directory contents (supports wildcards, e.g., *.txt)
 cd <dir>            Change directory
 cat <file>          Display file content
+nano <file>         Open file in nano editor (create if not exists)
 write <file> <text> Overwrite/create file with text
 append <file> <text> Append text to a file
 mkdir <dir>         Create a new directory
@@ -425,10 +435,11 @@ cal [-y | m y]      Show calendar
 head [-n num] <file> First 10/num lines (wildcards)
 tail [-n num] <file> Last 10/num lines (wildcards)
 wc <file>           Line/word/char count (wildcards)
-man                Show this help
+man                 Show this help
 clear               Clear terminal
 exit                Exit terminal`
             }
+
 
             case 'exit':
                 return '__EXIT__';
@@ -513,17 +524,20 @@ exit                Exit terminal`
 
 
             case 'cd': {
-                let target = args[0] || '';
-                target = normalizeName(target);
+                let target = args[0] || '~';  // default to home, not empty
+
+                // Only normalize (remove trailing /) if it's not the root path
+                if (target !== '/' && target !== '') {
+                    target = normalizeName(target);
+                }
 
                 const newPath = resolvePath(target);
                 if (newPath) {
                     updateCurrentPath(newPath);
                     return null;
                 }
-                return `cd: no such directory: ${target}`;
+                return `cd: no such directory: ${args[0] || '~'}`;
             }
-
 
             case 'cat': {
                 let fileName = args[0];
@@ -586,7 +600,7 @@ exit                Exit terminal`
 
 
             case 'echo':
-                return args.join(' ');
+                return args.join(' ') || null;
 
             case 'touch': {
                 let fileName = args[0];
@@ -688,7 +702,7 @@ exit                Exit terminal`
                 });
 
                 updateFileSystem({ ...fileSystemRef });
-                return errors.join('\n') || '';
+                return errors.join('\n') || null;
             }
 
 

@@ -25,6 +25,27 @@
   font-weight: normal;
   font-style: normal;
 }
+.nano-editor {
+  caret-color: transparent!important; /* 🔥 hide browser caret */
+}
+
+.nano-caret {
+  display: inline-block;
+  width: 0.9ch;
+  background-color: black;
+  color: black;
+  /* animation: nano-blink 1s steps(1) infinite; */
+}
+
+@keyframes nano-blink {
+  0% { visibility: visible; }
+  50% { visibility: hidden; }
+  100% { visibility: visible; }
+}
+
+
+
+
 
 /* Add subtle texture to the track */
 ::-webkit-scrollbar-track {
