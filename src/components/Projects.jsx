@@ -8,7 +8,10 @@ import oxygenWeather from '../assets/projects/oxygenWeather.avif';
 import bForm from '../assets/projects/BForm.avif';
 import omSaiTradingAcademy from '../assets/projects/omSaiTradingAcademy.avif';
 import railNova from '../assets/projects/railNova.avif';
+import gpsWebsite from '../assets/projects/gpsWebsite.avif';
+import onlineHtmlEditor from '../assets/projects/onlineHtmlEditor.avif';
 import github from '../assets/icons/github.svg'
+import website from '../assets/icons/website.svg';
 import back from '../assets/back.svg'
 import ProjectDetails from './ProjectDetails';
 import { useRef } from 'react'
@@ -36,7 +39,8 @@ const Projects = ({ onProjectOpen }) => {
             image: macOsXTiger,
             tools: ['React', 'Tailwind CSS', 'JavaScript'],
             description: 'A realistic simulation of macOS X Tiger with desktop, terminal, file system, and draggable windows.',
-            link: "https://github.com/YashodharChavan/yashodharchavan.github.io",
+            githubLink: "https://github.com/YashodharChavan/yashodharchavan.github.io",
+            websiteLink: "https://yashodharchavan.github.io",
             overview: "A desktop simulation of macOS X Tiger, built using React and Tailwind CSS. This project replicates key system behaviors from the classic Apple OS, including a functional terminal emulator, file system navigation, and draggable, resizable windows. Designed to closely match the aesthetics of early 2000s Apple UI, the clone serves as both a design experiment and a technical deep dive into managing complex state and interactive components in React.",
             features: [
                 {
@@ -81,71 +85,72 @@ const Projects = ({ onProjectOpen }) => {
             outcome: "The project successfully recreated a nostalgic and functional simulation of macOS X Tiger, complete with a responsive terminal, interactive file system, and draggable UI components. It not only evoked nostalgia through its vintage Apple design but also served as a deep technical exercise in managing complex state and UI interactions in React. The result was a polished desktop-like experience entirely in the browser, demonstrating both design fidelity and frontend engineering depth."
         },
         {
-            title: 'RailNova – Railway Operations Dashboard',
-            image: railNova, // dashboard screenshot
+            title: 'Government Polytechnic Solapur – Official Website',
+            image: gpsWebsite, // homepage screenshot (hero section recommended)
             tools: [
                 'React',
-                'TypeScript',
-                'Tailwind CSS',
-                'Node.js',
-                'Express',
-                'Supabase',
-                'JWT',
-                'Excel Processing'
+                'FireCMS',
+                'Firebase (Firestore)',
+                'Tailwind CSS'
             ],
-            description: 'A role-based railway operations dashboard for Indian Railways officers to analyze B-Form data, forecasts, interchange status, and operational statistics.',
-            link: 'https://github.com/YashodharChavan/RailNova',
-            overview: "RailNova was developed during industrial training to digitize and simplify B-Form analysis for railway officers. After an initial UI attempt was discarded, the project was rebuilt using the TailAdmin TypeScript template. Despite having no prior TypeScript experience, I replaced and customized nearly all components to match railway workflows. The system provides secure role-based access, Excel-driven data ingestion, and rich analytical dashboards tailored for operational decision-making.",
+            description: 'A fully dynamic, CMS-driven redevelopment of the official Government Polytechnic Solapur website with zero backend hosting.',
+            websiteLink: 'https://gpsolapur.ac.in',
+            overview: "This project involved the complete UI and frontend redevelopment of the official Government Polytechnic Solapur website. The previous website was static, visually outdated, and difficult to maintain. Our goal was to modernize the interface while making all content fully dynamic and editable by non-technical staff. By integrating FireCMS with Firebase, we eliminated the need for a traditional backend and enabled real-time content management across the entire website.",
             features: [
                 {
-                    title: "🔐 Secure Role-Based Authentication",
-                    description: "Implemented JWT-based authentication with protected routes and three user roles—Admin, Editor, and Viewer—ensuring sensitive railway data is accessed only by authorized users."
+                    title: "🏠 Dynamic Home Page",
+                    description: "Implemented a modern home page with sliders, minister profiles, and announcements — all dynamically managed through FireCMS without code changes."
                 },
                 {
-                    title: "📊 Interactive Dashboard & Analytics",
-                    description: "Built responsive dashboards with interactive charts and hover-driven insights to visualize train movements, interchange statistics, wagon distribution, and forecast vs actual performance."
+                    title: "🏫 About & Institutional Timeline",
+                    description: "Created an About section showcasing college information along with a structured historical timeline editable through the CMS."
                 },
                 {
-                    title: "📄 B-Form & Excel Data Processing",
-                    description: "Enabled admins to upload B-Form Excel files, parse complex railway data, normalize routes, and store structured records in the database for real-time viewing and editing."
+                    title: "🏢 Departments & Staff Management",
+                    description: "Built dedicated department sections containing vision, mission, and dynamically manageable staff profiles that can be added, updated, or removed via FireCMS."
                 },
                 {
-                    title: "⚙️ Administrative Controls & User Management",
-                    description: "Provided admin-only features such as user management, controlled data uploads, swipe-to-clear database actions, and audit-safe overrides for edited operational data."
+                    title: "📄 Committees, Notices & AICTE Approvals",
+                    description: "Enabled dynamic fetching and display of PDFs, notices, and AICTE approval documents directly from FireCMS collections."
+                },
+                {
+                    title: "🏭 Facilities, Hostel & Visits",
+                    description: "Developed facilities pages including labs, library, and hostel information, with hostel notices fetched dynamically. Industrial visits are presented using modals and carousels for an engaging UX."
                 }
             ],
             challenges: [
                 {
-                    title: "🧠 Learning TypeScript Under Production Pressure",
-                    description: "The base template was written entirely in TypeScript, which required quickly understanding types, props, and strict checks while actively developing features."
+                    title: "🧩 Designing Without a Traditional Backend",
+                    description: "Replacing a conventional backend with FireCMS required careful data modeling and strict structuring of Firestore collections to keep content scalable and maintainable."
                 },
                 {
-                    title: "📊 Parsing Highly Irregular Excel Data",
-                    description: "Railway B-Forms contained inconsistent formats, merged logic, and dual-direction data that required extensive validation, normalization, and custom parsing logic."
+                    title: "🎨 Modernizing a Government Website UI",
+                    description: "Balancing a modern, user-friendly interface while maintaining the formal tone expected of an official government institution was a key design challenge."
                 },
                 {
-                    title: "🔒 Designing Secure Role Restrictions",
-                    description: "Ensuring that only admins could upload, modify, or clear data while editors had limited edit access required careful backend and frontend enforcement."
+                    title: "📂 CMS Usability for Non-Technical Staff",
+                    description: "Ensuring that staff members could safely manage content without breaking layouts required thoughtful schema design and validation rules inside FireCMS."
                 }
             ],
-            outcome: "RailNova successfully transformed a manual, error-prone Excel-based workflow into a structured web dashboard for railway officers. The system enabled faster analysis, clearer visualization, and safer data handling. Although developed as a team project, I independently implemented nearly the entire frontend, backend APIs, authentication flow, data processing pipeline, and dashboard logic, making it one of my most technically intensive projects.",
+            outcome: "The redesigned website significantly improved usability, visual appeal, and maintainability compared to the earlier static version. Administrative staff can now manage notices, departments, PDFs, and institutional content independently without developer intervention. The project demonstrates practical experience in CMS-driven architecture, frontend scalability, and real-world deployment for a government institution.",
             teamwork: {
-                information: "This project was developed as part of industrial training. I took primary responsibility for the frontend implementation, backend APIs, authentication system, Excel data processing, and analytics dashboards, while the team collaborated on planning, validation, and domain understanding.",
+                information: "This project was developed by a 6-member team. I led the frontend development and CMS integration, designed reusable UI components, and structured Firestore collections for scalable content management. Collaboration was handled using Git-based workflows and VS Code Live Share.",
                 team: [
                     'Yashodhar Chavan',
+                    'Vaibhav Bansode',
                     'Yuvraj Gandhmal',
                     'Shruti Gajul',
-                    'Prajwal Hulle'
+                    'Rajveer Vadnal',
+                    'Shravani Bhosale',
                 ]
             }
-
         },
         {
             title: 'Indian Railways B-Form Automation',
             image: bForm,
             tools: ['Google Apps Script', 'Excel', 'Google Sheets'],
             description: 'Automates IC/NON-IC data generation from ICMNTR sheet via Apps Script.',
-            link: "https://www.google.com",
+            // githubLink: "https://www.google.com",
             overview: "A data automation solution built directly within Google Sheets using embedded Google Apps Script, designed to streamline B-Form generation for Indian Railways. It parses the raw ICMNTR sheet, classifies entries into IC and NON-IC, and automatically generates structured sheets and downloadable PDF files. This approach significantly reduces manual effort and minimizes errors in handling operational railway data.",
             features: [
                 {
@@ -209,7 +214,8 @@ const Projects = ({ onProjectOpen }) => {
             image: omSaiTradingAcademy, // homepage / form screenshot
             tools: ['HTML', 'CSS', 'JavaScript', 'Glide.js', 'Google Forms', 'Google Sheets'],
             description: 'A conversion-focused landing website for a Marathi trading academy with interactive UI, testimonials, media sliders, and lead capture integrated with Google Sheets.',
-            link: "https://github.com/YashodharChavan/omsai-trading-academy", // not hosted (explained transparently)
+            githubLink: "https://github.com/YashodharChavan/omsai-trading-academy",
+            websiteLink: "https://omsai-trading-academy.vercel.app",
             overview: "This project involved designing and developing a complete landing website for Om Sai Trading Academy after direct discussions with the founder, Dinesh Sir. The goal was to create a trustworthy, visually engaging platform for Marathi-speaking traders that clearly communicated value, mentor credibility, and learning outcomes. The website was structured as a full marketing funnel—from awareness and education to social proof and lead capture.",
             features: [
                 {
@@ -249,12 +255,75 @@ const Projects = ({ onProjectOpen }) => {
             ],
             outcome: "The website was fully designed and developed in approximately 25 hours across three days, delivering a polished, client-ready landing experience. While the project was not deployed due to a later change in business direction, it demonstrates real-world experience in UI design, frontend development, third-party library integration, and practical lead capture using Google Sheets. The project reflects freelance-style client work rather than a purely academic exercise."
         },
+
+        {
+            title: 'RailNova – Railway Operations Dashboard',
+            image: railNova,
+            tools: [
+                'React',
+                'TypeScript',
+                'Tailwind CSS',
+                'Node.js',
+                'Express',
+                'Supabase',
+                'JWT',
+                'Excel Processing'
+            ],
+            description: 'A role-based railway operations dashboard for Indian Railways officers to analyze B-Form data, forecasts, interchange status, and operational statistics.',
+            githubLink: 'https://github.com/YashodharChavan/RailNova',
+            websiteLink: 'https://rail-nova.vercel.app',
+            overview: "RailNova was developed during industrial training to digitize and simplify B-Form analysis for railway officers. After an initial UI attempt was discarded, the project was rebuilt using the TailAdmin TypeScript template. Despite having no prior TypeScript experience, I replaced and customized nearly all components to match railway workflows. The system provides secure role-based access, Excel-driven data ingestion, and rich analytical dashboards tailored for operational decision-making.",
+            features: [
+                {
+                    title: "🔐 Secure Role-Based Authentication",
+                    description: "Implemented JWT-based authentication with protected routes and three user roles—Admin, Editor, and Viewer—ensuring sensitive railway data is accessed only by authorized users."
+                },
+                {
+                    title: "📊 Interactive Dashboard & Analytics",
+                    description: "Built responsive dashboards with interactive charts and hover-driven insights to visualize train movements, interchange statistics, wagon distribution, and forecast vs actual performance."
+                },
+                {
+                    title: "📄 B-Form & Excel Data Processing",
+                    description: "Enabled admins to upload B-Form Excel files, parse complex railway data, normalize routes, and store structured records in the database for real-time viewing and editing."
+                },
+                {
+                    title: "⚙️ Administrative Controls & User Management",
+                    description: "Provided admin-only features such as user management, controlled data uploads, swipe-to-clear database actions, and audit-safe overrides for edited operational data."
+                }
+            ],
+            challenges: [
+                {
+                    title: "🧠 Learning TypeScript Under Production Pressure",
+                    description: "The base template was written entirely in TypeScript, which required quickly understanding types, props, and strict checks while actively developing features."
+                },
+                {
+                    title: "📊 Parsing Highly Irregular Excel Data",
+                    description: "Railway B-Forms contained inconsistent formats, merged logic, and dual-direction data that required extensive validation, normalization, and custom parsing logic."
+                },
+                {
+                    title: "🔒 Designing Secure Role Restrictions",
+                    description: "Ensuring that only admins could upload, modify, or clear data while editors had limited edit access required careful backend and frontend enforcement."
+                }
+            ],
+            outcome: "RailNova successfully transformed a manual, error-prone Excel-based workflow into a structured web dashboard for railway officers. The system enabled faster analysis, clearer visualization, and safer data handling. Although developed as a team project, I independently implemented nearly the entire frontend, backend APIs, authentication flow, data processing pipeline, and dashboard logic, making it one of my most technically intensive projects.",
+            teamwork: {
+                information: "This project was developed as part of industrial training. I took primary responsibility for the frontend implementation, backend APIs, authentication system, Excel data processing, and analytics dashboards, while the team collaborated on planning, validation, and domain understanding.",
+                team: [
+                    'Yashodhar Chavan',
+                    'Yuvraj Gandhmal',
+                    'Shruti Gajul',
+                    'Prajwal Hulle'
+                ]
+            }
+
+        },
+
         {
             title: 'Oxygen Weather App (React Native)',
             image: oxygenWeather,
             tools: ['React Native', 'Tailwind CSS', 'Expo'],
             description: 'A beautiful weather app made with React Native and Expo, using WeatherAPI.',
-            link: "https://github.com/YashodharChavan/oxygen-weather-app",
+            githubLink: "https://github.com/YashodharChavan/oxygen-weather-app",
             overview: "Oxygen is a sleek, mobile-first weather application built with React Native, Tailwind CSS, and Expo. It fetches real-time weather data from WeatherAPI, providing users with location-based forecasts in a clean, responsive UI. The app focuses on performance and simplicity, offering a smooth user experience on both Android and iOS platforms.",
             features: [
                 {
@@ -312,7 +381,7 @@ const Projects = ({ onProjectOpen }) => {
             image: photoEnhancer,
             tools: ['Java', 'Java Swing'],
             description: 'A desktop GUI for basic photo enhancement using Java Swing.',
-            link: "https://github.com/YashodharChavan/Photo-Enhancer-Java",
+            githubLink: "https://github.com/YashodharChavan/Photo-Enhancer-Java",
             overview: "A lightweight desktop application built using Java Swing that enables users to perform basic photo enhancements. It offers features like brightness and contrast adjustment, grayscale and invert filters, all packaged in an intuitive GUI. Designed with simplicity and speed in mind, it provides offline image editing capabilities without the need for heavy software.",
             features: [
                 {
@@ -366,11 +435,69 @@ const Projects = ({ onProjectOpen }) => {
 
         },
         {
+            title: 'Online HTML Editor & Live Preview Tool',
+            image: onlineHtmlEditor, // editor + preview split screenshot
+            tools: [
+                'React',
+                'Ace Editor',
+                'JavaScript',
+                'HTML',
+                'CSS',
+                'Tailwind CSS'
+            ],
+            description: 'A browser-based HTML editor with autosuggestions, syntax highlighting, dark/light mode, and real-time preview rendering.',
+            githubLink: 'https://github.com/YashodharChavan/online-html-editor',
+            websiteLink: 'https://online-html-editor-seven.vercel.app', // remove if not deployed
+            overview: "This project is a developer-focused online HTML editor designed to provide a code-editor-like experience directly in the browser. It integrates Ace Editor to offer syntax highlighting, autosuggestions, and HTML snippets, combined with a live preview panel that renders the written markup in real time. The interface supports both dark and light themes and uses a responsive split-view layout to maintain usability across screen sizes. The editor is intentionally sandboxed within a constrained viewport to ensure layout stability while allowing scrolling for larger HTML outputs.",
+            features: [
+                {
+                    title: "⌨️ Code Editor with Autosuggestions",
+                    description: "Integrated Ace Editor with HTML mode, enabling syntax highlighting, live autocompletion, and built-in HTML snippets for faster and more accurate coding."
+                },
+                {
+                    title: "⚡ Real-Time HTML Preview",
+                    description: "Renders written HTML instantly in a dedicated preview panel using controlled DOM injection, allowing users to see layout changes without reloading."
+                },
+                {
+                    title: "🌙 Dark & ☀️ Light Mode Toggle",
+                    description: "Provides a seamless theme switch that updates the editor theme, preview background, and overall UI to suit different lighting preferences."
+                },
+                {
+                    title: "📐 Responsive Split-View Layout",
+                    description: "Uses a flexible split layout to display the editor and preview side by side on larger screens and stacked on smaller devices."
+                },
+                {
+                    title: "🧭 Scrollable Preview Container",
+                    description: "Implements a fixed-height preview viewport with scrolling support, ensuring large HTML layouts remain usable without breaking the editor layout."
+                }
+            ],
+            challenges: [
+                {
+                    title: "🧠 Enabling Autosuggestions in Ace Editor",
+                    description: "Ace Editor does not enable autosuggestions by default. Required explicit integration of language tools, snippet modules, and editor configuration to activate live autocompletion."
+                },
+                {
+                    title: "📏 Managing Preview Height Constraints",
+                    description: "The live preview needed to be constrained within a fixed viewport to maintain layout consistency. Designing a scrollable preview ensured usability without dynamic iframe resizing."
+                },
+                {
+                    title: "🎨 Synchronizing Theme Across Editor & Preview",
+                    description: "Switching between dark and light modes required coordinating Ace editor themes, document background colors, and preview styling without visual flicker."
+                },
+                {
+                    title: "⚙️ Safe DOM Rendering",
+                    description: "Injecting user-written HTML into the preview required controlled rendering logic to avoid layout instability and ensure predictable behavior."
+                }
+            ],
+            outcome: "The Online HTML Editor successfully delivers a polished, developer-oriented coding environment within the browser. With features like autosuggestions, syntax highlighting, live preview rendering, and theme toggling, it closely mirrors the feel of lightweight online IDEs. The project demonstrates practical experience in integrating third-party editor libraries, managing real-time UI updates, and designing stable, responsive developer tools. It serves as a strong example of building interactive, tool-based applications rather than simple demo projects."
+        },
+        {
             title: 'Link to QR Code Generator',
             image: linkToQrCode,
             tools: ['React', 'react-qr-code'],
             description: 'Generates QR code for links using React and `react-qr-code`.',
-            link: "https://github.com/YashodharChavan/Link-to-QR-code",
+            githubLink: "https://github.com/YashodharChavan/Link-to-QR-code",
+            githubLink: "https://link-to-qr-code-zeta.vercel.app",
             overview: "A fast and minimal QR code generator built using React and the react-qr-code library. Users can input any link and instantly receive a scannable QR code, which can also be downloaded as an image. Designed with simplicity and responsiveness in mind, the app is ideal for quick link sharing across devices.",
             features: [
                 {
@@ -494,27 +621,65 @@ const Projects = ({ onProjectOpen }) => {
                 </div>
             ) : (
                 <div className="min-h-screen bg-white flex flex-col gap-y-3.5" style={{ padding: "18px 24px" }}>
-                    <button
-                        onClick={() => setSelectedProject(null)}
-                        className="border border-[#7F8A9A] w-14 h-7 rounded-3xl cursor-pointer flex justify-center items-center"
-                        style={{ background: "linear-gradient(to bottom, #C5CDD9 0%, #AAB5C7 50%, #BFC7D5 100%)" }}
-                    >
-                        <img loading='lazy' src={back} alt="" className="h-4/5" />
-                    </button>
+                    <div className="flex items-center justify-between gap-x-3 mb-4">
 
-                    <div className="flex items-center justify-between">
-
-                        <h1 className="text-3xl font-bold max-w-4/5 mb-4" style={{ fontFamily: 'outfit' }}>{selectedProject.title}</h1>
-                        <a
-                            href={selectedProject.link}
-                            target="_blank"
-                            className="bg-[#e1e1e1] border border-[#565656] rounded-full flex items-center justify-between gap-x-2"
-                            style={{ padding: "4px 8px" }}
+                        {/* Left: Back Button */}
+                        <button
+                            onClick={() => setSelectedProject(null)}
+                            className="border border-[#7F8A9A] w-14 h-7 rounded-3xl cursor-pointer flex justify-center items-center"
+                            style={{
+                                background: "linear-gradient(to bottom, #C5CDD9 0%, #AAB5C7 50%, #BFC7D5 100%)"
+                            }}
                         >
-                            <img loading='lazy' src={github} className="h-6 w-fit" />
-                            <span style={{ fontFamily: 'outfit' }}>Visit</span>
-                        </a>
+                            <img loading="lazy" src={back} alt="Back" className="h-4/5" />
+                        </button>
+
+                        {/* Right: Links */}
+                        <div className="flex items-center gap-x-2">
+
+                            {/* GitHub Link */}
+                            {selectedProject.githubLink && (
+                                <a
+                                    href={selectedProject.githubLink}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="flex items-center gap-x-1.5 border border-[#565656] bg-[#e1e1e1] rounded-full text-sm hover:scale-105 transition"
+                                    style={{ padding: "4px 8px" }}
+                                >
+                                    <img src={github} className="h-4 w-4" />
+                                    <span style={{ fontFamily: 'outfit' }}>Code</span>
+                                </a>
+                            )}
+
+                            {/* Website Link */}
+                            {selectedProject.websiteLink && (
+                                <a
+                                    href={selectedProject.websiteLink}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="flex items-center gap-x-1.5 border border-[#565656] bg-[#e1e1e1] rounded-full text-sm hover:scale-105 transition"
+                                    style={{ padding: "4px 8px" }}
+                                >
+                                    <img src={website} className="h-4 w-4" />
+                                    <span style={{ fontFamily: 'outfit' }}>Visit</span>
+                                </a>
+                            )}
+
+                        </div>
                     </div>
+
+
+                    <div className="flex items-center justify-between gap-x-4">
+                        <h1
+                            className="text-3xl font-bold mb-4"
+                            style={{ fontFamily: 'outfit' }}
+                            title={selectedProject.title}
+                        >
+                            {selectedProject.title}
+                        </h1>
+
+                    </div>
+
                     <p className='text-lg'>{selectedProject.description}</p>
                     <img loading='lazy' src={selectedProject.image} className="w-full max-w-3xl rounded-lg" />
                     <div className="flex flex-wrap gap-2">
