@@ -23,6 +23,12 @@ const AboutMe = () => {
         document.body.style.cursor = 'col-resize';
     };
 
+    const scrollContentToTop = () => {
+        if (contentRef.current) {
+            contentRef.current.scrollTop = 0;
+        }
+    };
+
 
     const stopResizing = () => {
         isResizing.current = false;
@@ -47,7 +53,7 @@ const AboutMe = () => {
         if (contentRef.current) {
             contentRef.current.scrollTop = 0;
         }
-        if(currentPage === 'resume') {
+        if (currentPage === 'resume') {
             contentRef.current.style.overflowY = 'hidden';
         }
         else {
@@ -121,7 +127,7 @@ const AboutMe = () => {
                     {currentPage === 'about me' && <About />}
                     {currentPage === 'education' && <Education />}
                     {currentPage === 'skills' && <Skills />}
-                    {currentPage === 'projects' && <Projects />}
+                    {currentPage === 'projects' && <Projects onProjectOpen={scrollContentToTop} />}
                     {currentPage === 'resume' && <Resume />}
 
                     {currentPage !== 'resume' &&

@@ -117,7 +117,7 @@ return (
       return (
         <div
           key={name}
-          className="flex flex-col items-center justify-center p-2 hover:bg-[#A2B2CA] rounded cursor-pointer select-none"
+          className="flex flex-col items-center justify-center p-2 hover:bg-[#A2B2CA] rounded select-none"
           onDoubleClick={() => {
             if (child.type === 'dir' || child.type === 'burn') {
               const newPath = path === '/' ? `/${name}` : `${path}/${name}`;

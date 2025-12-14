@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import art9 from '../assets/icons/art9.avif';
 import art10 from '../assets/icons/art10.avif';
 import macOsXTiger from '../assets/projects/macOSXTiger.avif';
@@ -6,6 +6,8 @@ import photoEnhancer from '../assets/projects/photoEnhancer.avif';
 import linkToQrCode from '../assets/projects/linkToQrCode.avif';
 import oxygenWeather from '../assets/projects/oxygenWeather.avif';
 import bForm from '../assets/projects/BForm.avif';
+import omSaiTradingAcademy from '../assets/projects/omSaiTradingAcademy.avif';
+import railNova from '../assets/projects/railNova.avif';
 import github from '../assets/icons/github.svg'
 import back from '../assets/back.svg'
 import ProjectDetails from './ProjectDetails';
@@ -13,7 +15,7 @@ import { useRef } from 'react'
 
 import './component.css';
 
-const Projects = () => {
+const Projects = ({ onProjectOpen }) => {
     const projectsRef = useRef(null)
     const handleScrollToProjects = () => {
         projectsRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -21,13 +23,20 @@ const Projects = () => {
     const [selectedProject, setSelectedProject] = React.useState(null);
     const [hoveredIndex, setHoveredIndex] = React.useState(null);
     const hoverTimeout = React.useRef(null);
+
+    useEffect(() => {
+        if (selectedProject !== null) {
+            onProjectOpen?.();
+        }
+    }, [selectedProject]);
+
     const projects = [
         {
             title: 'macOS X Tiger Clone (React)',
             image: macOsXTiger,
             tools: ['React', 'Tailwind CSS', 'JavaScript'],
             description: 'A realistic simulation of macOS X Tiger with desktop, terminal, file system, and draggable windows.',
-            link: "https://github.com/YashodharChavan/mac-os-10.4-X-tiger",
+            link: "https://github.com/YashodharChavan/yashodharchavan.github.io",
             overview: "A desktop simulation of macOS X Tiger, built using React and Tailwind CSS. This project replicates key system behaviors from the classic Apple OS, including a functional terminal emulator, file system navigation, and draggable, resizable windows. Designed to closely match the aesthetics of early 2000s Apple UI, the clone serves as both a design experiment and a technical deep dive into managing complex state and interactive components in React.",
             features: [
                 {
@@ -70,6 +79,175 @@ const Projects = () => {
                 }
             ],
             outcome: "The project successfully recreated a nostalgic and functional simulation of macOS X Tiger, complete with a responsive terminal, interactive file system, and draggable UI components. It not only evoked nostalgia through its vintage Apple design but also served as a deep technical exercise in managing complex state and UI interactions in React. The result was a polished desktop-like experience entirely in the browser, demonstrating both design fidelity and frontend engineering depth."
+        },
+        {
+            title: 'RailNova – Railway Operations Dashboard',
+            image: railNova, // dashboard screenshot
+            tools: [
+                'React',
+                'TypeScript',
+                'Tailwind CSS',
+                'Node.js',
+                'Express',
+                'Supabase',
+                'JWT',
+                'Excel Processing'
+            ],
+            description: 'A role-based railway operations dashboard for Indian Railways officers to analyze B-Form data, forecasts, interchange status, and operational statistics.',
+            link: 'https://github.com/YashodharChavan/RailNova',
+            overview: "RailNova was developed during industrial training to digitize and simplify B-Form analysis for railway officers. After an initial UI attempt was discarded, the project was rebuilt using the TailAdmin TypeScript template. Despite having no prior TypeScript experience, I replaced and customized nearly all components to match railway workflows. The system provides secure role-based access, Excel-driven data ingestion, and rich analytical dashboards tailored for operational decision-making.",
+            features: [
+                {
+                    title: "🔐 Secure Role-Based Authentication",
+                    description: "Implemented JWT-based authentication with protected routes and three user roles—Admin, Editor, and Viewer—ensuring sensitive railway data is accessed only by authorized users."
+                },
+                {
+                    title: "📊 Interactive Dashboard & Analytics",
+                    description: "Built responsive dashboards with interactive charts and hover-driven insights to visualize train movements, interchange statistics, wagon distribution, and forecast vs actual performance."
+                },
+                {
+                    title: "📄 B-Form & Excel Data Processing",
+                    description: "Enabled admins to upload B-Form Excel files, parse complex railway data, normalize routes, and store structured records in the database for real-time viewing and editing."
+                },
+                {
+                    title: "⚙️ Administrative Controls & User Management",
+                    description: "Provided admin-only features such as user management, controlled data uploads, swipe-to-clear database actions, and audit-safe overrides for edited operational data."
+                }
+            ],
+            challenges: [
+                {
+                    title: "🧠 Learning TypeScript Under Production Pressure",
+                    description: "The base template was written entirely in TypeScript, which required quickly understanding types, props, and strict checks while actively developing features."
+                },
+                {
+                    title: "📊 Parsing Highly Irregular Excel Data",
+                    description: "Railway B-Forms contained inconsistent formats, merged logic, and dual-direction data that required extensive validation, normalization, and custom parsing logic."
+                },
+                {
+                    title: "🔒 Designing Secure Role Restrictions",
+                    description: "Ensuring that only admins could upload, modify, or clear data while editors had limited edit access required careful backend and frontend enforcement."
+                }
+            ],
+            outcome: "RailNova successfully transformed a manual, error-prone Excel-based workflow into a structured web dashboard for railway officers. The system enabled faster analysis, clearer visualization, and safer data handling. Although developed as a team project, I independently implemented nearly the entire frontend, backend APIs, authentication flow, data processing pipeline, and dashboard logic, making it one of my most technically intensive projects.",
+            teamwork: {
+                information: "This project was developed as part of industrial training. I took primary responsibility for the frontend implementation, backend APIs, authentication system, Excel data processing, and analytics dashboards, while the team collaborated on planning, validation, and domain understanding.",
+                team: [
+                    'Yashodhar Chavan',
+                    'Yuvraj Gandhmal',
+                    'Shruti Gajul',
+                    'Prajwal Hulle'
+                ]
+            }
+
+        },
+        {
+            title: 'Indian Railways B-Form Automation',
+            image: bForm,
+            tools: ['Google Apps Script', 'Excel', 'Google Sheets'],
+            description: 'Automates IC/NON-IC data generation from ICMNTR sheet via Apps Script.',
+            link: "https://www.google.com",
+            overview: "A data automation solution built directly within Google Sheets using embedded Google Apps Script, designed to streamline B-Form generation for Indian Railways. It parses the raw ICMNTR sheet, classifies entries into IC and NON-IC, and automatically generates structured sheets and downloadable PDF files. This approach significantly reduces manual effort and minimizes errors in handling operational railway data.",
+            features: [
+                {
+                    title: "📥 ICMNTR Sheet Import",
+                    description: "Automatically imports the raw ICMNTR operational data sheet directly into Google Sheets for processing."
+                },
+                {
+                    title: "📊 IC & NON-IC Classification",
+                    description: "Parses and filters the entries into IC (Interchange) and NON-IC categories based on predefined logic and keywords."
+                },
+                {
+                    title: "🧠 Persistent UserOverrides for Data Corrections",
+                    description: "Designed and implemented a UserOverrides mechanism to preserve officer-edited corrections across multiple FOIS Excel imports. Corrected values are stored separately and automatically reapplied after each data refresh, ensuring manual fixes are never lost."
+                },
+                {
+                    title: "📝 Auto-Generated Master Sheets",
+                    description: "Creates organized Master, IC, and NON-IC sheets dynamically within the same Google Sheets file—no manual sorting required."
+                },
+                {
+                    title: "📤 Excel Export Functionality",
+                    description: "Supports one-click download of generated IC/NON-IC Excel files for official use or reporting."
+                },
+                {
+                    title: "⚙️ Built with Google Apps Script",
+                    description: "Custom backend scripts automate data parsing, formatting, and export—fully serverless and cloud-integrated."
+                }
+            ],
+            challenges: [
+                {
+                    title: "📊 Parsing Raw ICMNTR Data",
+                    description: "The ICMNTR sheet had inconsistent formatting and required custom logic to reliably extract and normalize useful fields before processing."
+                },
+                {
+                    title: "🔍 Accurate IC/NON-IC Classification",
+                    description: "Developing a reliable classification algorithm was difficult due to edge cases, inconsistent labeling, and data ambiguities in the source file."
+                },
+                {
+                    title: "📄 Automating Sheet Generation",
+                    description: "Dynamically creating and updating multiple structured sheets (Master, IC, NON-IC) within Google Sheets required careful handling of sheet naming, duplication, and layout constraints."
+                },
+                {
+                    title: "📤 Excel File Export Limitations",
+                    description: "Exporting filtered data into downloadable Excel format from within Google Sheets involved working around limitations in Google Apps Script's export APIs."
+                },
+                {
+                    title: "🔁 Iterative System Evolution",
+                    description: "The system was rebuilt and refined across multiple versions, incorporating feedback from earlier attempts and addressing real-world data issues such as duplication, inconsistent rows, and complex siding logic."
+                }
+
+            ],
+            outcome: "The tool proved to be a game-changer for railway officers by transforming a time-consuming, error-prone task into a fully automated process. What once took thousands of manual clicks and hours of analysis was reduced to just a few interactions. Officers who previously struggled with deciphering the massive and complex ICMNTR sheets found the automation intuitive, fast, and immensely helpful. By enabling instant classification, sheet generation, and Excel export, the solution not only saved time but also ensured consistency and accuracy. Its success highlighted how impactful thoughtful automation can be in streamlining bureaucratic workflows.",
+            teamwork: {
+                information: "This project was developed during industrial training at the DRM office of Indian Railways. I contributed significantly to the core automation logic, Excel parsing, summary generation, and system evolution across versions. The team actively collaborated on handling edge cases, validating outputs, and refining the overall workflow.",
+                team: ['Yashodhar Chavan', 'Yuvraj Gandhmal', 'Shruti Gajul', 'Prajwal Hulle']
+            }
+
+
+        },
+        {
+            title: 'Om Sai Trading Academy – Landing Website (Client Project)',
+            image: omSaiTradingAcademy, // homepage / form screenshot
+            tools: ['HTML', 'CSS', 'JavaScript', 'Glide.js', 'Google Forms', 'Google Sheets'],
+            description: 'A conversion-focused landing website for a Marathi trading academy with interactive UI, testimonials, media sliders, and lead capture integrated with Google Sheets.',
+            link: "https://github.com/YashodharChavan/omsai-trading-academy", // not hosted (explained transparently)
+            overview: "This project involved designing and developing a complete landing website for Om Sai Trading Academy after direct discussions with the founder, Dinesh Sir. The goal was to create a trustworthy, visually engaging platform for Marathi-speaking traders that clearly communicated value, mentor credibility, and learning outcomes. The website was structured as a full marketing funnel—from awareness and education to social proof and lead capture.",
+            features: [
+                {
+                    title: "🚀 Conversion-Focused Landing Design",
+                    description: "Designed a high-impact Marathi-first landing section with strong visual hierarchy, clear value messaging, and prominent call-to-action elements to drive webinar registrations."
+                },
+                {
+                    title: "🧑‍🏫 Mentor Credibility & Trust Building",
+                    description: "Implemented a dedicated mentor section highlighting teaching experience, background, and philosophy using professional visuals and long-form Marathi content to establish trust."
+                },
+                {
+                    title: "⭐ Interactive Reviews & Proof of Results",
+                    description: "Integrated student testimonials, images, and videos using Glide.js sliders to showcase real feedback, trading results, and appreciation screenshots."
+                },
+                {
+                    title: "📝 Lead Capture with Google Sheets Integration",
+                    description: "Built a modal-based registration form to collect student details and automatically store submissions in Google Sheets for easy access and follow-up."
+                }
+            ],
+            challenges: [
+                {
+                    title: "🎨 Designing for Trust in a Financial Domain",
+                    description: "Balancing vibrant visuals with credibility was crucial to ensure the site felt motivating without appearing misleading or aggressive."
+                },
+                {
+                    title: "🧠 Converting Business Vision into UX",
+                    description: "The client provided inspiration rather than strict requirements, requiring independent UX decisions to structure content logically and persuasively."
+                },
+                {
+                    title: "⏱️ Hardware Constraints During Development",
+                    description: "Development was briefly delayed due to a laptop battery failure, after which the entire website was completed rapidly once the issue was resolved."
+                },
+                {
+                    title: "🌐 Deployment Not Completed",
+                    description: "Although the website was fully developed and functional, hosting responsibility was handled externally and later paused due to a shift toward a course-based platform."
+                }
+            ],
+            outcome: "The website was fully designed and developed in approximately 25 hours across three days, delivering a polished, client-ready landing experience. While the project was not deployed due to a later change in business direction, it demonstrates real-world experience in UI design, frontend development, third-party library integration, and practical lead capture using Google Sheets. The project reflects freelance-style client work rather than a purely academic exercise."
         },
         {
             title: 'Oxygen Weather App (React Native)',
@@ -128,64 +306,7 @@ const Projects = () => {
                 team: ["Aditya Bhosale", "Yashodhar Chavan", "Suraj Rathod"]
             }
         },
-        {
-            title: 'Indian Railways B-Form Automation',
-            image: bForm,
-            tools: ['Google Apps Script', 'Excel', 'Google Sheets'],
-            description: 'Automates IC/NON-IC data generation from ICMNTR sheet via Apps Script.',
-            link: "https://www.google.com",
-            overview: "A data automation solution built directly within Google Sheets using embedded Google Apps Script, designed to streamline B-Form generation for Indian Railways. It parses the raw ICMNTR sheet, classifies entries into IC and NON-IC, and automatically generates structured sheets and downloadable PDF files. This approach significantly reduces manual effort and minimizes errors in handling operational railway data.",
-            features: [
-                {
-                    title: "📥 ICMNTR Sheet Import",
-                    description: "Automatically imports the raw ICMNTR operational data sheet directly into Google Sheets for processing."
-                },
-                {
-                    title: "🧠 IC & NON-IC Classification",
-                    description: "Parses and filters the entries into IC (Interchange) and NON-IC categories based on predefined logic and keywords."
-                },
-                {
-                    title: "📝 Auto-Generated Master Sheets",
-                    description: "Creates organized Master, IC, and NON-IC sheets dynamically within the same Google Sheets file—no manual sorting required."
-                },
-                {
-                    title: "📤 Excel Export Functionality",
-                    description: "Supports one-click download of generated IC/NON-IC Excel files for official use or reporting."
-                },
-                {
-                    title: "⚙️ Built with Google Apps Script",
-                    description: "Custom backend scripts automate data parsing, formatting, and export—fully serverless and cloud-integrated."
-                }
-            ],
-            challenges: [
-                {
-                    title: "📊 Parsing Raw ICMNTR Data",
-                    description: "The ICMNTR sheet had inconsistent formatting and required custom logic to reliably extract and normalize useful fields before processing."
-                },
-                {
-                    title: "🔍 Accurate IC/NON-IC Classification",
-                    description: "Developing a reliable classification algorithm was difficult due to edge cases, inconsistent labeling, and data ambiguities in the source file."
-                },
-                {
-                    title: "📄 Automating Sheet Generation",
-                    description: "Dynamically creating and updating multiple structured sheets (Master, IC, NON-IC) within Google Sheets required careful handling of sheet naming, duplication, and layout constraints."
-                },
-                {
-                    title: "📤 Excel File Export Limitations",
-                    description: "Exporting filtered data into downloadable Excel format from within Google Sheets involved working around limitations in Google Apps Script's export APIs."
-                },
-                {
-                    title: "🔐 Data Security and Access Control",
-                    description: "Ensuring the tool worked only with authorized personnel and avoided data leaks required proper access settings and script-level permissions."
-                }
-            ],
-            outcome: "The tool proved to be a game-changer for railway officers by transforming a time-consuming, error-prone task into a fully automated process. What once took thousands of manual clicks and hours of analysis was reduced to just a few interactions. Officers who previously struggled with deciphering the massive and complex ICMNTR sheets found the automation intuitive, fast, and immensely helpful. By enabling instant classification, sheet generation, and Excel export, the solution not only saved time but also ensured consistency and accuracy. Its success highlighted how impactful thoughtful automation can be in streamlining bureaucratic workflows.",
-            teamwork: {
-                information: "This project was undertaken during our industrial training at the DRM office of Indian Railways in the 5th semester. The initial few days were spent understanding the structure of the ICMNTR sheet and the expectations from the automation tool. I took the lead on development and implemented the first 80% of the code using Google Apps Script, largely with the help of AI tools to guide logic and syntax. Throughout the project, my teammates contributed actively with suggestions, helped refine the workflow, and eventually began implementing parts of the code based on the evolving logic. This collaborative approach helped us complete the tool within a week. While I managed the core development, the project was made stronger and completed faster thanks to the team\'s shared efforts and constant ideation.",
-                team: ['Yashodhar Chavan', 'Yuvraj Gandhmal', 'Shruti Gajul', 'Prajwal Hulle']
-            }
 
-        },
         {
             title: 'Photo Enhancer (Java Swing)',
             image: photoEnhancer,
@@ -354,7 +475,7 @@ const Projects = () => {
                                 >
                                     <img loading='lazy' src={project.image} className="h-fit w-full" />
 
-                                    <h1 className="font-medium text-xl text-center">{project.title}</h1>
+                                    <h1 className="font-medium text-xl  text-center">{project.title}</h1>
                                     <div className="flex gap-x-1 flex-wrap justify-center gap-y-1">
                                         {project.tools.map((tool, toolIdx) => (
                                             <div
@@ -383,7 +504,7 @@ const Projects = () => {
 
                     <div className="flex items-center justify-between">
 
-                        <h1 className="text-3xl font-bold mb-4" style={{ fontFamily: 'outfit' }}>{selectedProject.title}</h1>
+                        <h1 className="text-3xl font-bold max-w-4/5 mb-4" style={{ fontFamily: 'outfit' }}>{selectedProject.title}</h1>
                         <a
                             href={selectedProject.link}
                             target="_blank"

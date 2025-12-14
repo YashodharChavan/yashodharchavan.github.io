@@ -1,7 +1,19 @@
-import React, { useState } from 'react';
+import React, { useEffect } from 'react';
 import AccordionItem from './AccordianItem';
 
 const ProjectDetails = ({ overview, features, challenges, outcome, teamwork }) => {
+
+  //   useLayoutEffect(() => {
+  //     window.scrollTo({ top: 0, behavior: 'smooth' });
+  // }, []);
+  useEffect(() => {
+    requestAnimationFrame(() => {
+      document.documentElement.scrollTo({
+        top: 0,
+        behavior: 'smooth',
+      });
+    });
+  }, []);
 
   return (
     <div className="prose prose-lg max-w-3xl flex flex-col gap-y-10" style={{ padding: "16px 0px" }}>
@@ -40,7 +52,7 @@ const ProjectDetails = ({ overview, features, challenges, outcome, teamwork }) =
           <h3 className="font-semibold text-2xl font-[outfit]" >👥 Team Work </h3>
           <p>{teamwork.information}</p>
           <p className="font-semibold text-lg font-[outfit]">The Team Members included:</p>
-          <ul className='list-disc' style={{padding: "0px 20px"}}>
+          <ul className='list-disc' style={{ padding: "0px 20px" }}>
             {teamwork.team.map((member, index) => {
               return (
                 <li key={index}>
