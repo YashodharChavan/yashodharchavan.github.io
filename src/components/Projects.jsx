@@ -497,7 +497,7 @@ const Projects = ({ onProjectOpen }) => {
             tools: ['React', 'react-qr-code'],
             description: 'Generates QR code for links using React and `react-qr-code`.',
             githubLink: "https://github.com/YashodharChavan/Link-to-QR-code",
-            githubLink: "https://link-to-qr-code-zeta.vercel.app",
+            websiteLink: "https://link-to-qr-code-zeta.vercel.app",
             overview: "A fast and minimal QR code generator built using React and the react-qr-code library. Users can input any link and instantly receive a scannable QR code, which can also be downloaded as an image. Designed with simplicity and responsiveness in mind, the app is ideal for quick link sharing across devices.",
             features: [
                 {
