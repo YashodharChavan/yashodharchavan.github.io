@@ -29,6 +29,7 @@ import textEdit from '../../assets/icons/applications/TextEdit.avif'
 import terminal from '../../assets/icons/applications/Terminal.avif'
 import calculator from '../../assets/icons/applications/Calculator.avif'
 import burn from '../../assets/folders/burnableFolder.avif'
+import desktopFolderIcon from '../../assets/folders/DesktopFolderIcon.avif'
 
 const fileSystem = {
   '/': {
@@ -349,7 +350,7 @@ const rootFileOptions = [
   { label: "Sites", icon: sitesFolder },
   { label: "Users", icon: userFolder },
   { label: "Applications", icon: applicationFolder },
-  { label: "Desktop", icon: applicationFolder },
+  { label: "Desktop", icon: desktopFolderIcon },
   { label: ".md", icon: clippingText },
   { label: ".txt", icon: txt },
   { label: ".pdf", icon: pdf },
