@@ -324,6 +324,7 @@ const Projects = ({ onProjectOpen }) => {
             tools: ['React Native', 'Tailwind CSS', 'Expo'],
             description: 'A beautiful weather app made with React Native and Expo, using WeatherAPI.',
             githubLink: "https://github.com/YashodharChavan/oxygen-weather-app",
+            websiteLink: "https://oxygen-weather-app.vercel.app/",
             overview: "Oxygen is a sleek, mobile-first weather application built with React Native, Tailwind CSS, and Expo. It fetches real-time weather data from WeatherAPI, providing users with location-based forecasts in a clean, responsive UI. The app focuses on performance and simplicity, offering a smooth user experience on both Android and iOS platforms.",
             features: [
                 {
