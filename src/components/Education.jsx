@@ -52,16 +52,8 @@ const RedirectComponent = ({ name }) => {
 };
 
 
-const Education = () => {
+const Education = ({scrollRef}) => {
     const academicsRef = useRef(null);
-
-    const handleScrollToAcademics = () => {
-        academicsRef.current?.scrollIntoView({ behavior: 'smooth' });
-    };
-
-
-
-
 
     return (
         <div className="min-h-screen w-full bg-[#ECF2F9]">
@@ -80,7 +72,14 @@ const Education = () => {
                     </p>
                     <div
                         className="m-auto px-4 sm:px-6 select-none py-2 sm:py-3 rounded-2xl w-fit text-white font-semibold cursor-pointer gradient-button transition-transform duration-300"
-                        onClick={handleScrollToAcademics}
+                        onClick={() => {
+                            if (scrollRef?.current) {
+                                scrollRef.current.scrollTo({
+                                    top: 300,
+                                    behavior: 'smooth'
+                                });
+                            }
+                        }}
                     >
                         <p className="text-sm sm:text-base" style={{ padding: '4px 12px' }}>
                             Explore

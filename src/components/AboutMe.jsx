@@ -124,10 +124,10 @@ const AboutMe = () => {
                 ></div>
                 <div className="bg-[#ECF2F9] w-full h-full overflow-y-scroll" ref={contentRef}>
 
-                    {currentPage === 'about me' && <About />}
-                    {currentPage === 'education' && <Education />}
-                    {currentPage === 'skills' && <Skills />}
-                    {currentPage === 'projects' && <Projects onProjectOpen={scrollContentToTop} />}
+                    {currentPage === 'about me' && <About scrollRef={contentRef}/>}
+                    {currentPage === 'education' && <Education scrollRef={contentRef}/>}
+                    {currentPage === 'skills' && <Skills scrollRef={contentRef}/>}
+                    {currentPage === 'projects' && <Projects onProjectOpen={scrollContentToTop} scrollRef={contentRef}/>}
                     {currentPage === 'resume' && <Resume />}
 
                     {currentPage !== 'resume' &&

@@ -9,12 +9,8 @@ import art3 from '../assets/icons/art3.avif'
 import React, { useRef, memo } from 'react';
 import leetcode from '../assets/icons/leetcode.svg'
 
-const About = () => {
+const About = ({ scrollRef }) => {
     const journeyRef = useRef(null);
-
-    const handleScrollToJourney = () => {
-        journeyRef.current?.scrollIntoView({ behavior: 'smooth' });
-    };
 
     return (
         <>
@@ -44,7 +40,14 @@ const About = () => {
                     <p className="w-full text-center text-base font-medium ">
                         Hi, 👋 I'm Yashodhar Chavan! I'm passionate about new technologies and always eager to learn. Lately, I've been diving deep into React.js with a lot of curiosity.
                     </p>
-                    <div className="m-auto px-4 sm:px-6 select-none py-2 sm:py-3 rounded-2xl w-fit text-white font-semibold cursor-pointer gradient-button transition-transform duration-300" onClick={handleScrollToJourney}>
+                    <div className="m-auto px-4 sm:px-6 select-none py-2 sm:py-3 rounded-2xl w-fit text-white font-semibold cursor-pointer gradient-button transition-transform duration-300" onClick={() => {
+                        if (scrollRef?.current) {
+                            scrollRef.current.scrollTo({
+                                top: 400,
+                                behavior: 'smooth'
+                            });
+                        }
+                    }}>
                         <p className="text-sm sm:text-base" style={{ padding: "4px 12px" }}>Explore</p>
                     </div>
                 </div>

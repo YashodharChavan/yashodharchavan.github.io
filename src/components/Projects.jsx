@@ -18,14 +18,27 @@ import { useRef } from 'react'
 
 import './component.css';
 
-const Projects = ({ onProjectOpen }) => {
-    const projectsRef = useRef(null)
-    const handleScrollToProjects = () => {
-        projectsRef.current?.scrollIntoView({ behavior: 'smooth' });
-    }
+const Projects = ({ onProjectOpen, scrollRef }) => {
     const [selectedProject, setSelectedProject] = React.useState(null);
     const [hoveredIndex, setHoveredIndex] = React.useState(null);
     const hoverTimeout = React.useRef(null);
+
+    const scrollPosition = useRef(0);
+
+    useEffect(() => {
+        if (selectedProject !== null) {
+            // Save the current scroll position of the content container
+            if (scrollRef?.current) {
+                scrollPosition.current = scrollRef.current.scrollTop;
+            }
+            onProjectOpen?.(); // This already scrolls to top
+        } else {
+            // Restore when coming back
+            if (scrollRef?.current) {
+                scrollRef.current.scrollTop = scrollPosition.current;
+            }
+        }
+    }, [selectedProject, onProjectOpen, scrollRef]);
 
     useEffect(() => {
         if (selectedProject !== null) {
@@ -151,6 +164,11 @@ const Projects = ({ onProjectOpen }) => {
             tools: ['Google Apps Script', 'Excel', 'Google Sheets'],
             description: 'Automates IC/NON-IC data generation from ICMNTR sheet via Apps Script.',
             // githubLink: "https://www.google.com",
+            version1Link: "https://docs.google.com/spreadsheets/d/1VBCcrIrhJcL6NFaaEPf4NPsdzbmtoX7V0MmgN4SVsTo/edit?usp=sharing",
+            version2Link: "https://docs.google.com/spreadsheets/d/1NWGu9w_ldcQuuEovGrPgrhfgPk2vKuUl5riBaMr83bg/edit?usp=sharing", // Update this if you have a second version
+
+            version1Name: "Version 1",  // Optional: customize display name
+            version2Name: "Version 2",  // Optional: customize display name
             overview: "A data automation solution built directly within Google Sheets using embedded Google Apps Script, designed to streamline B-Form generation for Indian Railways. It parses the raw ICMNTR sheet, classifies entries into IC and NON-IC, and automatically generates structured sheets and downloadable PDF files. This approach significantly reduces manual effort and minimizes errors in handling operational railway data.",
             features: [
                 {
@@ -317,7 +335,6 @@ const Projects = ({ onProjectOpen }) => {
             }
 
         },
-
         {
             title: 'Oxygen Weather App (React Native)',
             image: oxygenWeather,
@@ -557,13 +574,22 @@ const Projects = ({ onProjectOpen }) => {
                     {/* Header */}
                     <div className="landing-container w-full relative bg-[#ECF2F9] background-inset" style={{ padding: "64px 24px" }}>
                         <div className="introduction m-auto w-full h-full py-8 sm:py-16 flex flex-col items-center justify-center gap-4 sm:gap-6">
-                            <h1 className="text-4xl font-bold text-center" ref={projectsRef}>
+                            <h1 className="text-4xl font-bold text-center">
                                 My Projects
                             </h1>
                             <p className="w-full text-center text-base font-medium">
                                 I believe true learning happens through building. Every time I explore something new, my imagination sparks ideas—and I bring them to life through projects.
                             </p>
-                            <div className="m-auto px-4 sm:px-6 select-none py-2 sm:py-3 rounded-2xl w-fit text-white font-semibold cursor-pointer gradient-button transition-transform duration-300" onClick={handleScrollToProjects}>
+                            <div className="m-auto px-4 sm:px-6 select-none py-2 sm:py-3 rounded-2xl w-fit text-white font-semibold cursor-pointer gradient-button transition-transform duration-300"
+                                onClick={() => {
+                                    if (scrollRef?.current) {
+                                        scrollRef.current.scrollTo({
+                                            top: 350,
+                                            behavior: 'smooth'
+                                        });
+                                    }
+                                }}
+                            >
                                 <p className="text-sm sm:text-base" style={{ padding: "4px 12px" }}>Explore</p>
                             </div>
                             <div className="absolute bg-[#8493FF] h-4 w-4 right-[20%] top-[20%] blur-lg glow-one"></div>
@@ -574,7 +600,7 @@ const Projects = ({ onProjectOpen }) => {
 
                     {/* Grid */}
                     <hr className="gradient-hr" />
-                    <h1 className="text-3xl font-bold mb-6 sm:mb-8 text-center underline decoration-wavy decoration-rose-500" style={{ padding: "24px 0px" }} ref={projectsRef}>
+                    <h1 className="text-3xl font-bold mb-6 sm:mb-8 text-center underline decoration-wavy decoration-rose-500" style={{ padding: "24px 0px" }} >
                         My Projects:
                     </h1>
 
@@ -663,6 +689,36 @@ const Projects = ({ onProjectOpen }) => {
                                 >
                                     <img src={website} className="h-4 w-4" />
                                     <span style={{ fontFamily: 'outfit' }}>Visit</span>
+                                </a>
+                            )}
+
+                            {selectedProject.version1Link && (
+                                <a
+                                    href={selectedProject.version1Link}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="flex items-center gap-x-1.5 border border-[#565656] bg-[#e1e1e1] rounded-full text-sm hover:scale-105 transition"
+                                    style={{ padding: "4px 8px" }}
+                                >
+                                    <img src={website} className="h-4 w-4" />
+                                    <span style={{ fontFamily: 'outfit' }}>
+                                        {selectedProject.version1Name || "Version 1"}
+                                    </span>
+                                </a>
+                            )}
+
+                            {selectedProject.version2Link && (
+                                <a
+                                    href={selectedProject.version2Link}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="flex items-center gap-x-1.5 border border-[#565656] bg-[#e1e1e1] rounded-full text-sm hover:scale-105 transition"
+                                    style={{ padding: "4px 8px" }}
+                                >
+                                    <img src={website} className="h-4 w-4" />
+                                    <span style={{ fontFamily: 'outfit' }}>
+                                        {selectedProject.version2Name || "Version 2"}
+                                    </span>
                                 </a>
                             )}
 

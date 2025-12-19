@@ -29,14 +29,11 @@ const SkillRow = ({ id, skill, proficiency, level, notes }) => (
 );
 
 
-const Skills = () => {
+const Skills = ({ scrollRef }) => {
 
 
     const skillsRef = useRef(null);
 
-    const handleScrollToSkills = () => {
-        skillsRef.current?.scrollIntoView({ behavior: 'smooth' });
-    };
     return (
         <>
             <div className="topbar font-bold text-lg sm:text-xl" style={{ padding: "12px 24px" }}>Yashodhar</div>
@@ -51,7 +48,14 @@ const Skills = () => {
                         From HTML and CSS to React, Java, and Python — my skills are diverse and growing. I believe in adapting quickly and learning new tools as projects demand⚡
                     </p>
 
-                    <div className="m-auto px-4 sm:px-6 select-none py-2 sm:py-3 rounded-2xl w-fit text-white font-semibold cursor-pointer gradient-button transition-transform duration-300" onClick={handleScrollToSkills}>
+                    <div className="m-auto px-4 sm:px-6 select-none py-2 sm:py-3 rounded-2xl w-fit text-white font-semibold cursor-pointer gradient-button transition-transform duration-300" onClick={() => {
+                        if (scrollRef?.current) {
+                            scrollRef.current.scrollTo({
+                                top: 350,
+                                behavior: 'smooth'
+                            });
+                        }
+                    }}>
                         <p className="text-sm sm:text-base" style={{ padding: "4px 12px" }}>Explore</p>
                     </div>
                 </div>
