@@ -107,7 +107,7 @@ const Projects = ({ onProjectOpen, scrollRef }) => {
                 'Tailwind CSS'
             ],
             description: 'A fully dynamic, CMS-driven redevelopment of the official Government Polytechnic Solapur website with zero backend hosting.',
-            websiteLink: 'https://gpsolapur.ac.in',
+            websiteLink: 'https://gps-website.vercel.app/',
             overview: "This project involved the complete UI and frontend redevelopment of the official Government Polytechnic Solapur website. The previous website was static, visually outdated, and difficult to maintain. Our goal was to modernize the interface while making all content fully dynamic and editable by non-technical staff. By integrating FireCMS with Firebase, we eliminated the need for a traditional backend and enabled real-time content management across the entire website.",
             features: [
                 {
