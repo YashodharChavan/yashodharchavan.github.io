@@ -146,6 +146,25 @@ const About = ({ scrollRef }) => {
                             <div className="bump absolute w-4 h-4 rotate-45 bg-white top-[10%] border-l border-l-black border-b border-b-black left-[-9px]"></div>
                         </div>
                     </div>
+
+                    <div className="journeybox p-2 relative w-full">
+                        <div className="border border-black gap-y-3 sm:gap-y-4 flex flex-col justify-evenly w-[95%]  relative journey-container rounded bg-white" style={{ margin: "4px 0px 8px auto", padding: "6px" }}>
+                            <h1
+                                className="text-2xl font-bold bg-clip-text text-transparent"
+                                style={{
+                                    backgroundImage: "url('https://images.unsplash.com/photo-1710270578658-847a60efb10c?q=80&w=1160&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')",
+                                    backgroundSize: 'cover',
+                                    backgroundPosition: 'right center',
+                                }}
+                            >
+                                Google App script, React Js polishing
+                            </h1>
+                            <p className="font-medium text-sm sm:text-base lg:text-lg">
+                                In Industrial Training at Indian Railways, I got to know about google app script and polished my React.js skills through hands-on projects.
+                            </p>
+                            <div className="bump absolute w-4 h-4 rotate-45 bg-white top-[10%] border-l border-l-black border-b border-b-black left-[-9px]"></div>
+                        </div>
+                    </div>
                 </div>
             </div>
             <hr className="gradient-hr" />

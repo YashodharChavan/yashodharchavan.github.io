@@ -1,9 +1,13 @@
+<div align="center">
+
 # macOS X Tiger (10.4) — Recreated in React
 
 *A pixel-perfect, fully interactive, browser-powered operating system — recreated in React Js*
 
+[![Live Demo](https://img.shields.io/badge/Live_Demo-yashodharchavan.github.io-success?style=for-the-badge&logo=github)](https://yashodharchavan.github.io)
 ![Hero screenshot](./screenshots/overview.avif)
 
+</div>
 This repository is a complete, working recreation of **macOS X Tiger (10.4)**. It’s not a static UI mock — it’s a functioning OS simulation you can run in the browser, with a virtual file system, multi-window management, a working Terminal, Finder, Safari (PDF viewer), Dashboard, Dictionary + Thesaurus, Mail, Spotlight, and more.
 
 ---

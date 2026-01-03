@@ -511,7 +511,7 @@ exit                Exit terminal`
                     const matched = names.filter(name => regex.test(name));
 
                     if (matched.length === 0) {
-                        return `ls: no matches found: ${pattern}`;
+                        return ``;
                     }
 
                     return matched.join('  ');

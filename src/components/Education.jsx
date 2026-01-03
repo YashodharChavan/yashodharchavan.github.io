@@ -161,7 +161,7 @@ const Education = ({scrollRef}) => {
                             Summer 2024
                         </td>
                         <td className="border border-gray-300" style={{ padding: '8px 16px' }}>
-                            2nd semester
+                            2nd Semester
                         </td>
                         <td className="border border-gray-300" style={{ padding: '8px 16px' }}>
                             87.65%
@@ -175,7 +175,7 @@ const Education = ({scrollRef}) => {
                             Winter 2024
                         </td>
                         <td className="border border-gray-300" style={{ padding: '8px 16px' }}>
-                            3rd semester
+                            3rd Semester
                         </td>
                         <td className="border border-gray-300" style={{ padding: '8px 16px' }}>
                             89.88%
@@ -189,13 +189,27 @@ const Education = ({scrollRef}) => {
                             Summer 2025
                         </td>
                         <td className="border border-gray-300" style={{ padding: '8px 16px' }}>
-                            4th semester
+                            4th Semester
                         </td>
                         <td className="border border-gray-300" style={{ padding: '8px 16px' }}>
                             91.65%
                         </td>
                         <td className="border border-gray-300" style={{ padding: '8px 16px' }}>
                             <RedirectComponent name="4th Semester Result" />
+                        </td>
+                    </tr>
+                    <tr className="bg-white">
+                        <td className="border border-gray-300" style={{ padding: '8px 16px' }}>
+                            Winter 2025
+                        </td>
+                        <td className="border border-gray-300" style={{ padding: '8px 16px' }}>
+                            5th Semester
+                        </td>
+                        <td className="border border-gray-300" style={{ padding: '8px 16px' }}>
+                            97.41%
+                        </td>
+                        <td className="border border-gray-300" style={{ padding: '8px 16px' }}>
+                            <RedirectComponent name="5th Semester Result" />
                         </td>
                     </tr>
                 </tbody>

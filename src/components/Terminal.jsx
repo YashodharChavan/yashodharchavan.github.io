@@ -13,15 +13,10 @@ const Terminal = () => {
   ]);
   const { closeWindow } = useWindowManager();
 
-
-
   const [input, setInput] = useState("");
-
   const inputRef = useRef(null);
   const terminalRef = useRef(null);
-
-  const [nano, setNano] = useState(null); // { filename, content }
-
+  const [nano, setNano] = useState(null); 
   const [commandHistory, setCommandHistory] = useState([]);
   const [historyIndex, setHistoryIndex] = useState(-1);
 
@@ -67,10 +62,11 @@ const Terminal = () => {
       return;
     }
 
-    if (output !== null) {
+    // FIX: Only add output if it is NOT null and NOT an empty string
+    if (output !== null && output !== "") {
       newHistory.push({
         type: "output",
-        content: output === "" ? " " : output
+        content: output
       });
     }
 

@@ -78,13 +78,14 @@ const fileSystem = {
                       '1st semester result.pdf': { type: 'file', href: 'https://yashodharchavan.github.io/books/Academics/1st%20semester%20result.pdf' },
                       '2nd semester result.pdf': { type: 'file', href: 'https://yashodharchavan.github.io/books/Academics/2nd%20semester%20result.pdf' },
                       '3rd semester result.pdf': { type: 'file', href: 'https://yashodharchavan.github.io/books/Academics/3rd%20semester%20result.pdf' },
+                      '4th semester result.pdf': { type: 'file', href: 'https://yashodharchavan.github.io/books/Academics/4th%20semester%20result.pdf' },
+                      '5th semester result.pdf': { type: 'file', href: 'https://yashodharchavan.github.io/books/Academics/5th%20semester%20result.pdf' },
                     }
                   },
                   Certificates: {
                     type: 'dir', children: {
                       'Chakravyuh Hackathon.pdf': { type: 'file', href: 'https://yashodharchavan.github.io/books/Academics/chakravyuh%201.0.pdf' },
                       'ETSEF Coding Competition.pdf': { type: 'file', href: 'https://yashodharchavan.github.io/books/Academics/etsef%20coding%20competition.pdf' },
-                      'ETSEF Coding Competition.pdf': { type: 'file', href: 'https://yashodharchavan.github.io/books/Academics/quiz%20and%20coding.pdf' },
                       'Quiz and Coding.pdf': { type: 'file', href: 'https://yashodharchavan.github.io/books/Academics/quiz%20and%20coding.pdf' },
                       'Tech Master 2K25.pdf': { type: 'file', href: 'https://yashodharchavan.github.io/books/Academics/tech%20master.pdf' },
                       'Technowave.pdf': { type: 'file', href: 'https://yashodharchavan.github.io/books/Academics/technowave.pdf' },
@@ -123,6 +124,7 @@ const fileSystem = {
                     }
                   },
                   'Resume.pdf': { type: 'file', href: 'https://yashodharchavan.github.io/books/Resume.pdf' },
+                  'ITR Certificate.pdf': { type: 'file', href: 'https://yashodharchavan.github.io/books/Academics/ITR%20Certificate.pdf' },
 
                 }
               },
@@ -191,6 +193,7 @@ Thanks to everyone who played a part — directly or indirectly.
 
 ` },
                   'Resume.pdf': { type: 'file', href: 'https://yashodharchavan.github.io/books/Resume.pdf' },
+                  'ITR Certificate.pdf': { type: 'file', href: 'https://yashodharchavan.github.io/books/Academics/ITR%20Certificate.pdf' },
                   'User_Guide.txt': {
                     type: 'file', content: `Hey there 👋,
 
@@ -370,7 +373,8 @@ const academicResults = [
   { id: '1st semester result', href: "https://yashodharchavan.github.io/books/Academics/1st%20semester%20result.pdf" },
   { id: '2nd semester result', href: "https://yashodharchavan.github.io/books/Academics/2nd%20semester%20result.pdf" },
   { id: '3rd semester result', href: "https://yashodharchavan.github.io/books/Academics/3rd%20semester%20result.pdf" },
-  { id: '4th semester result', href: "https://yashodharchavan.github.io/books/Academics/3rd%20semester%20result.pdf" },
+  { id: '4th semester result', href: "https://yashodharchavan.github.io/books/Academics/4th%20semester%20result.pdf" },
+  { id: '5th semester result', href: "https://yashodharchavan.github.io/books/Academics/5th%20semester%20result.pdf" },
 ]
 
 
