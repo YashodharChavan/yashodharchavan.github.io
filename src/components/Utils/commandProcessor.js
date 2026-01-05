@@ -540,20 +540,39 @@ exit                Exit terminal`
             }
 
             case 'cat': {
-                let fileName = args[0];
-                if (!fileName) return 'cat: missing operand';
-
-                fileName = normalizeName(fileName);
+                if (args.length === 0) return 'cat: missing operand';
 
                 const dir = getCurrentDir();
-                const file = dir.children[fileName];
+                let expandedArgs = [];
 
-                if (!file) return `cat: ${fileName}: No such file or directory`;
-                if (file.type !== 'file') return `cat: ${fileName}: Is a directory`;
+                args.forEach(arg => {
+                    if (arg.includes('*')) {
+                        const regex = new RegExp('^' + arg.replace(/\./g, '\\.').replace(/\*/g, '.*') + '$');
 
-                return file.content;
+                        const matches = Object.keys(dir.children).filter(fileName => regex.test(fileName));
+
+                        if (matches.length > 0) {
+                            expandedArgs.push(...matches);
+                        } else {
+                            expandedArgs.push(arg);
+                        }
+                    } else {
+                        expandedArgs.push(arg);
+                    }
+                });
+
+                const output = expandedArgs.map(fileName => {
+                    const file = dir.children[fileName];
+
+                    let content;
+                    if (!file) content = `cat: ${fileName}: No such file or directory`;
+                    else if (file.type !== 'file') content = `cat: ${fileName}: Is a directory`;
+                    else content = file.content;
+                    return content;
+                });
+
+                return output.join('\n');
             }
-
 
             case 'write': {
                 const fileName = args[0];

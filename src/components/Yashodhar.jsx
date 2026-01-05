@@ -3,6 +3,7 @@ import { Typewriter } from 'react-simple-typewriter'
 import github from '../assets/github.svg'
 import linkedin from '../assets/linkedin.svg'
 import leetcode from '../assets/leetcode.svg'
+import huggingface from '../assets/huggingface.svg'
 import profileImage from '../assets/profileImage.avif'
 
 const Yashodhar = ({ highlightMatch, searchString, showPadding }) => {
@@ -54,8 +55,12 @@ const Yashodhar = ({ highlightMatch, searchString, showPadding }) => {
           <img loading='lazy' src={linkedin} className='h-7' />
         </a>
 
-        <a href="https://leetcode.com/u/YashodharChavan/" target="_blank">
+        <a href="https://leetcode.com/u/YashodharChavan" target="_blank">
           <img loading='lazy' src={leetcode} className='h-7' />
+        </a>
+
+        <a href="https://huggingface.co/Yashodhar29" target="_blank">
+          <img loading='lazy' src={huggingface} className='h-7' />
         </a>
       </div>
     </div>

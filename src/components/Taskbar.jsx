@@ -48,7 +48,7 @@ const Taskbar = ({ setCurrentTopComponent, onTrashDrop }) => {
         return (
           <div
             key={id}
-            className="relative group flex flex-col items-center cursor-pointer"
+            className="relative group flex flex-col items-center"
             onClick={() => {
               if (!appWindow) {
                 // Open a new window if not opened yet
