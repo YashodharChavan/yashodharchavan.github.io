@@ -10,6 +10,7 @@ import omSaiTradingAcademy from '../assets/projects/omSaiTradingAcademy.avif';
 import railNova from '../assets/projects/railNova.avif';
 import gpsWebsite from '../assets/projects/gpsWebsite.avif';
 import onlineHtmlEditor from '../assets/projects/onlineHtmlEditor.avif';
+import aiContentDetection from '../assets/projects/aiContentDetection.avif';
 import github from '../assets/icons/github.svg'
 import website from '../assets/icons/website.svg';
 import back from '../assets/back.svg'
@@ -50,7 +51,7 @@ const Projects = ({ onProjectOpen, scrollRef }) => {
         {
             title: 'macOS X Tiger Clone (React)',
             image: macOsXTiger,
-            tools: ['React', 'Tailwind CSS', 'JavaScript'],
+            tools: ['React', 'Tailwind CSS', 'JavaScript', 'Redux'],
             description: 'A realistic simulation of macOS X Tiger with desktop, terminal, file system, and draggable windows.',
             githubLink: "https://github.com/YashodharChavan/yashodharchavan.github.io",
             websiteLink: "https://yashodharchavan.github.io",
@@ -155,6 +156,63 @@ const Projects = ({ onProjectOpen, scrollRef }) => {
                     'Shruti Gajul',
                     'Rajveer Vadnal',
                     'Shravani Bhosale',
+                ]
+            }
+        },
+        {
+            title: 'Multi-Modal AI Content Detection (Capstone)',
+            image: aiContentDetection, 
+            tools: [
+                'Python',
+                'PyTorch',
+                'Hugging Face Transformers',
+                'React',
+                'Flask'
+            ],
+            description: 'A comprehensive Capstone solution for detecting AI-generated text, image, video, and code using an ensemble of state-of-the-art transformer models.',
+            githubLink: "https://github.com/YashodharChavan/AI-Content-Detection", // Update this
+            websiteLink: "https://ai-detect-cpp.vercel.app/", // Update this
+            overview: "This Capstone project is a sophisticated multi-modal detection system designed to identify AI-generated content across text, images, code, and video. The application features a unique 'Codified OS' theme, presenting complex inference data in a user-friendly, operating-system-style dashboard. The core engine leverages a 7-D ensemble approach for high accuracy. We fine-tuned DeBERTa-v3, RoBERTa-base, and ELECTRA-large for text, ConvNeXt Large for images, and Qwen-0.5B for code detection. The models were rigorously trained on massive datasets—over 550K text rows and 150K images—to ensure robust performance in real-world scenarios.",
+            features: [
+                {
+                    title: "📝 7-D Ensemble Text Detection",
+                    description: "Achieved superior accuracy by ensembling outputs from DeBERTa-v3, RoBERTa-base, and ELECTRA-large-discriminator using a Voting Classifier. Trained on a combined dataset of 550K rows (300K initial + 250K augmented)."
+                },
+                {
+                    title: "🖼️ High-Fidelity Image Detection",
+                    description: "The system's strongest performer. Utilizes a fine-tuned ConvNeXt Large model trained on 150K synthetic and real images to distinguish AI-generated visuals with exceptional precision."
+                },
+                {
+                    title: "💻 AI Code Identification",
+                    description: "Specialized detection for machine-generated code using the Qwen-0.5B-Instruct model, fine-tuned on a curated dataset of 10,000 Python scripts."
+                },
+                {
+                    title: "🖥️ Codified OS User Interface",
+                    description: "A unique, highly polished frontend featuring a 'Codified OS' theme. It organizes complex multi-modal analysis results into an intuitive, dashboard-style experience."
+                }
+            ],
+            challenges: [
+                {
+                    title: "☁️ Compute Resource Limitations",
+                    description: "Training large transformer models on free-tier platforms like Google Colab and Kaggle led to frequent interruptions due to inactivity timeouts, requiring robust checkpointing strategies."
+                },
+                {
+                    title: "📉 Training Instability",
+                    description: "We faced significant post-training errors and convergence issues when fine-tuning the 7-D ensemble, requiring multiple iterations of hyperparameter tuning to stabilize the loss."
+                },
+                {
+                    title: "🔍 Dataset Scarcity & Curation",
+                    description: "Finding high-quality, labeled datasets for specific modalities—especially AI-generated code—was a major struggle, necessitating extensive manual data gathering and cleaning."
+                }
+            ],
+            outcome: "The project successfully delivered a robust defense tool against AI fabrication. The final product features a highly accurate image detector and a resilient text detection engine that minimizes false positives through ensemble learning. Despite significant hardware constraints and data availability issues, the team delivered a polished, production-ready application with a distinct 'Codified OS' aesthetic.",
+            teamwork: {
+                information: "This Capstone project was executed by a dedicated team, with members collaborating on data collection, model training, and frontend engineering. I focused on the Multi-modal architecture and the 'Codified OS' UI implementation. We coordinated our training schedules to maximize GPU quota usage on Kaggle and Colab.",
+                team: [
+                    'Yashodhar Chavan',
+                    'Yuvraj Gandhmal', // Add names here
+                    'Shruti Gajul',
+                    'Soniya Sidral'
                 ]
             }
         },
